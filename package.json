@@ -10,12 +10,13 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.0",
     "react-markdown": "^9.0.1",
+    "react-router-dom": "^6.22.0",
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
+    "puppeteer": "^24.43.1",
     "vite": "^5.0.0"
   }
 }

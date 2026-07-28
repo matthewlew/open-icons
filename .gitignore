@@ -1,0 +1,10 @@
+icons-inspiration/
+
+# Build and install artifacts. node_modules matters more than usual here:
+# puppeteer downloads its own Chromium, so committing it is hundreds of MB.
+node_modules/
+dist/
+
+.DS_Store
+
+# package-lock.json is deliberately NOT ignored — it is the lockfile.
