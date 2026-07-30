@@ -13,6 +13,7 @@
 - [Repository Structure](#repository-structure)
 - [Icon System Philosophy](#icon-system-philosophy)
 - [Icon Variant System](#icon-variant-system)
+- [Construction Spec](#-construction-spec)
 - [Encoding Design Knowledge](#encoding-design-knowledge)
 - [Playground UI](#playground-ui)
 - [Changelog Philosophy](#changelog-philosophy)
@@ -82,28 +83,87 @@ The Open Icons Playground was created to solve key challenges in icon system man
 
 ```
 open-icons-playground/
-├── src/
-│   ├── main.jsx                 # React app entry point
-│   └── (icon components)        # SVG path logic, variant rendering
-├── index.html                    # HTML shell
-├── vite.config.js                # Vite build configuration
-├── package.json                  # Dependencies
-├── data/
-│   ├── icons.json                # Icon metadata (future)
-│   └── icon-rules.json           # Usage rules (future)
+├── tools/
+│   ├── generate.py               # THE SOURCE OF TRUTH — geometry as a function of W
+│   ├── export.py                 # writes the set at a given weight
+│   ├── site.py                   # builds site/index.html (all four weights embedded)
+│   └── icon-lint.py              # scores SVGs against the construction spec
+├── icons/                        # generated — do not hand-edit
+│   ├── 24/<name>.svg             # 174 standalone files
+│   ├── icons.json                # {grid, stroke, icons: {name: innerMarkup}}
+│   └── names.json
+├── site/
+│   ├── template.html             # the site, with one @@DATA@@ placeholder
+│   └── index.html                # generated — the whole site in one file
 ├── docs/
-│   ├── changelog.md              # Design change log
-│   └── design-principles.md      # Icon philosophy
-└── README.md                     # This file
+│   └── icon-construction-spec.md # the derivation, with counts behind every claim
+├── data/
+│   └── construction-tokens.json  # machine-readable form of the spec
+└── icons-inspiration/            # the 1,185 reference SVGs the spec was measured from
 ```
 
 ### Folder Responsibilities
 
 | Folder | Purpose |
 |--------|--------|
-| `src/` | Core React components and icon rendering logic |
-| `data/` | Structured icon metadata and governance rules (planned) |
-| `docs/` | Design rationale, changelogs, and contribution guides |
+| `tools/` | The generator, the exporters, and the conformance linter |
+| `icons/` | The built set. Regenerate rather than edit. |
+| `site/` | The library's own site — gallery, rationale, changelog, proposals |
+| `data/` | Structured metadata and governance rules |
+| `docs/` | Design rationale and derivations |
+
+### Rebuilding
+
+```bash
+python3 tools/export.py icons 2.0    # the set, at stroke 2.0
+python3 tools/site.py                # the site, at every weight on the axis
+```
+
+**The weight is an argument, not a build target.** There is no single built set;
+there is a generator and an axis. See [§ Icon System Philosophy](#-icon-system-philosophy).
+
+---
+
+## 🌐 The site
+
+**`site/index.html`** is the library's front door, and it is self-contained: no build
+step, no CDN, no server. Open it in a browser.
+
+| Page | What it holds |
+|---|---|
+| The set | All 174 icons, with the weight, size, style, ground and keylines all live |
+| What's different | Five claims about this set, each with a count behind it |
+| Anatomy | How one of these is actually built, in the order you would need it |
+| Changelog | Problem → decision → **what was tried first and thrown away** |
+| Roadmap | What is next, what is parked, and the proposal composer |
+| Use it | Three ways in, and the one rule (the stroke is not a CSS knob) |
+
+The gallery has an **A/B mode**: every icon rendered twice, once re-derived at the
+chosen weight and once as the 2.0 drawing with `stroke-width` overridden. At weight
+2.0 the two are identical, which is the point — the axis is anchored there.
+
+---
+
+## 📐 Construction Spec
+
+**→ [`docs/icon-construction-spec.md`](./docs/icon-construction-spec.md)** — how the icons are
+actually built, derived by measuring all 1,185 flattened SVGs in `icons-inspiration/`.
+Machine-readable equivalent: [`data/construction-tokens.json`](./data/construction-tokens.json).
+
+The short version:
+
+| Rule | Value |
+|---|---|
+| Stroke width | **2** — at 16px *and* 24px, every curve, every angle |
+| Live area | 20×20 in a 24px box; **16×16 in a 16px box (no padding)** |
+| Keylines | circle = live area · square = −2 · rects = −4 · diagonal = −6 |
+| 16 → 24 | canvas ×1.5, glyph ×**1.25**, stroke ×**1.0** — never scale a master |
+| Terminals | round cap on free ends, butt where a stroke meets another form |
+| Fill variant | **never** exceeds the line variant's outer edge (0 of 378 pairs do) |
+| Container fills | solid at the same radius, line glyph reused **verbatim** as a knockout |
+| Figure fills | solid at outer − 0.5, contact datum pinned |
+| Counters | grow on the flip to knockout: +0.25 at 24px, +0.125 at 16px. Never shrink. |
+| Clearance | 2 by default; 1 only to say "one body with a seam" |
 
 ---
 
@@ -351,7 +411,9 @@ We welcome contributions that improve the icon system. Follow these steps:
    Add or modify `data/icon-rules.json` to reflect the change.
 
 5. **Add Changelog Entry**  
-   Document the change in `docs/changelog.md` using the format above.
+   Add an entry to the Changelog view in `site/template.html`, using the format
+   above. Include what you tried first and rejected — that is the expensive part,
+   and losing it means someone re-derives it in six months.
 
 6. **Open a Pull Request**  
    Include before/after visuals and impact analysis.

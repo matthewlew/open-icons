@@ -1,0 +1,345 @@
+{
+  "$schema": "https://open-icons.dev/schema/construction-tokens/1.0",
+  "version": "1.0.0",
+  "derivedFrom": {
+    "corpus": "icons-inspiration/",
+    "files": { "16": 583, "24": 602, "total": 1185 },
+    "method": "docs/icon-construction-spec.md#appendix-b--method",
+    "note": "Every value carries an `evidence` field. Values without one are inferred from the rules, not measured directly."
+  },
+
+  "styleFamily": {
+    "materialEquivalent": "rounded",
+    "terminals": "round",
+    "joins": "round",
+    "fillAxis": { "type": "discrete", "values": [0, 1], "semantic": "state (unselected / selected)" },
+    "weightAxis": null,
+    "gradeAxis": null
+  },
+
+  "sizes": {
+    "16": {
+      "canvas": 16,
+      "trim": 0,
+      "liveArea": 16,
+      "stroke": 2,
+      "strokeToLiveAreaRatio": 0.125,
+      "subGridStep": 0.125,
+      "keylines": {
+        "circle":        { "w": 16, "h": 16, "conformance": 0.270 },
+        "square":        { "w": 14, "h": 14, "conformance": 0.119 },
+        "rectVertical":  { "w": 12, "h": 16, "conformance": 0.033 },
+        "rectHorizontal":{ "w": 16, "h": 12, "conformance": 0.024 },
+        "diagonal":      { "w": 10, "h": 10 }
+      },
+      "dotRow": { "radius": 1.5, "spacing": 4.5, "gap": 1.5 },
+      "accentDotRadius": 1.25
+    },
+    "24": {
+      "canvas": 24,
+      "trim": 2,
+      "liveArea": 20,
+      "stroke": 2,
+      "strokeToLiveAreaRatio": 0.10,
+      "subGridStep": 0.25,
+      "keylines": {
+        "circle":        { "w": 20, "h": 20, "conformance": 0.160 },
+        "square":        { "w": 18, "h": 18, "conformance": 0.113 },
+        "rectVertical":  { "w": 16, "h": 20, "conformance": 0.058 },
+        "rectHorizontal":{ "w": 20, "h": 16, "conformance": 0.017 },
+        "diagonal":      { "w": 14, "h": 14 }
+      },
+      "dotRow": { "radius": 2.0, "spacing": 6.0, "gap": 2.0 },
+      "accentDotRadius": 1.5
+    }
+  },
+
+  "keylineFormulas": {
+    "circle": "liveArea",
+    "square": "liveArea - 2",
+    "rectShortAxis": "liveArea - 4",
+    "diagonal": "liveArea - 6"
+  },
+
+  "stroke": {
+    "width": 2,
+    "invariantAcrossSizes": true,
+    "invariantAcrossAngles": true,
+    "evidence": {
+      "modalThicknessExactly2": { "16": 0.559, "24": 0.579 },
+      "diagonalSignature": ".2929 / .7071 coordinate fractions = 2px stroke expanded at 45deg",
+      "note": "Icons not at 2.0 are solid masses with no stroke to measure, not counter-examples."
+    }
+  },
+
+  "terminals": {
+    "default": "round",
+    "capRadius": 1.0,
+    "join": "round",
+    "buttCapWhen": "the stroke terminates against, or aligns with, another form",
+    "evidence": {
+      "r1ArcShareOfAllArcs24": 0.209,
+      "r1ArcShareOfQuarterTurns24": 0.461
+    },
+    "divergesFromMaterial": "Material 1 specifies squared terminals; Open Icons is round-dominant. Intentional."
+  },
+
+  "corners": {
+    "exteriorDefault": 2,
+    "exteriorLargeContainer": 3,
+    "interior": "exterior - 2",
+    "squareContainerCorner": {
+      "style": "smoothed / squircle",
+      "outerReach24": 5.14,
+      "innerReach24": 3.2,
+      "note": "outer - inner = 1.94 ~= stroke; smoothing survives the offset"
+    },
+    "evidence": { "r2ShareOfQuarterTurns24": 0.090, "r3ShareOfQuarterTurns24": 0.051 }
+  },
+
+  "opticalSize": {
+    "model": "discrete masters, not a variable axis",
+    "scaling16to24": { "canvas": 1.5, "glyph": 1.25, "stroke": 1.0 },
+    "evidence": {
+      "measuredGlyphScale": { "median": 1.250, "p25": 1.219, "p75": 1.286, "n": 572 },
+      "medianResidual": 0.069,
+      "interpretation": "p25-p75 brackets the two keyline ratios exactly: 1.25 (circle 16->20) and 1.286 (square 14->18). Glyph tracks its keyline; nothing tracks the canvas."
+    },
+    "rule": "Never scale a master. Re-place the skeleton on the new size's keyline and re-stroke at 2.",
+    "materialRange": "20-48dp; Open Icons' 16px master sits below Material's floor",
+
+    "strokeModel": {
+      "formula": "stroke(size, wght) = base24[wght] * (size / 24) ** k",
+      "k": 0.8,
+      "kRationale": "k=1.0 is pure linear scaling — the stroke/size ratio stays flat, which means zero optical compensation. k=0 is what the current 16/24 masters do (both 2.0), correct at the small end but it collapses at display sizes. k=0.8 lightens the icon ~20% relatively across a 3x size jump, which is conservative next to what text does from body to display optical sizes. Lower k to 0.75 for more differentiation, raise to 0.85 for less. This is the one number to argue about.",
+      "base24": { "300": 1.0, "400": 1.5, "600": 2.0 },
+      "quantize": { "atOrBelow24": 0.5, "above24": 0.25,
+        "why": "0.25 steps only resolve crisply at 4x DPR. At 16-24px the stroke is only 1-2px total, so sub-pixel blur is visible; above 32px a half-pixel soft edge on a multi-pixel stroke is not." },
+      "table": {
+        "16": { "mult": 0.723, "300": null, "400": 1.0,  "600": 1.5,  "ratio400": 0.063 },
+        "20": { "mult": 0.864, "300": 1.0,  "400": 1.5,  "600": 1.5,  "ratio400": 0.075 },
+        "24": { "mult": 1.000, "300": 1.0,  "400": 1.5,  "600": 2.0,  "ratio400": 0.063 },
+        "32": { "mult": 1.259, "300": 1.25, "400": 2.0,  "600": 2.5,  "ratio400": 0.063 },
+        "48": { "mult": 1.741, "300": 1.75, "400": 2.5,  "600": 3.5,  "ratio400": 0.052 },
+        "64": { "mult": 2.192, "300": 2.25, "400": 3.25, "600": 4.5,  "ratio400": 0.051 },
+        "72": { "mult": 2.408, "300": 2.5,  "400": 3.5,  "600": 4.75, "ratio400": 0.049 }
+      },
+      "notes": [
+        "300 at 16px computes to 0.72 and is unusable. 16px ships 400 and 600 only.",
+        "20px is the one size the pixel grid forces a compromise: 1.30 raw sits between 1.0 and 1.5. Shipping 1.5 makes 20px the relatively boldest size in the set, which is defensible for a dense-UI size.",
+        "The existing 24px library at stroke 2.0 IS the 600 master under this model — no redrawing needed.",
+        "The existing 16px library at stroke 2.0 is heavier than 600@16 (1.5). It is effectively a 700. Either re-stroke it to 1.5, or label 16px as a deliberately one-step-bold dense master."
+      ]
+    }
+  },
+
+  "lineToFill": {
+    "invariant": "A fill variant never extends beyond its line variant's outer edge.",
+    "evidence": {
+      "medianRadialDelta": 0.0,
+      "identicalFootprint": { "16": 0.615, "24": 0.613 },
+      "sameWithin0_3":      { "16": 0.048, "24": 0.047 },
+      "inset0_5":           { "16": 0.139, "24": 0.094 },
+      "inset1_0":           { "16": 0.048, "24": 0.110 },
+      "fillLargerThanLine": { "16": 0.0,   "24": 0.0 },
+      "inkAreaRatioMedian": { "16": 0.90,  "24": 0.91 },
+      "sampleAngles": 720,
+      "pairs": { "16": 187, "24": 191 }
+    },
+    "constructions": {
+      "container": {
+        "when": "the outer form is a frame (circle, square) holding a glyph",
+        "rule": "Container goes solid at the SAME outer radius. Reuse the glyph path verbatim as an even-odd knockout.",
+        "circleRadius": { "16": { "line": 8, "fill": 8 }, "24": { "line": 10, "fill": 10 } },
+        "glyphPathIdentical": true,
+        "verifiedOn": ["add-circle", "close-circle", "check-circle", "add-square"],
+        "evidence": { "pairsAt24": 10, "pairsAt16": 7 }
+      },
+      "figure": {
+        "when": "a stroked ring becomes a solid mass with nothing inside it",
+        "rule": "fillRadius = skeletonRadius + 0.5 = outerRadius - 0.5",
+        "anchor": "Pin the contact datum (e.g. the head's bottom tangent); move the centre to keep it fixed.",
+        "evidence": [
+          { "size": 24, "lineOuter": 5.0,   "skeleton": 4.0,   "fill": 4.5,   "n": 4 },
+          { "size": 24, "lineOuter": 4.125, "skeleton": 3.125, "fill": 3.625, "n": 4 },
+          { "size": 16, "lineOuter": 4.0,   "skeleton": 3.0,   "fill": 3.5,   "n": 4 },
+          { "size": 16, "lineOuter": 3.625, "skeleton": 2.625, "fill": 3.125, "n": 4 }
+        ]
+      }
+    }
+  },
+
+  "reshapingLadder": {
+    "why": "Under the weight model, 400 resolves to 1.5 at 24px and 1.0 at 16px — both exactly 6.25% of canvas. The 0.5px quantization flattens the optical exponent to 1.0 across the two key sizes, so no stroke-based optical compensation is available at 16px. It comes from aperture instead: measured modal clearance is 2.0 at BOTH sizes, so the glyph shrinks x0.8 while gaps hold absolute, leaving the small icon relatively looser.",
+    "clearanceRule": { "formula": "max(1.0, 1 * stroke)", "16": 1.0, "24": 1.5, "48": 2.5, "72": 3.5,
+      "validation": "reproduces the measured library exactly: 2px stroke -> 2.0 clearance" },
+    "clogRisk": { "share24pxThatWouldClogAt16": 0.233, "threshold": 0.8,
+      "worst": ["cart 0.06", "card-id 0.08", "promo 0.11", "gift 0.12"] },
+    "steps": [
+      { "n": 1, "do": "Scale the glyph to the target keyline (x0.8 for 24 -> 16)." },
+      { "n": 2, "do": "Re-stroke at the target size's value. Never scale the stroke." },
+      { "n": 3, "do": "Hold clearance >= 1 x stroke, absolute. This IS the optical compensation." },
+      { "n": 4, "do": "Reduce counts until (3) is satisfied — within an element, not by deleting it." },
+      { "n": 5, "do": "Marks scale with the keyline, floor Ø2.5 at 16px. Hold absolute only when scaling drops clearance below 1 x stroke." },
+      { "n": 6, "do": "Corners stay squircle at every size; ease `tension` toward circular as size drops." }
+    ],
+    "decisions": [
+      { "question": "marks: scale or hold", "chosen": "scale, floor Ø2.5", "rejected": "hold absolute",
+        "rationale": "Holding breaks on cart — its wheels already sit on the bottom edge at Ø2.5; Ø3 pushes them out of the box.",
+        "consequence": "16/calendar-line dot Ø3 -> Ø2.5" },
+      { "question": "overflow: drop or reduce", "chosen": "reduce count within the element", "rejected": "drop the element",
+        "rationale": "Keeps the icon's full vocabulary at every size.",
+        "consequence": "16/card-line must restore the chip bar" },
+      { "question": "corners across sizes", "chosen": "squircle always, tension eases", "rejected": "switch to circular at 16",
+        "rationale": "Corner family is a system constant; size adjusts the lever, not the family.",
+        "consequence": "16/calendar-line plain r=3 corner is off-system" }
+    ],
+    "note": "All three decisions make the existing 16px masters non-conforming. Expected — 24px is the reference and 16px is being redrawn to match."
+  },
+
+  "counters": {
+    "rule": "Counters that flip from positive ink to knockout GROW. They never shrink.",
+    "rationale": "aperture closure at 16-24px beats optical bleed compensation",
+    "radiusDelta": { "16": 0.125, "24": 0.25 },
+    "internalGapDelta": 0.5,
+    "strokeWidthDelta": 0,
+    "evidence": {
+      "24": { "n": 24, "medianDeltaR": 0.25, "grew": 0.62, "unchanged": 0.38, "shrank": 0.0 },
+      "16": { "n": 17, "medianDeltaR": 0.0, "meanDeltaR": 0.088, "grew": 0.47, "unchanged": 0.53, "shrank": 0.0 },
+      "transitions24": [
+        { "from": 1.5,  "to": 1.75, "pct": 0.17, "n": 6 },
+        { "from": 1.5,  "to": 2.0,  "pct": 0.33, "n": 4 },
+        { "from": 1.25, "to": 1.5,  "pct": 0.20, "n": 4 }
+      ],
+      "transitions16": [
+        { "from": 1.25, "to": 1.375, "pct": 0.10, "n": 6 },
+        { "from": 1.25, "to": 1.5,   "pct": 0.20, "n": 1 },
+        { "from": 2.0,  "to": 2.5,   "pct": 0.25, "n": 1 }
+      ]
+    },
+    "workedExample": {
+      "icon": "info-circle", "size": 24,
+      "dotRadius":    { "line": 1.25, "fill": 1.5,   "delta": 0.25 },
+      "dotCentreY":   { "line": 7.75, "fill": 7.25,  "delta": -0.5 },
+      "stemWidth":    { "line": 2,    "fill": 2,     "delta": 0 },
+      "stemHeight":   { "line": 7,    "fill": 7.5,   "delta": 0.5 },
+      "dotStemGap":   { "line": 1.0,  "fill": 1.5,   "delta": 0.5 },
+      "glyphHeight":  { "line": 10.5, "fill": 12.0,  "delta": 1.5 }
+    },
+    "divergesFromMaterial": "Material's grade -25 THINS light-on-dark to cancel visual bleed. Open Icons runs the opposite sign, locally, on apertures only."
+  },
+
+  "clearance": {
+    "default": 2,
+    "minimum": 1,
+    "minimumInFillVariants": 2,
+    "seamGap": {
+      "value": 1,
+      "meaning": "two forms read as ONE body with a seam, not two separate objects",
+      "canonicalUse": "head-to-shoulder in the figure family"
+    },
+    "evidence": {
+      "modalClearance2_0": { "16line": 0.18, "16fill": 0.38, "24line": 0.26, "24fill": 0.39 },
+      "note": "Both variants centre on 2.0; fill concentrates harder on it. Line tolerates 1.0-1.5 far more often."
+    }
+  },
+
+  "archetypes": {
+    "figure": {
+      "description": "person / people family. The most rigorously specified group in the set.",
+      "16": {
+        "headSkeletonRadius": 3.0,
+        "headLineOuterRadius": 4.0,
+        "headFillRadius": 3.5,
+        "headCentreY": { "line": 4.0, "fill": 4.5 },
+        "headBottomDatum": 8.0,
+        "shoulderTop": 9.0,
+        "gap": 1.0,
+        "shoulderOuterX": { "line": [1.5, 14.5], "fill": [2.0, 14.0] },
+        "shoulderBottom": { "line": 16.0, "fill": 15.0 }
+      },
+      "24": {
+        "headSkeletonRadius": 4.0,
+        "headLineOuterRadius": 5.0,
+        "headFillRadius": 4.5,
+        "headCentreY": { "line": 7.0, "fill": 7.5 },
+        "headBottomDatum": 12.0,
+        "shoulderTop": 13.0,
+        "gap": 1.0,
+        "shoulderOuterX": { "line": [4, 20], "fill": [4.5, 19.5] },
+        "shoulderBottom": { "line": 21.0, "fill": 20.0 }
+      },
+      "construction": [
+        "Draw the head SKELETON circle (r=4 @ (12,7) for 24px; r=3 @ (8,4) for 16px).",
+        "Line: stroke at 2 -> outer r=5. Head bottom lands on the datum.",
+        "Fill: solid disc at outer - 0.5, centre moved DOWN 0.5 so the bottom tangent stays pinned.",
+        "Shoulder top = head bottom + 1, in both variants."
+      ],
+      "evidence": {
+        "measurements": 20,
+        "gapValue": 1.0,
+        "gapVariance": 0.0,
+        "icons": ["person-user", "person-find", "person-profile", "people-add", "people-group"]
+      },
+      "exceptions": {
+        "group-circles-4": { "gap": { "line": 1.5, "fill": 2.5 }, "reason": "abstract circle diagram, not a figure" }
+      }
+    },
+
+    "crossout": {
+      "description": "the X. Two 45-degree skeleton strokes crossing at the live-area centre.",
+      "16": { "inkBBox": [3, 3, 13, 13], "skeleton": [4, 4, 12, 12], "barWidth": 2.0 },
+      "24": { "inkBBox": [5, 5, 19, 19], "skeleton": [6, 6, 18, 18], "barWidth": 2.0 },
+      "extent": "liveArea - 6 (the diagonal keyline)",
+      "caps": "round, r=1",
+      "centreJoin": "round",
+      "diagonalWeightCompensation": 0,
+      "evidence": "barWidth measured at exactly 2.000 in every crossout variant, both sizes: standalone, in-circle, in-square, and prohibited.",
+      "contained": {
+        "rule": "inside a container the glyph shrinks to ~70% and clears the container's inner edge by ~1",
+        "example24": { "icon": "close-circle-line", "containerRingOuter": 10, "containerRingInner": 8, "glyphSkeletonSpan": [7.79, 16.21], "glyphReachFromCentre": 6.95, "clearance": 1.05 }
+      },
+      "slashVariant": {
+        "icon": "prohibited",
+        "16": { "ringOuter": 8, "ringInner": 6, "slashWidth": 2 },
+        "24": { "ringOuter": 10, "ringInner": 8, "slashWidth": 2 },
+        "fillConstruction": "keeps the ring; adds an inner disc split by a 2-unit diagonal gap, 2 units clear of the ring",
+        "note": "The one fill variant that is NOT a solid disc. Everything in it is 2. Diverges from the container pattern - flag for consistency review."
+      }
+    },
+
+    "glyphInContainer": {
+      "description": "highest-leverage recipe: fully mechanical",
+      "steps": [
+        "Container = circle keyline (r=10 at 24px, r=8 at 16px) or square keyline.",
+        "Line: container as a 2px ring. Glyph as positive ink, clearing the ring's inner edge by ~1.",
+        "Fill: container becomes a solid disc at the SAME outer radius; reuse the glyph path unchanged as an even-odd knockout.",
+        "Apply counter compensation ONLY if the glyph has small round counters or internal gaps."
+      ],
+      "compensationNeeded": { "info": true, "warning": true, "add": false, "close": false, "check": false }
+    }
+  },
+
+  "usage": {
+    "targetSize": { "24": 48, "20": 40 },
+    "baselineShiftPercentOfTextSize": 11.5,
+    "labelRequiredBelow": 20,
+    "keepFilledRegardlessOfVariant": ["full-body human figures", "proprietary / brand marks"],
+    "source": "Material Design 3 - Applying icons"
+  },
+
+  "lintRules": [
+    { "id": "stroke-width",        "severity": "error", "assert": "every stroke measures 2.0 +/- 0.05" },
+    { "id": "fill-not-larger",     "severity": "error", "assert": "fill silhouette never exceeds line silhouette at any angle" },
+    { "id": "counter-never-shrinks","severity": "error", "assert": "a counter flipping positive -> knockout must not decrease in radius" },
+    { "id": "min-clearance",       "severity": "error", "assert": "clearance >= 1; >= 2 in fill variants" },
+    { "id": "no-scaled-master",    "severity": "error", "assert": "16px master is not a uniform scale of the 24px master (expected glyph scale ~1.25, not 1.5)" },
+    { "id": "keyline-conformance", "severity": "warn",  "assert": "ink bbox matches a keyline on at least one axis" },
+    { "id": "ink-area-balance",    "severity": "warn",  "assert": "fill/line ink area ratio within 0.6-1.35" },
+    { "id": "container-glyph-reuse","severity": "warn", "assert": "container icons reuse the line glyph path verbatim in the fill variant" },
+    { "id": "figure-seam-gap",     "severity": "warn",  "assert": "figure icons use a head-to-shoulder gap of exactly 1.0" },
+    { "id": "no-duplicate-geometry","severity": "warn", "assert": "no two icon names share identical path geometry" },
+    { "id": "variant-parity",      "severity": "warn",  "assert": "every -line icon has a -fill partner and vice versa" },
+    { "id": "size-parity",         "severity": "warn",  "assert": "every icon exists at both 16 and 24" }
+  ]
+}

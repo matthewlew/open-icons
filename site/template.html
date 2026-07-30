@@ -1,0 +1,865 @@
+<title>Open Icons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+/* ------------------------------------------------------------------ tokens */
+:root{
+  --ground:#F1F3F0; --surface:#FFFFFF; --surface-2:#E8ECE7; --sunk:#E5E9E4;
+  --ink:#131817; --ink-2:#3B4543; --muted:#65706C;
+  --rule:#D4DAD4; --rule-2:#BEC6BE;
+  --accent:#1E6B58; --accent-soft:#DBEAE3; --on-accent:#FFFFFF;
+  --signal:#A2431D; --signal-soft:#F5E4DB;
+
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+
+  --pad:clamp(18px,3.4vw,52px);
+  --bar:60px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ground:#0C100F; --surface:#141918; --surface-2:#1B2120; --sunk:#080B0A;
+    --ink:#E7ECE9; --ink-2:#BBC4C0; --muted:#86928E;
+    --rule:#252C2A; --rule-2:#333B39;
+    --accent:#5CC7A2; --accent-soft:#12302A; --on-accent:#04120E;
+    --signal:#E58A56; --signal-soft:#331F14;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C100F; --surface:#141918; --surface-2:#1B2120; --sunk:#080B0A;
+  --ink:#E7ECE9; --ink-2:#BBC4C0; --muted:#86928E;
+  --rule:#252C2A; --rule-2:#333B39;
+  --accent:#5CC7A2; --accent-soft:#12302A; --on-accent:#04120E;
+  --signal:#E58A56; --signal-soft:#331F14;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --ground:#F1F3F0; --surface:#FFFFFF; --surface-2:#E8ECE7; --sunk:#E5E9E4;
+  --ink:#131817; --ink-2:#3B4543; --muted:#65706C;
+  --rule:#D4DAD4; --rule-2:#BEC6BE;
+  --accent:#1E6B58; --accent-soft:#DBEAE3; --on-accent:#FFFFFF;
+  --signal:#A2431D; --signal-soft:#F5E4DB;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:15px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a{color:inherit}
+::selection{background:var(--accent); color:var(--on-accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation-duration:.001ms !important; transition-duration:.001ms !important} }
+
+h1,h2,h3,h4{font-family:var(--mono); font-weight:600; margin:0; text-wrap:balance}
+h1{font-size:clamp(32px,4.6vw,58px); line-height:1.02; letter-spacing:-.045em}
+h2{font-size:clamp(22px,2.6vw,31px); line-height:1.12; letter-spacing:-.035em}
+h3{font-size:16px; line-height:1.3; letter-spacing:-.02em}
+h4{font-size:12.5px; letter-spacing:-.005em}
+p{margin:0 0 .9em}
+.lede{font-size:clamp(15.5px,1.5vw,18px); line-height:1.55; color:var(--ink-2); max-width:58ch}
+.tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); font-weight:600}
+code,.num{font-family:var(--mono); font-size:.9em; font-variant-numeric:tabular-nums}
+.rule{height:1px; background:var(--rule); border:0; margin:0}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--mono);
+  font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+  margin-bottom:14px;
+}
+
+.wrap{max-width:1320px; margin:0 auto; padding-left:var(--pad); padding-right:var(--pad)}
+.view{display:none}
+.view.on{display:block; animation:fade .3s ease both}
+@keyframes fade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+
+button{font:inherit}
+
+/* ------------------------------------------------------------------ topbar */
+.topbar{
+  position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  display:flex; align-items:center; gap:22px;
+  height:var(--bar); padding:0 var(--pad);
+}
+.brand{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-weight:600; font-size:15px; letter-spacing:-.03em; flex:none}
+.brand-mark{width:24px; height:24px; display:grid; place-items:center; color:var(--accent); border:1px solid var(--rule-2); border-radius:6px; background:var(--surface)}
+.toplinks{display:flex; gap:4px; font-family:var(--mono); font-size:13px}
+.toplinks a{padding:7px 11px; border-radius:6px; text-decoration:none; color:var(--muted)}
+.toplinks a:hover{color:var(--ink); background:var(--surface-2)}
+.toplinks a.on{color:var(--ink); background:var(--surface-2)}
+.topactions{margin-left:auto; display:flex; align-items:center; gap:8px}
+.themer{
+  display:inline-flex; align-items:center; gap:6px; font-family:var(--mono);
+  font-size:11px; color:var(--muted); background:none; border:1px solid var(--rule);
+  padding:6px 10px; border-radius:6px; cursor:pointer;
+}
+.themer:hover{color:var(--ink); border-color:var(--rule-2)}
+.btn-cta{
+  display:inline-flex; align-items:center; gap:7px; background:var(--ink); color:var(--ground);
+  border:0; border-radius:6px; padding:8px 14px; font-family:var(--mono); font-size:12.5px;
+  font-weight:600; text-decoration:none; white-space:nowrap;
+}
+.btn-cta:hover{background:var(--accent); color:var(--on-accent)}
+
+/* -------------------------------------------------------------------- hero */
+.hero{padding:clamp(40px,6vw,76px) 0 clamp(30px,4vw,50px); border-bottom:1px solid var(--rule)}
+.hero h1 em{font-style:normal; color:var(--accent)}
+.hero .lede{margin:16px 0 26px}
+.herocta{display:flex; gap:10px; flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--on-accent);
+  border:0; border-radius:7px; padding:11px 18px; font-weight:600; font-size:14.5px; text-decoration:none;
+}
+.btn-ghost{
+  display:inline-flex; align-items:center; gap:8px; background:var(--surface); color:var(--ink);
+  border:1px solid var(--rule-2); border-radius:7px; padding:11px 18px; font-weight:600; font-size:14.5px; text-decoration:none;
+}
+.btn-ghost:hover{background:var(--surface-2)}
+
+/* the specimen: one glyph, thin to bold, the way a type foundry shows a
+   weight axis — the argument made visually before a word of copy backs it up */
+.specimen{
+  margin-top:clamp(28px,4vw,46px); border:1px solid var(--rule); border-radius:12px;
+  background:var(--surface); overflow:hidden;
+}
+.specimen-row{display:flex; align-items:stretch}
+.specimen-cell{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; padding:clamp(20px,3.5vw,40px) 10px; position:relative;
+}
+.specimen-cell + .specimen-cell{border-left:1px solid var(--rule)}
+.specimen-cell b{font-family:var(--mono); font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; letter-spacing:.02em}
+.specimen-cell.anchor{background:var(--accent-soft)}
+.specimen-cell.anchor b{color:var(--accent); font-weight:700}
+.specimen-foot{
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:12px 18px; border-top:1px solid var(--rule); background:var(--surface-2);
+}
+.specimen-foot .tag{margin:0}
+.specimen-pick{display:flex; gap:3px; flex-wrap:wrap}
+.specimen-pick button{
+  font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:5px; background:none;
+  border:1px solid transparent; color:var(--muted); cursor:pointer; display:flex; align-items:center; gap:5px;
+}
+.specimen-pick button:hover{color:var(--ink); background:var(--ground)}
+.specimen-pick button.on{background:var(--ground); border-color:var(--rule-2); color:var(--ink)}
+
+/* -------------------------------------------------------------- value strip */
+.values{
+  padding:0; margin:0;
+  border-bottom:1px solid var(--rule);
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--rule);
+}
+.vcard{background:var(--ground); padding:24px 22px; display:flex; flex-direction:column; gap:10px}
+.vcard .ic{color:var(--accent)}
+.vcard h3{font-size:15px}
+.vcard p{font-size:13px; color:var(--muted); margin:0; line-height:1.5}
+
+/* ----------------------------------------------------------------- why band */
+.why{padding:clamp(30px,4vw,48px) 0; border-bottom:1px solid var(--rule)}
+.why-inner{display:flex; gap:clamp(20px,3vw,40px); align-items:flex-start; max-width:920px}
+.why .tag{flex:none; padding-top:5px}
+.why p{font-size:clamp(15.5px,1.5vw,17.5px); line-height:1.6; color:var(--ink-2); margin:0; max-width:68ch}
+.why strong{color:var(--ink); font-weight:600}
+
+/* --------------------------------------------------------------- controls */
+.controls{
+  position:sticky; top:var(--bar); z-index:40; background:var(--ground);
+  border-bottom:1px solid var(--rule); padding:11px var(--pad);
+  display:flex; gap:9px 16px; align-items:center; flex-wrap:wrap;
+}
+.ctl{display:flex; align-items:center; gap:7px}
+.ctl>.tag{white-space:nowrap}
+.seg{display:flex; border:1px solid var(--rule); border-radius:6px; overflow:hidden; background:var(--surface)}
+.seg button{
+  font-family:var(--mono); font-size:11px; padding:5px 10px; border:0; background:none;
+  color:var(--muted); cursor:pointer; border-right:1px solid var(--rule); line-height:1.6;
+}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--ink); background:var(--surface-2)}
+.seg button.on{background:var(--ink); color:var(--ground)}
+.search{position:relative; flex:1; min-width:160px; max-width:300px}
+.search input[type=text]{
+  width:100%; font-family:var(--mono); font-size:12.5px; padding:7px 10px 7px 31px;
+  border:1px solid var(--rule); border-radius:6px; background:var(--surface); color:var(--ink);
+}
+.search input::placeholder{color:var(--muted)}
+.search .ic{position:absolute; left:9px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none}
+.toggle{
+  display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px;
+  color:var(--muted); cursor:pointer; user-select:none;
+}
+.toggle input{accent-color:var(--accent); margin:0}
+.toggle:hover{color:var(--ink)}
+
+/* --------------------------------------------------------------- lattice */
+.gal{padding:18px var(--pad) clamp(40px,5vw,64px)}
+.galhead{display:flex; justify-content:space-between; align-items:baseline; padding:2px 0 12px; gap:16px; flex-wrap:wrap}
+.cats{display:flex; gap:4px; flex-wrap:wrap}
+.chip{
+  font-family:var(--mono); font-size:11px; padding:4px 8px; border-radius:4px; cursor:pointer;
+  background:none; border:1px solid transparent; color:var(--muted); display:flex; align-items:center; gap:5px;
+}
+.chip:hover{color:var(--ink); background:var(--surface)}
+.chip.on{background:var(--surface); border-color:var(--rule-2); color:var(--ink)}
+.lattice{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(94px,1fr));
+  gap:1px; border:1px solid var(--rule); border-radius:8px; overflow:hidden;
+}
+.cell{
+  background:var(--ground); border:0; padding:14px 6px 9px; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:9px; color:var(--ink);
+  min-height:96px; justify-content:center; transition:background .12s;
+  position:relative; font:inherit; box-shadow:0 0 0 1px var(--rule);
+}
+.cell:hover{background:var(--surface-2)}
+.cell .nm{
+  font-family:var(--mono); font-size:9.5px; color:var(--muted); text-align:center;
+  line-height:1.25; word-break:break-word; max-width:100%; min-height:24px;
+}
+.cell:hover .nm{color:var(--ink)}
+.cell.sel{background:var(--accent-soft)}
+.cell.sel .nm{color:var(--accent)}
+.lattice.g-card .cell{background:var(--surface)}
+.lattice.g-card .cell:hover{background:var(--surface-2)}
+.lattice.g-inv .cell{background:var(--ink); color:var(--ground); box-shadow:0 0 0 1px var(--rule-2)}
+.lattice.g-inv .cell .nm{color:var(--muted)}
+.lattice.g-inv .cell:hover{background:color-mix(in srgb,var(--ink) 88%, var(--ground))}
+.lattice.g-acc .cell{background:var(--accent); color:var(--on-accent)}
+.lattice.g-acc .cell .nm{color:color-mix(in srgb,var(--on-accent) 70%, transparent)}
+.ab{display:flex; align-items:center; gap:2px}
+.ab .side{display:grid; place-items:center; padding:4px 6px; border-radius:4px}
+.ab .side.a{background:color-mix(in srgb,var(--accent) 12%, transparent)}
+.ab .side.b{background:color-mix(in srgb,var(--signal) 12%, transparent)}
+.naive [stroke-width="2"]{stroke-width:var(--nw)}
+.empty{padding:56px 0; text-align:center; color:var(--muted); font-family:var(--mono); font-size:12.5px}
+
+/* ---------------------------------------------------------------- drawer */
+.scrim{position:fixed; inset:0; background:rgba(6,10,9,.42); z-index:60; opacity:0; pointer-events:none; transition:opacity .18s}
+.scrim.on{opacity:1; pointer-events:auto}
+.drawer{
+  position:fixed; top:0; right:0; height:100vh; width:min(420px,100vw); z-index:61;
+  background:var(--surface); border-left:1px solid var(--rule); overflow-y:auto;
+  transform:translateX(100%); transition:transform .22s cubic-bezier(.3,.9,.3,1);
+}
+.drawer.on{transform:none}
+.dhead{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:18px 20px 14px; border-bottom:1px solid var(--rule)}
+.dhead h3{font-size:19px; letter-spacing:-.035em; word-break:break-word}
+.dhead .tag{margin-top:4px}
+.x{background:none; border:1px solid var(--rule); color:var(--muted); border-radius:5px; padding:5px; cursor:pointer; display:grid; place-items:center; flex:none}
+.x:hover{color:var(--ink); border-color:var(--rule-2)}
+.dsec{padding:16px 20px; border-bottom:1px solid var(--rule)}
+.dsec>.tag{display:block; margin-bottom:11px}
+.dstage{display:grid; place-items:center; padding:22px; background:var(--ground); border:1px solid var(--rule); border-radius:6px}
+.facts{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:6px; overflow:hidden}
+.facts div{background:var(--surface); padding:9px 11px}
+.facts dt{font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.facts dd{margin:2px 0 0; font-family:var(--mono); font-size:12.5px}
+.ctx{display:flex; flex-direction:column; gap:9px}
+.ctx-row{display:flex; align-items:center; gap:10px; font-size:12.5px}
+.btn-demo{
+  display:inline-flex; align-items:center; gap:7px; background:var(--accent); color:var(--on-accent);
+  border:0; border-radius:6px; padding:7px 13px; font:inherit; font-size:13px; font-weight:560;
+}
+.btn-ghost2{
+  display:inline-flex; align-items:center; gap:7px; background:var(--surface); color:var(--ink);
+  border:1px solid var(--rule-2); border-radius:6px; padding:7px 13px; font:inherit; font-size:13px;
+}
+.row-demo{
+  display:flex; align-items:center; gap:11px; padding:9px 12px; border:1px solid var(--rule);
+  border-radius:6px; background:var(--surface); font-size:13.5px; width:100%;
+}
+.row-demo .sp{flex:1; color:var(--muted)}
+.inv-demo{
+  display:flex; align-items:center; gap:11px; padding:11px 13px; border-radius:6px;
+  background:var(--ink); color:var(--ground); font-size:13.5px;
+}
+.copy{
+  display:flex; align-items:center; gap:7px; width:100%; justify-content:center;
+  font-family:var(--mono); font-size:11.5px; padding:8px; border:1px solid var(--rule-2);
+  background:var(--surface); color:var(--ink); border-radius:6px; cursor:pointer; margin-bottom:7px;
+}
+.copy:hover{background:var(--surface-2)}
+.copy.done{border-color:var(--accent); color:var(--accent)}
+
+/* ------------------------------------------------------------- customize */
+.customize{padding:clamp(40px,5vw,64px) 0; border-bottom:1px solid var(--rule)}
+.cust-head{max-width:640px; margin-bottom:24px}
+.cust-controls{display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin-bottom:20px}
+.cust-controls .ctl>.tag{color:var(--ink-2)}
+.cust-stage{
+  border:1px solid var(--rule-2); border-radius:14px; padding:clamp(22px,3.5vw,40px);
+  transition:background .2s, color .2s, border-color .2s;
+}
+.cust-nav{display:flex; align-items:center; gap:16px; padding:11px 15px; border:1px solid var(--border); border-radius:var(--radius-lg,10px); margin-bottom:22px; flex-wrap:wrap}
+.cust-nav__links{display:flex; gap:13px; font-family:var(--th-ui); font-size:13px; color:var(--text-subdued)}
+.cust-row{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:18px}
+.cust-cards{display:flex; gap:16px; flex-wrap:wrap}
+.cust-card{max-width:280px}
+.cust-card .ic{margin-bottom:10px; display:block; color:var(--text-accent)}
+.cust-foot{margin-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:baseline}
+.cust-foot p{font-size:12.5px; color:var(--muted); margin:0; max-width:52ch}
+
+/* --------------------------------------------------------------- journal */
+.jhero{padding:clamp(34px,5vw,58px) 0 clamp(20px,3vw,30px)}
+.jlist{padding-bottom:60px}
+.jpost{padding:clamp(26px,3.5vw,40px) 0; border-top:1px solid var(--rule); display:grid; grid-template-columns:130px minmax(0,1fr); gap:0}
+.jpost:first-child{border-top:0}
+.jdate{font-family:var(--mono); font-size:11px; color:var(--muted); padding-top:4px}
+.jdate b{display:block; color:var(--ink); font-size:12px; margin-bottom:3px}
+.jbody h3{font-size:19px; margin-bottom:10px}
+.jbody p{font-size:14px; color:var(--ink-2); max-width:68ch; margin:0 0 .85em}
+.jbody p:last-child{margin-bottom:0}
+.pill{
+  display:inline-block; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em;
+  text-transform:uppercase; padding:2px 7px; border-radius:99px; margin:0 0 10px;
+  background:var(--accent-soft); color:var(--accent); font-weight:600;
+}
+.pill.brk{background:var(--signal-soft); color:var(--signal)}
+.jspec{display:flex; gap:1px; border:1px solid var(--rule); border-radius:6px; overflow:hidden; margin:14px 0 0; flex-wrap:wrap}
+.jspec .s{background:var(--ground); padding:13px 17px; display:flex; flex-direction:column; align-items:center; gap:7px; min-width:80px; flex:1 1 80px; box-shadow:0 0 0 1px var(--rule)}
+.jspec .s.now{background:var(--accent-soft)}
+.jspec .s.now .nm{color:var(--accent)}
+.jspec .nm{font-family:var(--mono); font-size:9px; color:var(--muted)}
+.jnote{margin-top:16px; padding-left:18px; border-left:2px solid var(--rule-2); color:var(--muted); font-size:13px}
+
+/* ----------------------------------------------------------------- footer */
+footer{padding:clamp(36px,5vw,56px) 0 46px}
+.foot-grid{display:grid; grid-template-columns:1.1fr 1fr 1fr 1fr; gap:clamp(20px,3vw,40px); padding-bottom:30px; border-bottom:1px solid var(--rule)}
+.foot-grid h4{margin-bottom:12px; color:var(--ink)}
+.foot-grid p{font-size:12.5px; color:var(--muted); margin:0 0 14px}
+.foot-links{display:flex; flex-direction:column; gap:8px; font-size:13px}
+.foot-links a{color:var(--ink-2); text-decoration:none}
+.foot-links a:hover{color:var(--accent)}
+.foot-code{margin-top:10px}
+pre{
+  background:var(--surface); border:1px solid var(--rule); border-radius:6px;
+  padding:11px 13px; overflow-x:auto; font-family:var(--mono); font-size:11.5px; line-height:1.6; margin:0;
+}
+pre .c{color:var(--muted)}
+pre .k{color:var(--accent)}
+.foot-base{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; padding-top:20px; font-size:12px; color:var(--muted)}
+
+/* --------------------------------------------------------------- responsive */
+@media (max-width:980px){
+  .values{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .specimen-row{flex-wrap:wrap}
+  .specimen-cell{flex:1 1 40%}
+}
+@media (max-width:720px){
+  .topbar{gap:12px}
+  .toplinks{gap:0}
+  .values{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .jpost{grid-template-columns:1fr}
+  .jdate{padding-top:0; padding-bottom:6px}
+  .specimen-cell{flex:1 1 100%}
+  .specimen-cell + .specimen-cell{border-left:0; border-top:1px solid var(--rule)}
+}
+</style>
+
+<style id="lds-bundle">@@LDS_CSS@@</style>
+
+<header class="topbar">
+  <span class="brand"><span class="brand-mark" id="brandmark"></span>Open Icons</span>
+  <nav class="toplinks" id="nav">
+    <a href="#/" data-r="library">Library</a>
+    <a href="#/journal" data-r="journal">Journal</a>
+  </nav>
+  <div class="topactions">
+    <button class="themer" id="themer" type="button"><span id="themeic"></span><span id="themetx">Auto</span></button>
+    <a href="#get" class="btn-cta"><span id="ctaic"></span>Get the icons</a>
+  </div>
+</header>
+
+<!-- ============================================================= LIBRARY -->
+<div class="view" id="v-library">
+
+  <div class="hero wrap">
+    <span class="eyebrow">174 icons &middot; one weight axis &middot; MIT</span>
+    <h1>Icons that <em>adapt</em>,<br>not icons you override.</h1>
+    <p class="lede">Pick a weight and every glyph redraws itself from scratch &mdash;
+    gaps, corners, counters, all of it &mdash; the way a real type family holds its
+    shape from thin to bold. Most icon sets give you one drawing and a
+    <code>stroke-width</code> to fight with. This gives you an axis.</p>
+    <div class="herocta">
+      <a href="#library" class="btn-primary"><span id="browseic"></span>Browse the library</a>
+      <a href="#customize" class="btn-ghost"><span id="brandic"></span>See it in your brand</a>
+    </div>
+
+    <div class="specimen">
+      <div class="specimen-row" id="specrow"></div>
+      <div class="specimen-foot">
+        <span class="tag">Same glyph, four drawings</span>
+        <div class="specimen-pick" id="specpick"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="values wrap" style="padding-left:0; padding-right:0">
+    <div class="vcard"><span class="ic" data-ic="settings"></span><h3>Weight is geometry</h3><p>Every clearance is a ratio of the stroke. A new weight re-derives the drawing instead of restyling it.</p></div>
+    <div class="vcard"><span class="ic" data-ic="refresh"></span><h3>Built for AI-speed</h3><p>Every icon is a function, not a fixed path &mdash; fast to generate, fast to check, fast to change.</p></div>
+    <div class="vcard"><span class="ic" data-ic="download"></span><h3>Free, MIT, yours</h3><p>Take the files, take the generator, take the axis. No account, no attribution required.</p></div>
+    <div class="vcard"><span class="ic" data-ic="grid"></span><h3>Drops into your system</h3><p>Plain SVG and JSON in, real product chrome out &mdash; see it live in the section below.</p></div>
+  </div>
+
+  <div class="why wrap">
+    <div class="why-inner">
+      <span class="tag">Why</span>
+      <p>Most icon systems are Figma-first: every glyph is a designer's hand-tuned
+      decision, which buys craft but costs speed &mdash; a new icon means a design
+      review, not a request. <strong>Open Icons puts the clock in the system
+      instead of the person.</strong> Every glyph is a function of its stroke
+      rather than a fixed drawing, so weight, size and new icons are fast to
+      generate and fast to check, without losing the nuance a hand-drawn set
+      gets right.</p>
+    </div>
+  </div>
+
+  <div class="controls" id="library">
+    <div class="ctl"><span class="tag">Weight</span><div class="seg" id="segw"></div></div>
+    <div class="ctl"><span class="tag">Size</span><div class="seg" id="segsize"></div></div>
+    <div class="ctl"><span class="tag">Style</span><div class="seg" id="segstyle"></div></div>
+    <div class="ctl"><span class="tag">Ground</span><div class="seg" id="segground"></div></div>
+    <div class="search"><span class="ic" id="searchic"></span>
+      <input type="text" id="q" placeholder="search 174 icons" aria-label="Search icons"></div>
+    <label class="toggle"><input type="checkbox" id="tab">vs restroked</label>
+  </div>
+
+  <div class="gal">
+    <div class="galhead">
+      <div class="cats" id="cats"></div>
+      <span class="tag" id="shown">174 shown</span>
+    </div>
+    <div class="lattice" id="lattice"></div>
+    <div class="empty" id="empty" style="display:none">nothing matches &mdash; try a concept rather than a name</div>
+  </div>
+
+  <div class="customize wrap" id="customize">
+    <div class="cust-head">
+      <span class="eyebrow">Live in the Lew Design System</span>
+      <h2>Pivot your brand. The icons don't move.</h2>
+      <p class="lede">This panel is real LDS markup &mdash; <code>.lds-nav</code>,
+      <code>.lds-btn</code>, <code>.lds-card</code>, <code>.lds-chip</code> &mdash;
+      carrying the same Open Icons glyphs the gallery above uses. Switch the
+      theme and only the chrome moves: hue, type, radius, density. Not one
+      icon path changes.</p>
+    </div>
+    <div class="cust-controls">
+      <div class="ctl"><span class="tag">Theme</span><div class="seg" id="segtheme"></div></div>
+      <div class="ctl"><span class="tag">Mode</span><div class="seg" id="segmode"></div></div>
+    </div>
+    <div class="cust-stage emph-plain" id="custstage"></div>
+    <div class="cust-foot">
+      <p>Three themes, one already dark-native, one built for a portfolio's own
+      editorial voice &mdash; a fast-moving brand can move this fast too.</p>
+      <a href="https://matthewlew.github.io/design-system/" class="btn-ghost2" style="text-decoration:none">Lew Design System docs</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================= JOURNAL -->
+<div class="view" id="v-journal">
+  <div class="jhero wrap">
+    <span class="eyebrow">Journal</span>
+    <h1>What changed, and why.</h1>
+    <p class="lede">Not a technical spec &mdash; a running log of the decisions,
+    including the ones that got thrown out. That's the part worth keeping:
+    lose it and someone re-derives it in six months.</p>
+  </div>
+  <div class="jlist wrap" id="jlist"></div>
+</div>
+
+<footer id="get">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Open Icons</h4>
+        <p>174 icons on a 24 grid, weight axis 1.0&ndash;2.5, MIT licensed. Built
+        by measuring, corrected by looking.</p>
+      </div>
+      <div>
+        <h4>Get the icons</h4>
+        <div class="foot-links">
+          <a href="#" id="foot-svg">Standalone SVGs</a>
+          <a href="#" id="foot-json">One JSON file</a>
+          <a href="#/journal">Regenerate a weight</a>
+        </div>
+      </div>
+      <div>
+        <h4>Use it</h4>
+        <div class="foot-code">
+          <pre id="use-snippet"></pre>
+        </div>
+      </div>
+      <div>
+        <h4>Elsewhere</h4>
+        <div class="foot-links">
+          <a href="https://matthewlew.github.io/design-system/">Lew Design System</a>
+          <a href="#/journal">Journal</a>
+          <a href="#library">Browse icons</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>MIT License. Take it, ship it, change it.</span>
+      <span>The stroke is not a CSS knob &mdash; regenerate for a new weight, never override <code>stroke-width</code>.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+<script id="D" type="application/json">@@DATA@@</script>
+<script>
+(function(){
+'use strict';
+var D = JSON.parse(document.getElementById('D').textContent);
+var TOK = D.tok, SETS = D.sets, NAMES = D.names, META = D.meta;
+
+/* ---------------------------------------------------------------- decode */
+var cache = {};
+function markup(name, w){
+  var key = w + '|' + name, hit = cache[key];
+  if (hit !== undefined) return hit;
+  var s = SETS[w][name];
+  s = s.replace(/(.)/g, function(m, c){ return TOK[c.charCodeAt(0) - 48]; });
+  cache[key] = s;
+  return s;
+}
+var uidn = 0;
+function svg(name, w, size, opts){
+  opts = opts || {};
+  var inner = markup(name, w).replace(/\$\{u\}/g, 'i' + (++uidn));
+  var cls = opts.cls ? ' class="' + opts.cls + '"' : '';
+  var st = opts.style ? ' style="' + opts.style + '"' : '';
+  return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size +
+         '" fill="none" aria-hidden="true"' + cls + st + '>' + inner + '</svg>';
+}
+
+/* ------------------------------------------------------------------ state */
+var S = { w:'2', size:24, style:'both', ground:'page', cat:'All', q:'', ab:false };
+
+/* ------------------------------------------------------------------ theme */
+var themer = document.getElementById('themer');
+var THEMES = ['auto','light','dark'];
+var ti = 0;
+try { var saved = localStorage.getItem('oi-theme'); if (saved) ti = THEMES.indexOf(saved) < 0 ? 0 : THEMES.indexOf(saved); } catch(e){}
+function paintTheme(){
+  var t = THEMES[ti];
+  if (t === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themetx').textContent = t.charAt(0).toUpperCase() + t.slice(1);
+  document.getElementById('themeic').innerHTML =
+    svg(t === 'dark' ? 'eye-off' : t === 'light' ? 'eye' : 'settings', '2', 13);
+  try { localStorage.setItem('oi-theme', t); } catch(e){}
+}
+themer.addEventListener('click', function(){ ti = (ti + 1) % 3; paintTheme(); });
+
+/* ------------------------------------------------------------------- hero */
+var SPEC_ICONS = ['bell','heart','star','settings','bookmark','check-circle'];
+var specI = 0;
+function paintSpecimen(){
+  var name = SPEC_ICONS[specI];
+  var row = document.getElementById('specrow');
+  row.innerHTML = D.weights.map(function(w, i){
+    var anchor = w === '2' ? ' anchor' : '';
+    var size = 40 + i * 22;
+    return '<div class="specimen-cell' + anchor + '">' +
+           svg(name, w, size) + '<b>W ' + parseFloat(w).toFixed(1) + '</b></div>';
+  }).join('');
+  var pick = document.getElementById('specpick');
+  pick.innerHTML = SPEC_ICONS.map(function(n, i){
+    return '<button class="' + (i === specI ? 'on' : '') + '" data-i="' + i + '">' +
+           svg(n, '2', 14) + n + '</button>';
+  }).join('');
+}
+document.getElementById('specpick').addEventListener('click', function(e){
+  var b = e.target.closest('[data-i]'); if (!b) return;
+  specI = +b.getAttribute('data-i'); paintSpecimen();
+});
+
+/* --------------------------------------------------------------- controls */
+function seg(id, opts, get, set){
+  var el = document.getElementById(id);
+  el.innerHTML = opts.map(function(o){
+    return '<button data-v="' + o[0] + '"' + (String(get()) === String(o[0]) ? ' class="on"' : '') +
+           '>' + o[1] + '</button>';
+  }).join('');
+  el.addEventListener('click', function(e){
+    var b = e.target.closest('[data-v]'); if (!b) return;
+    set(b.getAttribute('data-v'));
+    [].forEach.call(el.children, function(c){
+      c.classList.toggle('on', c.getAttribute('data-v') === b.getAttribute('data-v'));
+    });
+    paintAll();
+  });
+}
+seg('segw', D.weights.map(function(w){ return [w, parseFloat(w).toFixed(1)]; }),
+    function(){ return S.w; }, function(v){ S.w = v; });
+seg('segsize', [[16,'16'],[20,'20'],[24,'24'],[32,'32'],[48,'48']],
+    function(){ return S.size; }, function(v){ S.size = +v; });
+seg('segstyle', [['both','all'],['line','line'],['fill','fill']],
+    function(){ return S.style; }, function(v){ S.style = v; });
+seg('segground', [['page','page'],['card','card'],['inv','reverse'],['acc','on colour']],
+    function(){ return S.ground; }, function(v){ S.ground = v; });
+
+document.getElementById('tab').addEventListener('change', function(e){ S.ab = e.target.checked; paintAll(); });
+document.getElementById('q').addEventListener('input', function(e){ S.q = e.target.value.toLowerCase().trim(); paintAll(); });
+
+var cats = ['All'].concat(D.cats);
+document.getElementById('cats').innerHTML = cats.map(function(c){
+  var n = c === 'All' ? NAMES.length : (D.counts[c] || 0);
+  return '<button class="chip' + (c === 'All' ? ' on' : '') + '" data-c="' + c + '">' +
+         c + ' <span style="opacity:.6">' + n + '</span></button>';
+}).join('');
+document.getElementById('cats').addEventListener('click', function(e){
+  var b = e.target.closest('[data-c]'); if (!b) return;
+  S.cat = b.getAttribute('data-c');
+  [].forEach.call(this.children, function(c){ c.classList.toggle('on', c.getAttribute('data-c') === S.cat); });
+  paintAll();
+});
+
+/* ---------------------------------------------------------------- lattice */
+function matches(n){
+  var m = META[n];
+  if (S.cat !== 'All' && m.c !== S.cat) return false;
+  if (S.style === 'line' && m.f) return false;
+  if (S.style === 'fill' && !m.f) return false;
+  if (S.q && n.indexOf(S.q) < 0 && m.k.indexOf(S.q) < 0) return false;
+  return true;
+}
+var lattice = document.getElementById('lattice');
+function paintAll(){
+  var list = NAMES.filter(matches);
+  document.getElementById('shown').textContent = list.length + ' shown';
+  document.getElementById('empty').style.display = list.length ? 'none' : '';
+  lattice.className = 'lattice' + (S.ground === 'page' ? '' : ' g-' + S.ground);
+  var w = parseFloat(S.w);
+  lattice.innerHTML = list.map(function(n){
+    var g;
+    if (S.ab) {
+      g = '<span class="ab"><span class="side a">' + svg(n, S.w, S.size) +
+          '</span><span class="side b">' +
+          svg(n, '2', S.size, { cls:'naive', style:'--nw:' + w }) + '</span></span>';
+    } else {
+      g = svg(n, S.w, S.size);
+    }
+    return '<button class="cell" data-n="' + n + '">' + g +
+           '<span class="nm">' + n + '</span></button>';
+  }).join('');
+}
+lattice.addEventListener('click', function(e){
+  var b = e.target.closest('[data-n]'); if (!b) return;
+  openDrawer(b.getAttribute('data-n'));
+});
+
+/* ----------------------------------------------------------------- drawer */
+var drawer = document.getElementById('drawer'), scrim = document.getElementById('scrim');
+var current = null;
+function closeDrawer(){
+  drawer.classList.remove('on'); scrim.classList.remove('on');
+  drawer.setAttribute('aria-hidden','true');
+  [].forEach.call(lattice.children, function(c){ c.classList.remove('sel'); });
+}
+scrim.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeDrawer(); });
+
+function openDrawer(n){
+  current = n;
+  var m = META[n];
+  var partner = n.slice(-5) === '-fill' ? n.slice(0, -5) : (META[n + '-fill'] ? n + '-fill' : null);
+  var ds = markup(n, S.w).match(/ d="[^"]*"/g) || [];
+  var nodes = ds.join('').replace(/[^MLCHVSZ]/g, '').length;
+
+  drawer.innerHTML =
+    '<div class="dhead"><div><h3>' + n + '</h3><span class="tag">' + m.c +
+      (m.f ? ' &middot; fill' : '') + '</span></div>' +
+      '<button class="x" id="dx" aria-label="Close">' + svg('close','2',14) + '</button></div>' +
+
+    '<div class="dsec"><div class="dstage">' + svg(n, S.w, 96) + '</div></div>' +
+
+    '<div class="dsec"><span class="tag">Facts</span><div class="facts">' +
+      '<div><dt>Weight</dt><dd>' + parseFloat(S.w).toFixed(1) + '</dd></div>' +
+      '<div><dt>Grid</dt><dd>24 &times; 24</dd></div>' +
+      '<div><dt>Path nodes</dt><dd>' + nodes + '</dd></div>' +
+      '<div><dt>Mask</dt><dd>' + (m.m ? 'yes' : 'none') + '</dd></div>' +
+    '</div></div>' +
+
+    (partner ? '<div class="dsec"><span class="tag">The pair</span>' +
+      '<div class="jspec" style="margin:0">' +
+      '<div class="s"><svg viewBox="0 0 24 24" width="34" height="34" fill="none">' + markup(m.f ? partner : n, S.w).replace(/\$\{u\}/g,'p'+(++uidn)) + '</svg><span class="nm">' + (m.f ? partner : n) + '</span></div>' +
+      '<div class="s"><svg viewBox="0 0 24 24" width="34" height="34" fill="none">' + markup(m.f ? n : partner, S.w).replace(/\$\{u\}/g,'p'+(++uidn)) + '</svg><span class="nm">' + (m.f ? n : partner) + '</span></div>' +
+      '</div><p class="tag" style="margin-top:9px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">' +
+      'Same outer edge &mdash; safe to swap in place.</p></div>' : '') +
+
+    '<div class="dsec"><span class="tag">In context</span><div class="ctx">' +
+      '<div class="ctx-row"><span class="btn-demo">' + svg(n, S.w, 18) + 'Primary</span>' +
+        '<span class="btn-ghost2">' + svg(n, S.w, 18) + 'Secondary</span></div>' +
+      '<div class="row-demo">' + svg(n, S.w, 16) + '<span>List row</span>' +
+        '<span class="sp"></span>' + svg('chevron-right', S.w, 14) + '</div>' +
+      '<div class="inv-demo">' + svg(n, S.w, 18) + '<span>Reverse panel</span></div>' +
+    '</div></div>' +
+
+    '<div class="dsec"><span class="tag">Take it</span>' +
+      '<button class="copy" data-copy="svg">' + svg('download','2',13) + 'Copy SVG at weight ' + parseFloat(S.w).toFixed(1) + '</button>' +
+      '<button class="copy" data-copy="jsx">' + svg('copy','2',13) + 'Copy JSX usage</button>' +
+    '</div>';
+
+  drawer.classList.add('on'); scrim.classList.add('on');
+  drawer.setAttribute('aria-hidden','false');
+  document.getElementById('dx').addEventListener('click', closeDrawer);
+  [].forEach.call(lattice.children, function(c){ c.classList.toggle('sel', c.getAttribute('data-n') === n); });
+}
+
+drawer.addEventListener('click', function(e){
+  var b = e.target.closest('[data-copy]'); if (!b) return;
+  var kind = b.getAttribute('data-copy'), text;
+  if (kind === 'svg') {
+    text = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" ' +
+           'viewBox="0 0 24 24" fill="none">' +
+           markup(current, S.w).replace(/\$\{u\}/g, '') + '</svg>';
+  } else {
+    text = '<Icon name="' + current + '" size={' + S.size + '} />';
+  }
+  copy(text, b);
+});
+
+function copy(text, btn){
+  var done = function(){
+    var was = btn.innerHTML;
+    btn.classList.add('done');
+    btn.innerHTML = svg('check','2',13) + 'Copied';
+    setTimeout(function(){ btn.classList.remove('done'); btn.innerHTML = was; }, 1400);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch(err){}
+    document.body.removeChild(ta);
+  }
+}
+
+document.getElementById('foot-svg').addEventListener('click', function(e){
+  e.preventDefault();
+  copy('icons/24/' + (current || 'heart') + '.svg  — one file per icon, 174 total', this);
+});
+document.getElementById('foot-json').addEventListener('click', function(e){
+  e.preventDefault();
+  copy('icons/icons.json  — {grid, stroke, icons: {name: innerMarkup}}', this);
+});
+document.getElementById('use-snippet').innerHTML =
+  '<span class="c">// npm/yarn: copy icons/ into your project</span>\n' +
+  '<span class="k">import</span> { GLYPHS } <span class="k">from</span> <span class="k">\'./icons\'</span>\n\n' +
+  '<span class="c">// regenerate at any weight on the axis</span>\n' +
+  'python3 tools/export.py icons 1.5';
+
+/* ------------------------------------------------------------------ customize */
+var CT = [['product', 'Product'], ['palette', 'Palette'], ['', 'Core']];
+var custTheme = 'product', custMode = 'light';
+seg('segtheme', CT, function(){ return custTheme; }, function(v){ custTheme = v; paintCustomize(); });
+seg('segmode', [['light','Light'],['dark','Dark']], function(){ return custMode; }, function(v){ custMode = v; paintCustomize(); });
+
+function paintCustomize(){
+  var stage = document.getElementById('custstage');
+  stage.className = 'cust-stage emph-plain' + (custTheme ? ' theme-' + custTheme : '') +
+                     (custMode === 'dark' ? ' mode-dark' : '');
+  stage.innerHTML =
+    '<div class="cust-nav lds-nav">' +
+      '<span class="lds-nav__logo">Acme<b>.</b></span>' +
+      '<span class="cust-nav__links lds-nav__links"><a>Product</a><a>Pricing</a><a>Docs</a></span>' +
+      '<span class="lds-nav__spacer"></span>' +
+      '<button class="lds-btn lds-btn--icon emph-plain" aria-label="Search">' + svg('search','2',16) + '</button>' +
+    '</div>' +
+    '<div class="cust-row">' +
+      '<button class="lds-btn emph-strong">' + svg('check','2',16) + 'Publish</button>' +
+      '<button class="lds-btn emph-plain">' + svg('edit','2',16) + 'Edit</button>' +
+      '<span class="lds-chip lds-chip--selected">' + svg('grid','2',14) + 'Grid</span>' +
+      '<span class="lds-chip">' + svg('list','2',14) + 'List</span>' +
+      '<span class="lds-tag">' + svg('star','2',13) + 'Featured</span>' +
+    '</div>' +
+    '<div class="cust-cards">' +
+      '<div class="lds-card emph-subtle cust-card">' +
+        '<span class="ic">' + svg('bell','2',22) + '</span>' +
+        '<div class="lds-card__kicker">Notifications</div>' +
+        '<div class="lds-card__title">3 new updates</div>' +
+        '<div class="lds-card__body">Same glyphs, same weight axis &mdash; only the theme class on the wrapper changed.</div>' +
+      '</div>' +
+      '<div class="lds-card emph-soft cust-card">' +
+        '<span class="ic">' + svg('heart','2',22) + '</span>' +
+        '<div class="lds-card__kicker">Saved</div>' +
+        '<div class="lds-card__title">12 items</div>' +
+        '<div class="lds-card__body">Icons pick up <code>currentColor</code>, so they always match the surface they land on.</div>' +
+      '</div>' +
+    '</div>';
+}
+
+/* -------------------------------------------------------------------- journal */
+var JOURNAL = [
+  { d:'30 Jul 2026', v:'v0.3.0', pill:'', title:'Six fixes, six reasons',
+    body:[
+      "Every one of these came from the same kind of note: something read as a mistake rather than a choice, once someone actually looked. The settings gear had a solid hub sitting inside an otherwise stroked glyph — it read like a fill variant that wandered into the line set, so the hub is a ring now, same outer size.",
+      "The calendar's header rule used to stop just inside the frame's corner curve instead of crossing it, which read as a band that gave up early. It now clears the corner by the intra-glyph floor and lands on straight wall on both sides.",
+      "check-circle and check-square had the same bug from two different causes: the tick was sized to its bounding box, but a circular wall isn't equidistant the way a square one is — the box-sized tick oversized by 23% against the circle and landed right on it. Sized to the circle's own radius instead.",
+      "arrow-all and history were carrying a second, closed-triangle arrowhead family inside a set that otherwise opens every head — duck-taped in because an open head didn't fit the available ring at that radius. Both now compute the largest ring an open head actually fits, and use the same head everything else uses.",
+      "The arrow inside download / upload / log-out / share was losing its own clearance at light weights, because the crossing moat scaled down with the stroke along with everything else. Figure-ground separation doesn't shrink just because the wall got thinner, so that clearance now holds a floor independent of weight.",
+    ]},
+  { d:'30 Jul 2026', v:'v0.2.4', pill:'brk', title:'The pin, round two',
+    body:[
+      "The push pin from the last pass turned out to have two problems, both from the same instinct: draw it upright, square to the grid. Square-to-the-grid is what a diagram of a pin looks like, not a pin — something you press in always sits at an angle. And the geometry chosen to build it (a rotated capsule) had an orientation bug that occasionally crossed its own outline into a bowtie.",
+      "It leans now, 34 degrees, with a round cap and a solid needle that tapers only over its last third — blunt enough to read as a tack, sharp enough to read as sharp. The redraw also reuses primitives already proven correct elsewhere in the set instead of new arc math, which is what the bowtie needed in the first place.",
+    ], spec:['location','location-fill','pin','pin-fill']},
+];
+function paintJournal(){
+  document.getElementById('jlist').innerHTML = JOURNAL.map(function(p){
+    var spec = p.spec ? '<div class="jspec">' + p.spec.map(function(n,i){
+      return '<div class="s' + (i>=p.spec.length/2 ? ' now' : '') + '">' + svg(n,'2',30) + '<span class="nm">' + n + '</span></div>';
+    }).join('') + '</div>' : '';
+    return '<div class="jpost"><div class="jdate"><b>' + p.d + '</b>' + p.v + '</div>' +
+           '<div class="jbody">' + (p.pill ? '<span class="pill ' + p.pill + '">breaking rename</span>' : '') +
+           '<h3>' + p.title + '</h3>' + p.body.map(function(t){ return '<p>' + t + '</p>'; }).join('') + spec + '</div></div>';
+  }).join('');
+}
+
+/* ------------------------------------------------------------------ route */
+var VIEWS = ['library', 'journal'];
+function route(){
+  var h = (location.hash || '#/').replace('#/', '');
+  var v = h.indexOf('journal') === 0 ? 'journal' : 'library';
+  VIEWS.forEach(function(x){ document.getElementById('v-' + x).classList.toggle('on', x === v); });
+  [].forEach.call(document.querySelectorAll('#nav a'), function(a){
+    a.classList.toggle('on', a.getAttribute('data-r') === v);
+  });
+  closeDrawer();
+}
+window.addEventListener('hashchange', route);
+
+/* ------------------------------------------------------------------- boot */
+[].forEach.call(document.querySelectorAll('[data-ic]'), function(el){
+  el.insertAdjacentHTML('afterbegin', svg(el.getAttribute('data-ic'), '2', 20));
+});
+document.getElementById('brandmark').innerHTML = svg('grid-masonry','2',15);
+document.getElementById('searchic').innerHTML = svg('search','2',13);
+document.getElementById('ctaic').innerHTML = svg('download','2',13);
+document.getElementById('browseic').innerHTML = svg('grid','2',15);
+document.getElementById('brandic').innerHTML = svg('settings','2',15);
+
+paintTheme();
+paintSpecimen();
+paintAll();
+paintCustomize();
+paintJournal();
+route();
+})();
+</script>
