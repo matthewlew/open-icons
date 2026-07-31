@@ -2,7 +2,7 @@
 
 > A React-based design tool for exploring, testing, and governing a scalable icon system.
 
-**Live Demo:** [open-icons-playground.vercel.app](https://open-icons-playground.vercel.app)
+**Live Demo:** [matthewlew.github.io/open-icons](https://matthewlew.github.io/open-icons/)
 
 ---
 
@@ -441,7 +441,7 @@ See [LICENSE](./LICENSE) for full details.
 Built with:
 - [React](https://react.dev) — UI framework
 - [Vite](https://vitejs.dev) — Build tool
-- [Vercel](https://vercel.com) — Deployment platform
+- [GitHub Pages](https://pages.github.com) — Deployment platform
 
 Inspired by design systems from Google Material, Apple SF Symbols, and Figma Icons.
 
