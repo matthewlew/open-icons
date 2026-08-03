@@ -1707,6 +1707,426 @@ def ev_charger():
         return out
     return f
 
+# ---- map chrome -----------------------------------------------------------
+# None of these takes a fill. Map chrome is always a button, never a marker, so
+# there is no selected state for the line/fill flip to carry (§9: the flip is a
+# STATE signal, not decoration).
+
+def e_apex(h):
+    """The set's apex extent for a form h tall. warning's triangle is the only
+       shipped precedent for a sharp vertex and TENT_EK is its ratio; anything
+       else with a point takes the same reach scaled to its own size."""
+    return TENT_EK * h
+
+def ngon_r(pts, r, cp=CP_BOX):
+    """ngon() driven by the §4.2 corner RADIUS rather than by a tangent length.
+       A polygon whose vertices are not all the same angle needs a different
+       extent at each one to land on a single radius — see e_for_r()."""
+    es = []
+    n = len(pts)
+    for i in range(n):
+        A, V, B = pts[(i - 1) % n], pts[i], pts[(i + 1) % n]
+        din  = unit((V[0] - A[0], V[1] - A[1]))
+        dout = unit((B[0] - V[0], B[1] - V[1]))
+        es.append(e_for_r(r, din, dout))
+    return ngon(pts, es, cp)
+
+def _vee(cx, by, hw, hh, r=2.0):
+    """The lower half of a plate: down one edge, round the bottom on the same
+       radius a closed plate would use, up the other. Open run, so the two outer
+       ends are free and take round caps."""
+    A, V, B = (cx - hw, by - hh), (cx, by), (cx + hw, by - hh)
+    din  = unit((V[0] - A[0], V[1] - A[1]))
+    dout = unit((B[0] - V[0], B[1] - V[1]))
+    return ('M%s%sL%s'
+            % (f2(A), corner(V, din, dout, e_for_r(r, din, dout), CP_BOX), f2(B)))
+
+MAP_X  = (3.0, 9.0, 15.0, 21.0)     # three panels, 6 wide, on the 18 keyline
+MAP_Y  = (7.0, 3.0, 7.0, 3.0)       # the fold heights along the top edge
+MAP_H  = 14.0                       # panel height; 3..21 on both axes
+
+def map_icon():
+    """Three folded panels.
+
+       The zigzag runs IN PHASE top and bottom, which makes every panel a
+       parallelogram of one size. Out of phase they become trapezoids of
+       different areas, i.e. a map drawn in perspective — and this set has no
+       axonometric forms (see folder-open, which was flattened for exactly this
+       reason).
+
+       The two creases are butt-capped: each terminates against the outline
+       (§4.1), and a crease is a fold, not a second object, so it takes no moat."""
+    def f(u):
+        top = list(zip(MAP_X, MAP_Y))
+        bot = [(x, y + MAP_H) for x, y in reversed(top)]
+        creases = [bar((x, y), (x, y + MAP_H)) for x, y in top[1:3]]
+        return ink(ngon_r(top + bot, 2.0)) + ink(*creases, cap='butt')
+    return f
+
+LAYER_HW, LAYER_HH = 9.0, 3.5       # plate half-width, half-height
+LAYER_PITCH = 5.0                   # plate pitch, NOT gap(): these edges are
+                                    # raked, so a vertical pitch p only buys
+                                    # p*cos(th) of perpendicular air. At this
+                                    # rake that is 4.66, i.e. gap() + W with
+                                    # 0.66 to spare, and a vertical pitch of 4
+                                    # would land at 1.66 — under the floor.
+
+def layers():
+    """One whole plate and two more seen edge-on beneath it. Only the top plate
+       closes: the ones below are occluded by definition, so drawing them closed
+       would be drawing what the stack hides."""
+    def f(u):
+        top, cy = 3.5, 3.5 + LAYER_HH
+        plate = ngon_r([(C, top), (C + LAYER_HW, cy),
+                        (C, top + 2 * LAYER_HH), (C - LAYER_HW, cy)], 2.0)
+        out = ink(plate)
+        for i in (1, 2):
+            by = top + 2 * LAYER_HH + i * LAYER_PITCH
+            out += ink(_vee(C, by, LAYER_HW, LAYER_HH))
+        return out
+    return f
+
+ROUTE_R  = 3.5      # U-turn radius. Sets the run pitch at 2R = 7, so two runs
+                    # clear by 5, and it is the largest radius that still leaves
+                    # the terminal marks inside the live area.
+ROUTE_M  = 2.0      # terminal mark radius (a mark, so r_mark()-class, not a ring:
+                    # a ring this small has a 2-unit counter, exactly on the §7
+                    # floor, and it is the first thing to clog at 16px)
+
+def route():
+    """Origin, destination, and a switchback between them.
+
+       Two U-turns rather than one S-bend: one bend reads as a river, two read as
+       a route that had to go around something. The marks are solid dots held off
+       the path by gapm() — they are marks on a line, not junctions in it."""
+    def f(u):
+        r = ROUTE_R
+        y0, y1, y2 = C + 2 * r, C, C - 2 * r           # 19, 12, 5
+        ax, bx = 15.0, 9.0                             # the two U-turn axes
+        a, b = (5.0, y0), (19.0, y2)                   # the two marks
+        off = ROUTE_M + gapm()                         # mark ink -> path ink; the
+                                                       # run's end is butt, so it
+                                                       # adds nothing of its own
+        p = ('M%sL%s' % (f2((a[0] + off, y0)), f2((ax, y0)))
+             + 'A%g %g 0 0 0 %s' % (r, r, f2((ax, y1)))
+             + 'L%s' % f2((bx, y1))
+             + 'A%g %g 0 0 1 %s' % (r, r, f2((bx, y2)))
+             + 'L%s' % f2((b[0] - off, y2)))
+        return (ink(p, cap='butt')
+                + dot(a[0], a[1], ROUTE_M) + dot(b[0], b[1], ROUTE_M))
+    return f
+
+NEEDLE = (6.8, 3.0)     # needle half-length, waist half-width. The apex extent
+                        # eats ~0.85 off each point, so the drawn tip lands at
+                        # ~6.0 and its ink clears the ring's inner edge by ~1 —
+                        # §8.3's contained-glyph clearance.
+
+def compass():
+    """A ring and a needle. The needle's long points take the apex extent (they
+       are the same 53-degree vertex a tent's peak is), the waist takes the plain
+       exterior r=2 — one flat extent on a rhombus this elongated rounds the
+       waist to r=5 and the thing stops being a needle."""
+    def f(u):
+        rn, rw = NEEDLE
+        k = math.sqrt(0.5)
+        pts = [(C + rn * k, C - rn * k), (C + rw * k, C + rw * k),
+               (C - rn * k, C + rn * k), (C - rw * k, C - rw * k)]
+        ea = e_apex(2 * rn)
+        din, dout = unit((-1, 1)), unit((-1, -1))      # at the SE waist vertex
+        ew = e_for_r(2.0, din, dout)
+        return ring(C, C, 9.0) + ink(ngon(pts, [ea, ew, ea, ew]))
+    return f
+
+# ---- data & status --------------------------------------------------------
+def circle_icon(fill=False):
+    """The bare status dot the set never had. Ring on the Ø20 circle keyline;
+       the fill is the §5.2b figure rule — a solid mass at outer - 0.5 — because
+       there is nothing inside it to knock out."""
+    r = 9.0
+    def f(u):
+        return dot(C, C, r + W / 2 - 0.5) if fill else ring(C, C, r)
+    return f
+
+BAR_BASE = 20.0                     # shared baseline, skeleton
+BAR_MAX  = 16.0                     # tallest bar: ink 3..21
+BAR_N    = 5                        # five columns at pitch W+gap() lands the ink
+                                    # on 3..21 too, so the block is the 18x18
+                                    # square keyline with integer anchors and a
+                                    # gap of exactly gap(). pitch_bar()'s 5.0 is
+                                    # the DOT row's pitch (more-*) and gives 17.
+
+def bars(heights, base=BAR_BASE, pitch=None):
+    """n bars on a shared baseline. Round caps at both ends: there is no drawn
+       axis for the feet to terminate against, so both ends are free (§4.1)."""
+    pitch = W + gap() if pitch is None else pitch
+    x0 = C - (len(heights) - 1) * pitch / 2.0
+    return [bar((x0 + i * pitch, base), (x0 + i * pitch, base - h))
+            for i, h in enumerate(heights)]
+
+CHART_H = (7.0, 13.0, BAR_MAX, 8.0, 11.0)      # busy-times: rises, peaks, falls
+
+def chart():
+    """Five columns, non-monotonic. The profile is the only thing separating this
+       from `signal` — same block, same pitch, same footprint — so it has to fall
+       at least once or the two icons are one icon."""
+    return lambda u: ink(*bars(list(CHART_H)))
+
+def signal():
+    """Five bars, even steps: BAR_MAX * i/n, so the ramp is linear rather than
+       eyeballed and the shortest bar is a fifth of the tallest."""
+    hs = [BAR_MAX * (i + 1) / float(BAR_N) for i in range(BAR_N)]
+    return lambda u: ink(*bars(hs))
+
+def activity():
+    """The route polyline flattened onto a baseline: a level run, one spike, a
+       level run. Occupancy over time, not a value per category — which is why
+       it is a continuous line and `chart` is discrete columns.
+
+       Ink lands on 20 x 16: the horizontal-rect keyline, which is the one that
+       fits a form with a dominant axis (§2.2)."""
+    def f(u):
+        y, lo, hi = C, 19.0, 5.0
+        return ink('M%sL%sL%sL%sL%sL%s'
+                   % (f2((3.0, y)), f2((7.5, y)), f2((10.5, hi)),
+                      f2((13.5, lo)), f2((16.5, y)), f2((21.0, y))))
+    return f
+
+# ---- POI primitives -------------------------------------------------------
+# bolt. Point-symmetric about the canvas centre, six vertices: two tips, two
+# extremes, two shelf returns. Every published bolt is this figure; what is
+# NOT published is a waist wide enough to survive being outlined at W, which is
+# why the shelf returns sit further out here than the usual drawing puts them.
+BOLT_A = (3.0, 9.5)     # tip, offset from centre (dx, -dy)
+BOLT_E = (7.5, 2.0)     # extreme. Both sit half a unit proud of the keyline:
+                        # the corner profile eats ~0.5 off every vertex, so the
+                        # DRAWN figure lands on 16 x 20 — the vertical rect.
+BOLT_W = 4.0            # waist: the perpendicular distance from the shelf
+                        # return to the opposite long edge. Outlined at W that
+                        # leaves gap() of counter, which is the whole reason it
+                        # is solved rather than drawn.
+BOLT_E_K = 1.3          # flat extent, navigation's — the tips are 35 degrees,
+                        # far sharper than warning's 54, so e_apex() over-reaches
+                        # and a uniform RADIUS would take 2.4 off each point.
+
+def _bolt_pts():
+    ax, ay = BOLT_A
+    ex, ey = BOLT_E
+    A  = (C + ax, C - ay)
+    E  = (C + ex, C - ey)
+    Ep = (C - ex, C + ey)
+    # solve the shelf return's x so the waist lands on BOLT_W
+    d  = unit((Ep[0] - A[0], Ep[1] - A[1]))
+    n  = (-d[1], d[0])
+    # S sits on the shelf, i.e. at E's height; its distance from the A->E' edge
+    # is (S - A).n, so sx follows directly — on whichever side of that edge the
+    # body actually lies, which is the side E is on
+    side = math.copysign(1.0, (E[0] - A[0]) * n[0] + (E[1] - A[1]) * n[1])
+    sy = C - ey
+    sx = A[0] + (side * BOLT_W - (sy - A[1]) * n[1]) / n[0]
+    S  = (sx, sy)
+    Sp = (2 * C - sx, 2 * C - sy)
+    Ap = (2 * C - A[0], 2 * C - A[1])
+    return [Ep, Sp, Ap, E, S, A]
+
+def bolt(fill=False):
+    """Charging speed, bare. Fill is the line silhouette flooded — identical
+       footprint (§5.1), and what it spends its extra mass on is closing the
+       waist counter, which is the only counter the figure has."""
+    def f(u):
+        p = ngon(_bolt_pts(), BOLT_E_K)
+        return solidify(p) if fill else ink(p)
+    return f
+
+def droplet(cx, cy, r, ay):
+    """A circle and an apex joined by their common tangents, so the shoulder is
+       tangent-continuous at any radius rather than a drawn curve. location()'s
+       construction, lifted — three copies of it existed inline.
+
+       The apex may sit either side of the centre; the arc always wraps the far
+       side, so the start point swaps with the sign."""
+    dy = ay - cy
+    tx = r * r / dy
+    ty = r * math.sqrt(dy * dy - r * r) / abs(dy)
+    L, R = (cx - ty, cy + tx), (cx + ty, cy + tx)
+    P, Q = (L, R) if dy > 0 else (R, L)
+    return 'M%sA%g %g 0 1 1 %sL%sZ' % (f2(P), r, r, f2(Q), f2((cx, ay)))
+
+WATER = (6.2, 13.8, 3.4)     # r, circle centre y, apex y — location's droplet
+                             # inverted: apex up, and no counter, so the two
+                             # never share a silhouette
+
+def water(fill=False):
+    def f(u):
+        r, cy, ay = WATER
+        d = droplet(C, cy, r, ay)
+        return solidify(d) if fill else ink(d)
+    return f
+
+def arcs(n, cx, cy, span, r0, pitch=None):
+    """n concentric arcs struck from one origin, opening upward. Radial pitch is
+       volume's wave pitch: W + gap(), i.e. the arcs clear each other by exactly
+       the stroke floor."""
+    pitch = W + gap() if pitch is None else pitch
+    a = -math.pi / 2
+    return ''.join(arc(cx, cy, r0 + i * pitch, a - span, a + span)
+                   for i in range(n))
+
+WIFI_O    = (12.0, 18.0)
+WIFI_N    = 3
+WIFI_SPAN = math.radians(44.0)
+
+def wifi():
+    """A device and three waves. The first radius is not chosen: it is the dot's
+       own ink plus gap() plus a half stroke, the same solve volume makes for the
+       air between its cone mouth and its first wave."""
+    def f(u):
+        cx, cy = WIFI_O
+        rd = r_mark()
+        return (dot(cx, cy, rd)
+                + ink(arcs(WIFI_N, cx, cy, WIFI_SPAN, rd + gap() + W / 2)))
+    return f
+
+# parking. Square container, not circle: the NPS symbol has no container at all,
+# a bare P, so the container here is doing typographic work — holding the letter
+# off the label beside it — and a box is what a letter sits in.
+PARK_STEM  = 9.5        # stem x. The bowl hangs right of it, so the figure is
+                        # left-heavy and the whole letter shifts +0.5 to centre
+                        # optically rather than metrically.
+PARK_BOWL  = (7.5, 12.5, 2.5)    # arm y top, arm y bottom, bowl radius
+PARK_FOOT  = 16.5
+
+def _p_glyph(grow=0.0):
+    """A capital P as a skeleton: stem, top arm, bowl, return.
+
+       `grow` is §6.2/§6.3's knockout compensation. The bowl radius takes +0.25
+       and the two arms move 0.25 apart each, which opens the counter by the
+       +0.5 §6.3 measures on info-circle — applied to the glyph, never to W."""
+    x = PARK_STEM
+    y0, y1, r = PARK_BOWL
+    y0 -= grow; y1 += grow; r += grow
+    return ('M%sL%sL%sA%g %g 0 0 1 %sL%s'
+            % (f2((x, PARK_FOOT)), f2((x, y0)), f2((C, y0)), r, r,
+               f2((C, y1)), f2((x, y1))))
+
+def parking(fill=False):
+    def f(u):
+        box, sol = rrect(4, 4, 16, 16), rrect_out(4, 4, 16, 16)
+        if fill:
+            return ('<mask id="k%s" maskUnits="userSpaceOnUse"><path d="%s" '
+                    'fill="#fff"/>%s</mask><path d="%s" fill="currentColor" '
+                    'mask="url(#k%s)"/>'
+                    % (u, sol, ink(_p_glyph(ct_grow()), c='#000'), sol, u))
+        return ink(box) + ink(_p_glyph())
+    return f
+
+# ---- landform -------------------------------------------------------------
+# The live collision in this pack is `mountain` against `campground`: both are
+# two triangles on a ground datum, and at 16px that is one icon. Three things
+# separate them here, and all three are structural rather than stylistic:
+#
+#   1. ONE silhouette. campground is two tents with a moat cut between them, so
+#      it reads as two objects; a range is a single closed outline with a saddle,
+#      so it reads as one landform.
+#   2. The horizontal-rect keyline (20 x 16) against campsite's square 18 x 18 —
+#      a mountain is wider than it is tall, a tent is not.
+#   3. A snow line. campsite's counter is a doorway at the BASE; mountain's is a
+#      chevron near the PEAK. Different counter, different place, and it is the
+#      first thing that survives at small size.
+
+def _on_seg(P, Q, y):
+    t = (y - P[1]) / float(Q[1] - P[1])
+    return (P[0] + t * (Q[0] - P[0]), y)
+
+def _extents(pts, apexes, base_y, r=2.0):
+    """Per-vertex extents for a landform outline: a peak takes the apex reach
+       scaled to its own height (warning's ratio), everything else takes the
+       plain §4.2 exterior radius. One flat extent cannot serve both — at a
+       55-degree peak r=2 needs a 3-unit tangent, and at a 67-degree foot it
+       needs 3.03, but at the 108-degree saddle it needs 1.46."""
+    es, n = [], len(pts)
+    for i, V in enumerate(pts):
+        A, B = pts[(i - 1) % n], pts[(i + 1) % n]
+        din  = unit((V[0] - A[0], V[1] - A[1]))
+        dout = unit((B[0] - V[0], B[1] - V[1]))
+        es.append(e_apex(base_y - V[1]) if i in apexes else e_for_r(r, din, dout))
+    return es
+
+# Anchors sit proud of the target on every side, because the corner profile eats
+# a different amount at each vertex — 0.75 at the west foot, 0.54 at the east
+# (the slopes differ), 1.29 at the peak. Solved against the drawn result, which
+# is the only thing a keyline can be measured on.
+MOUNT_PTS = [(2.25, 21.0), (9.32, 5.7), (15.5, 15.5), (18.5, 11.0), (21.54, 21.0)]
+MOUNT_BASE = 21.0            # the ground datum campsite also sits on
+MOUNT_SNOW = (12.0, 1.0)     # snow-line height, and how far its middle dips
+# The saddle sits deep — 9.8 below the main peak — and that is what makes the
+# snow line possible at all. A shallow saddle crowds the main peak from below,
+# and the snow line then has to ride so high that the counter left above it is a
+# 2 x 1.9 sliver with an inradius of 0.55: a clogged aperture, and the §7 floor
+# is 1.0. Dropping the saddle lengthens the main peak's right slope, which lets
+# the snow line sit at 12 with 1.12 of inradius above it and 4.18 of clearance
+# from its dip to the saddle. A deep saddle also reads less like two tents on a
+# shared ground line, which is the collision this icon has to win.
+
+def mountain(fill=False):
+    """A range: two peaks, one outline, a snow line on the main peak.
+
+       The snow line terminates ON the two slopes with butt caps — it is a
+       boundary drawn across a mass, not a second object, so it takes no
+       clearance from the walls it meets (§4.1). In the fill it becomes a crease
+       of exactly W: a negative line inside a solid is the same width as the
+       stroke it replaces, and it is the only counter the figure has to spend
+       its extra mass on (§5.3)."""
+    def f(u):
+        pts = MOUNT_PTS
+        y, dip = MOUNT_SNOW
+        L = _on_seg(pts[0], pts[1], y)          # up the left slope
+        R = _on_seg(pts[1], pts[2], y)          # down into the saddle
+        snow = 'M%sL%sL%s' % (f2(L), f2(((L[0] + R[0]) / 2, y + dip)), f2(R))
+        body = ngon(pts, _extents(pts, {1, 3}, MOUNT_BASE))
+        if fill:
+            return knockout(u, solidify(body), snow, crease(), cap='butt')
+        return ink(body) + ink(snow, cap='butt')
+    return f
+
+# park. The proposal drew this as a notched gable + trunk, i.e. a conifer, and
+# that does not survive being outlined: two tiers put the underside of the upper
+# slope 2.29 from the lower one, so the step closes at W (§3.2 step 4 — reduce
+# the count, and one tier of a conifer is just campsite wearing a trunk). A
+# broadleaf canopy is one arc, has no step to close, and settles the proposal's
+# own open question 3 — park against mountain at 16px — by not being a triangle.
+PARK_TREE = (10.0, 7.0, 2.0, 21.0)      # canopy centre y, canopy r, trunk half-width, foot y
+
+def park(fill=False):
+    """Canopy and trunk as ONE silhouette: the trunk's sides are chords of the
+       canopy, so the two meet tangentially rather than crossing."""
+    def f(u):
+        cy, r, tw, fy = PARK_TREE
+        ty = cy + math.sqrt(r * r - tw * tw)     # where the trunk leaves the arc
+        Rt, Lt = (C + tw, ty), (C - tw, ty)
+        d = ('M%sA%g %g 0 1 0 %sL%sL%sZ'
+             % (f2(Rt), r, r, f2(Lt), f2((C - tw, fy)), f2((C + tw, fy))))
+        return solidify(d) if fill else ink(d)
+    return f
+
+# picnic-table. Line only, and that is a construction fact rather than an
+# omission: the figure is four bars, so it has no interior to flood. solidify()
+# on an open run returns the run, which would ship a fill variant identical to
+# its line variant — the exact bug Appendix A flags on dock-right-fill. If the
+# app needs a selected state here it belongs on the chip, not the glyph.
+PICNIC_TOP  = 6.5
+PICNIC_FOOT = 20.5
+PICNIC_BENCH = 14.0
+PICNIC_LEG = ((7.5, 4.0), (16.5, 20.0))   # (top x, foot x) per leg
+
+def picnic_table():
+    def f(u):
+        (ltx, lfx), (rtx, rfx) = PICNIC_LEG
+        legs = [bar((ltx, PICNIC_TOP), (lfx, PICNIC_FOOT)),
+                bar((rtx, PICNIC_TOP), (rfx, PICNIC_FOOT))]
+        return ink(bar((3.0, PICNIC_TOP), (21.0, PICNIC_TOP)),
+                   bar((5.0, PICNIC_BENCH), (19.0, PICNIC_BENCH)), *legs)
+    return f
+
 def registry():
     R = {}
     for k in D8:
@@ -1793,6 +2213,18 @@ def registry():
     R['campsite'] = campsite(); R['campsite-fill'] = campsite(True)
     R['campground'] = campground(); R['campground-fill'] = campground(True)
     R['ev-charger'] = ev_charger()
+
+    R['map'] = map_icon(); R['layers'] = layers()
+    R['route'] = route(); R['compass'] = compass()
+    R['circle'] = circle_icon(); R['circle-fill'] = circle_icon(True)
+    R['chart'] = chart(); R['signal'] = signal(); R['activity'] = activity()
+    R['bolt'] = bolt(); R['bolt-fill'] = bolt(True)
+    R['water'] = water(); R['water-fill'] = water(True)
+    R['parking'] = parking(); R['parking-fill'] = parking(True)
+    R['wifi'] = wifi()
+    R['mountain'] = mountain(); R['mountain-fill'] = mountain(True)
+    R['park'] = park(); R['park-fill'] = park(True)
+    R['picnic-table'] = picnic_table()
     return R
 
 def build(w=2.0):
