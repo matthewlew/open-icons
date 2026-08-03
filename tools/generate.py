@@ -129,8 +129,9 @@ def arc(cx, cy, r, a0, a1, sweep=1):
 
 def ink(*ds, **kw):
     return ('<path d="%s" fill="none" stroke="%s" stroke-width="%g" '
-            'stroke-linecap="round" stroke-linejoin="round"/>'
-            % (''.join(ds), kw.get('c', 'currentColor'), kw.get('w', W)))
+            'stroke-linecap="%s" stroke-linejoin="round"/>'
+            % (''.join(ds), kw.get('c', 'currentColor'), kw.get('w', W),
+               kw.get('cap', 'round')))
 
 def solid(*ds, **kw):
     return '<path d="%s" fill="%s"/>' % (''.join(ds), kw.get('c', 'currentColor'))
@@ -762,18 +763,36 @@ def call(fill=False):
     return f
 
 # ---- status ---------------------------------------------------------------
+def e_for_r(r, din, dout):
+    """Corner extent that lands a given corner RADIUS at a given vertex angle.
+
+       `e` is a tangent length, not a radius: corner() puts the curve's ends e
+       back along each edge. For a corner of interior angle th the inscribed
+       radius is e*tan(th/2), so going the other way is e = r/tan(th/2). Which
+       matters the moment one polygon has vertices of different sharpness — a
+       triangle's apex needs a much longer reach than its base corners to read
+       at the same r, and a single flat extent gives the two corners visibly
+       different roundness. §4.2 specifies a radius, so solve for it."""
+    cos_th = -(din[0] * dout[0] + din[1] * dout[1])       # interior angle
+    th = math.acos(max(-1.0, min(1.0, cos_th)))
+    return r / math.tan(th / 2.0)
+
 def ngon(pts, e, cp=CP_BOX):
     """Closed polygon with every vertex rounded to extent e on the given profile.
        Arrival and departure directions come from the neighbours, so the same
-       call handles a triangle, a play button or a gear tooth."""
+       call handles a triangle, a play button or a gear tooth.
+
+       `e` may be a per-vertex sequence, for a polygon whose corners are not all
+       the same angle — see e_for_r()."""
     n = len(pts)
+    es = list(e) if isinstance(e, (list, tuple)) else [e] * n
     segs = []
     for i in range(n):
         P, Q, R = pts[(i - 1) % n], pts[i], pts[(i + 1) % n]
         din  = unit((Q[0] - P[0], Q[1] - P[1]))
         dout = unit((R[0] - Q[0], R[1] - Q[1]))
-        ei = min(e, math.hypot(Q[0] - P[0], Q[1] - P[1]) / 2,
-                    math.hypot(R[0] - Q[0], R[1] - Q[1]) / 2)
+        ei = min(es[i], math.hypot(Q[0] - P[0], Q[1] - P[1]) / 2,
+                        math.hypot(R[0] - Q[0], R[1] - Q[1]) / 2)
         segs.append((Q, din, dout, ei))
     Q, din, dout, ei = segs[0]
     out = 'M' + f2((Q[0] - ei * din[0], Q[1] - ei * din[1]))
@@ -1517,6 +1536,177 @@ def grid_dense():
 # ============================================================================
 # REGISTRY
 # ============================================================================
+# ---- facilities pack ------------------------------------------------------
+# A tent is a gable: an isosceles triangle standing on a ground datum, with a
+# flap that is the same triangle scaled about the base midpoint. Everything
+# here is derived from four numbers per tent (centre, ground, half-width,
+# height) so the family stays one drawing at two scales.
+#
+# Corners go through ngon(), NOT as raw M-L-L-Z spikes — §4.2 puts every
+# exterior corner on a radius and the set has no sharp-vertex allowance.
+#
+# The extent is warning's, scaled to the form. Solving e_for_r() for a literal
+# r=2 was tried first and over-rounds: e = r/tan(th/2) blows up as the apex
+# sharpens, and on a tent (half-angle 26deg vs warning's 28) it pulled the peak
+# ~3 units below its own vertex — a decapitated tent, measurably rounder than
+# the set's only shipped triangle. warning reads correctly at TRI_E over a
+# 14-tall triangle, so that ratio is the family constant and every tent takes
+# its extent from its own height. §3.2 step 6: ease the corner as the form
+# shrinks, don't switch corner families.
+TENT_EK = TRI_E / 14.0     # extent per unit of tent height (TRI_E = 2.9)
+TENT_AR = 0.51585          # half-width : height, one aspect for the family.
+                           # Solved, not styled: at this ratio the rounded
+                           # silhouette's own bbox comes out square, which is
+                           # what puts campsite on the 18x18 keyline (§2.2) with
+                           # its ink filling the 20x20 live area exactly.
+
+def ct_grow(): return 0.125 * W   # §6.2: a counter that flips positive ->
+                                  # knockout grows +0.25 at 24 (= 0.125 W)
+
+def _tent_pts(cx, by, hw, h):
+    """Apex, base-right, base-left. Wound so ngon() sees a consistent turn."""
+    return [(cx, by - h), (cx + hw, by), (cx - hw, by)]
+
+def _tent(cx, by, hw, h):
+    return ngon(_tent_pts(cx, by, hw, h), TENT_EK * h)
+
+def flap_k(hw, h):
+    """How far up the tent the door reaches, SOLVED from clearance rather than
+       eyeballed off the draft.
+
+       Scaling the door about the base midpoint keeps its legs parallel to the
+       walls, so the wall-to-door gap is one constant for the whole run: the
+       horizontal offset hw(1-k) laid perpendicular, less one stroke. Setting
+       that to gap() and solving is what fixes the draft's 1.24 — legal under
+       §7's absolute floor of 1, but under its default of 2, and the draft also
+       closed the door's base straight along the tent's own base so the two
+       strokes were drawn on top of each other (measured clearance: 0.00)."""
+    return 1.0 - 2.0 * W * math.hypot(hw, h) / (hw * h)
+
+def _flap(cx, by, hw, h):
+    """The door as an open run, not a closed triangle: up one leg, over the
+       apex, down the other. §4.1 — butt where a stroke terminates against
+       another form, which is what both feet do on the tent's own base."""
+    k = flap_k(hw, h)
+    return 'M%sL%sL%s' % (f2((cx - hw * k, by)), f2((cx, by - h * k)),
+                          f2((cx + hw * k, by)))
+
+def _flap_hole(cx, by, hw, h):
+    """The same door as an area, for the knockout. Its base runs W/2 PAST the
+       ground so the opening punches through the solidified tent's bottom edge
+       instead of leaving a sliver of ink under the door — home's fill does the
+       same thing with its own doorway."""
+    k = flap_k(hw, h)
+    foot = by + W / 2
+    return ngon([(cx, by - h * k), (cx + hw * k, foot), (cx - hw * k, foot)],
+                TENT_EK * h * k)
+
+def hole_mask(u, hole, grow, key='h'):
+    """Cut `hole` out of the wrapped body as an AREA, grown `grow` on every side.
+
+       This is §5.2a — solid body, glyph reused verbatim as a knockout — plus
+       §6.2's counter compensation, applied by stroking the mask path rather
+       than redrawing it at a second size. Distinct from knockout(), which
+       strokes a path it does NOT fill and so cuts a groove; a groove is right
+       for eye's off-slash and wrong for a doorway."""
+    return ('<mask id="%s%s" maskUnits="userSpaceOnUse"><rect width="24" '
+            'height="24" fill="#fff"/><path d="%s" fill="#000" stroke="#000" '
+            'stroke-width="%g" stroke-linejoin="round"/></mask>'
+            % (key, u, hole, grow * 2))
+
+def _masked(u, body, key='h'):
+    return '<g mask="url(#%s%s)">%s</g>' % (key, u, body)
+
+CAMPSITE = (12.0, 21.0, 10.1369, 19.6508)   # cx, ground y, half-width, height
+                                            # -> path bbox 18x18 at 3..21, ink
+                                            # 2..22 on both axes
+
+def campsite(fill=False):
+    """One tent, alone, on a ground line: a specific, reservable site.
+
+       Fill is the §5.2a boolean, not a redraw: solidify() puts the mass at the
+       line variant's own outer edge (fill + stroke at W is exactly that offset,
+       so the footprint is identical per §5.1), and the door is knocked out as
+       the same geometry, grown by ct_grow()."""
+    def f(u):
+        cx, by, hw, h = CAMPSITE
+        tent = _tent(cx, by, hw, h)
+        if fill:
+            return (hole_mask(u, _flap_hole(cx, by, hw, h), ct_grow())
+                    + _masked(u, solidify(tent)))
+        return ink(tent) + ink(_flap(cx, by, hw, h), cap='butt')
+    return f
+
+# The whole facility rather than one site. The draft carried a single bare
+# diagonal here, which is the one thing the review explicitly ruled out: a bare
+# stroke has no peak of its own, so it reads as a stray line rather than as
+# another tent — and its free upper end could not take a round cap without
+# looking like a dropped match, while its lower end had to be butt to sit on
+# the ground. Two ends, two rules, one path: that is the tell that it was the
+# wrong primitive.
+#
+# The second tent stands BEHIND the first rather than beside it. Side by side,
+# the live area only leaves room for a nub: holding gap() at the ground between
+# two full tents caps the far one at ~4 units wide, and the near one has to
+# narrow so far that its own door falls under the clearance floor. Overlapping
+# with a moat is the set's existing answer to exactly this (photo-stack's
+# plates, people's heads), so the far tent is occluded by the near one's
+# silhouette dilated by moat().
+#
+# The pair is fitted as one object: two tents plus a moat cannot also be 18
+# tall inside a 20-unit live area, so campground lands the 18 on width and
+# takes the shorter axis — the same one-axis conformance warning ships with.
+# The tents keep TENT_AR, so they read as campsite redrawn smaller rather than
+# campsite scaled (§3).
+CAMPGROUND = ((9.1910, 21.0, 6.9733, 13.5180),    # near
+              (16.5299, 21.0, 5.0305, 9.7519))    # far, peak clear of the wall
+
+def campground(fill=False):
+    """Near tent with its door, far tent behind it, no door.
+
+       The far tent drops the door rather than shrinking it: §3.2 step 4 says
+       reduce detail within the vocabulary when clearance runs out, and at that
+       scale flap_k() solves negative — there is no door that clears."""
+    def f(u):
+        (nx, ny, nhw, nh), (fx, fy, fhw, fh) = CAMPGROUND
+        near = _tent(nx, ny, nhw, nh)
+        far  = _tent(fx, fy, fhw, fh)
+        # the near tent's own silhouette, plus a crossing moat, cut out of the
+        # far one — so the far tent reads as passing behind, not through
+        occl = (hole_mask(u, near, W / 2 + moat(), key='o')
+                + _masked(u, ink(far), key='o'))
+        if fill:
+            return (occl + hole_mask(u, _flap_hole(nx, ny, nhw, nh), ct_grow())
+                    + _masked(u, solidify(near)))
+        return occl + ink(near) + ink(_flap(nx, ny, nhw, nh), cap='butt')
+    return f
+
+# ev-charger — recommendation A from the facilities-pack review. The body is
+# fuel's own tank silhouette verbatim (so "is this a pump" is true by
+# construction, not by eye), the bolt is the standalone bolt path at half
+# scale centred on the tank, and the cable ends in a straight two-prong plug —
+# the NPS electrical-hookup symbol's prong pair, not a bent gas nozzle.
+_TANK      = 'M4.6 20.5V6.6C4.6 5.5 5.5 4.6 6.6 4.6H11.6C12.7 4.6 13.6 5.5 13.6 6.6V20.5'
+_TANK_BASE = ((2.9, 20.5), (15.3, 20.5))
+_BOLT      = 'M10.1 7.85L5.9 13.35H8.8L8.1 17.25L12.3 11.75H9.4Z'
+_CABLE     = 'M13.6 15.4H18.4C19.17 15.4 19.8 14.77 19.8 14V9.8'
+_PLUG      = (17.8, 6.4, 3.8, 3.4)                        # housing x, y, w, h
+_PRONGS    = (((18.2, 4.0), (1.0, 2.4)), ((20.2, 4.0), (1.0, 2.4)))
+
+def _rect_path(x, y, w, h):
+    return 'M%sH%gV%gH%gZ' % (f2((x, y)), x + w, y + h, x)
+
+def ev_charger():
+    def f(u):
+        x, y, w, h = _PLUG
+        out = (ink(_TANK, bar(*_TANK_BASE), cap='butt')
+               + solid(_BOLT) + ink(_CABLE, cap='butt')
+               + ink(rrect(x, y, w, h, 1.0)))
+        for (px, py), (pw, ph) in _PRONGS:
+            out += solid(_rect_path(px, py, pw, ph))
+        return out
+    return f
+
 def registry():
     R = {}
     for k in D8:
@@ -1599,6 +1789,10 @@ def registry():
     R['copy'] = copy_icon(); R['copy-fill'] = copy_icon(True)
     R['photo'] = photo(); R['photo-fill'] = photo(True)
     R['photo-stack'] = photo_stack(); R['photo-stack-fill'] = photo_stack(True)
+
+    R['campsite'] = campsite(); R['campsite-fill'] = campsite(True)
+    R['campground'] = campground(); R['campground-fill'] = campground(True)
+    R['ev-charger'] = ev_charger()
     return R
 
 def build(w=2.0):
