@@ -2239,6 +2239,98 @@ def trailer(fill=False):
                 + ink(bar(*TRAILER_TONGUE)))
     return f
 
+# ---- amenities ------------------------------------------------------------
+# Line only, all of them. These appear as inline markers in a list, never as a
+# selected state, so there is nothing for the line/fill flip to signal (§9).
+
+def ellipse(cx, cy, rx, ry):
+    return ('M%sA%g %g 0 1 0 %sA%g %g 0 1 0 %sZ'
+            % (f2((cx, cy - ry)), rx, ry, f2((cx, cy + ry)),
+               rx, ry, f2((cx, cy - ry))))
+
+# the head's lower corners sit 0.6 proud of the keyline; the r=2 corner eats
+# exactly that much, and the keyline is measured on the drawn result
+SHOWER_HEAD  = [(7.0, 5.5), (17.0, 5.5), (19.6, 9.5), (4.4, 9.5)]
+SHOWER_STEM  = ((12.0, 3.0), (12.0, 5.5))
+SHOWER_SPRAY = (((8.0, 13.5), (5.5, 20.5)), ((12.0, 13.5), (12.0, 20.5)),
+                ((16.0, 13.5), (18.5, 20.5)))
+
+def shower():
+    """Ceiling rose and three falling lines. The head is 4 deep, not 3: at 3 its
+       interior closes at W. The spray diverges rather than falling straight —
+       parallel lines at this pitch read as a barcode, and divergence is also
+       what puts gap() between them at the top instead of 1."""
+    def f(u):
+        return (ink(ngon_r(SHOWER_HEAD, 2.0))
+                + ink(bar(*SHOWER_STEM))
+                + ink(*[bar(*s) for s in SHOWER_SPRAY]))
+    return f
+
+# campfire. The proposal asked for a flame with an inner counter. It does not
+# fit: an inner shape needs gap() from the outer wall on both sides, so the
+# outer interior has to carry 2 + 2 + 2 before the inner shape has any width,
+# and this flame's interior is 7. §3.2 step 4 — reduce within the vocabulary.
+# What carries the meaning instead is the notch at the flame's base, which is
+# what makes it a flame rather than water's droplet.
+FLAME_PTS = [(12.0, 3.0), (16.5, 10.5), (15.0, 14.5),
+             (12.0, 12.8), (9.0, 14.5), (7.5, 10.5)]
+FLAME_BASE = 14.5
+CAMP_LOGS = (((4.0, 21.0), (20.0, 18.5)), ((4.0, 18.5), (20.0, 21.0)))
+
+def campfire():
+    def f(u):
+        flame = ngon(FLAME_PTS, _extents(FLAME_PTS, {0}, FLAME_BASE))
+        return ink(flame) + ink(*[bar(*l) for l in CAMP_LOGS])
+    return f
+
+PAW_TOES = ((5.0, 10.0), (9.5, 7.0), (14.5, 7.0), (19.0, 10.0))
+PAW_PAD  = [(12.0, 14.0), (17.2, 16.5), (15.7, 21.0), (8.3, 21.0), (6.8, 16.5)]
+
+def pets():
+    """Four toes and a pad, all solid: a paw print is an impression, not an
+       outline. Toe pitch is §8.4's — centre distance 2r + gap() — which is what
+       pushes the outer pair down and out rather than letting them sit in a row."""
+    def f(u):
+        return (''.join(dot(x, y, r_mark()) for x, y in PAW_TOES)
+                + solid(ngon_r(PAW_PAD, 2.0)))
+    return f
+
+FORK_X    = (3.5, 7.5, 11.5)     # tine pitch 4 = W + gap(); at 3 the slots close
+FORK_TOP  = 3.0
+FORK_NECK = 8.5
+UTENSIL_FOOT = 21.0
+SPOON = (18.0, 7.0, 2.5, 3.5)    # cx, cy, rx, ry
+
+def food():
+    """Fork and spoon, not fork and knife: a knife at this size is a bar with a
+       taper, and next to a fork's handle it is two bars. The spoon's bowl is an
+       ellipse because a circle wide enough to read as a bowl does not clear the
+       fork."""
+    def f(u):
+        cx, cy, rx, ry = SPOON
+        tines = [bar((x, FORK_TOP), (x, FORK_NECK)) for x in FORK_X]
+        return (ink(*tines, bar((FORK_X[0], FORK_NECK), (FORK_X[-1], FORK_NECK)),
+                    bar((FORK_X[1], FORK_NECK), (FORK_X[1], UTENSIL_FOOT)))
+                + ink(ellipse(cx, cy, rx, ry))
+                + ink(bar((cx, cy + ry), (cx, UTENSIL_FOOT))))
+    return f
+
+STORE_AWNING = [(5.0, 4.0), (19.0, 4.0), (21.6, 8.0), (2.4, 8.0)]
+STORE_BODY   = ((4.0, 8.0), (4.0, 21.0), (20.0, 21.0), (20.0, 8.0))
+STORE_DOOR   = ((10.0, 21.0), (10.0, 15.0), (14.0, 15.0), (14.0, 21.0))
+
+def store():
+    """An awning over a shopfront. The body is an open run, not a box: its top
+       edge is the awning's bottom edge, and drawing it twice would put two
+       strokes on one line. Both it and the door terminate against something, so
+       both take butt caps (§4.1)."""
+    def f(u):
+        run = lambda ps: 'M%s' % f2(ps[0]) + ''.join('L' + f2(p) for p in ps[1:])
+        return (ink(ngon_r(STORE_AWNING, 2.0))
+                + ink(run(STORE_BODY), cap='butt')
+                + ink(run(STORE_DOOR), cap='butt'))
+    return f
+
 def registry():
     R = {}
     for k in D8:
@@ -2343,6 +2435,8 @@ def registry():
     R['car'] = car(); R['car-fill'] = car(True)
     R['rv'] = rv(); R['rv-fill'] = rv(True)
     R['trailer'] = trailer(); R['trailer-fill'] = trailer(True)
+    R['shower'] = shower(); R['campfire'] = campfire()
+    R['pets'] = pets(); R['food'] = food(); R['store'] = store()
     return R
 
 def build(w=2.0):
