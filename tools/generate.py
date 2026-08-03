@@ -1696,14 +1696,59 @@ _PRONGS    = (((18.2, 4.0), (1.0, 2.4)), ((20.2, 4.0), (1.0, 2.4)))
 def _rect_path(x, y, w, h):
     return 'M%sH%gV%gH%gZ' % (f2((x, y)), x + w, y + h, x)
 
-def ev_charger():
+# fuel and ev-charger are the same machine — same tank, same plinth, same arm
+# geometry. What differs is the mark on the face and what the arm ends in, which
+# is exactly the difference between the two things in the world. Sharing the
+# body makes "is this the same kind of object" true by construction.
+_TANK_CLOSED = _TANK + 'Z'
+_HOSE  = 'M13.6 15.4H18.4C19.17 15.4 19.8 14.77 19.8 14V8.6H17.6'
+_DROP  = (9.1, 14.2, 2.0, 8.8)     # cx, circle cy, r, apex y — sized so its ink
+                                   # clears the tank wall by gapm() on both sides
+
+def _pump(u, mark, arm, fill):
+    """Pump body, a mark on its face, an arm. On the flip the mark goes from ink
+       to knockout and grows by ct_grow() (§6.2); the plinth stays ink in both,
+       since it is a separate form the mark never touches."""
+    if fill:
+        return (ink(bar(*_TANK_BASE), cap='butt')
+                + hole_mask(u, mark, ct_grow())
+                + _masked(u, solidify(_TANK_CLOSED)) + arm)
+    return ink(_TANK, bar(*_TANK_BASE), cap='butt') + solid(mark) + arm
+
+def _plug_arm():
+    x, y, w, h = _PLUG
+    out = ink(_CABLE, cap='butt') + ink(rrect(x, y, w, h, 1.0))
+    for (px, py), (pw, ph) in _PRONGS:
+        out += solid(_rect_path(px, py, pw, ph))
+    return out
+
+def ev_charger(fill=False):
+    return lambda u: _pump(u, _BOLT, _plug_arm(), fill)
+
+def fuel(fill=False):
+    """The same pump, dispensing a liquid. The droplet is water's own primitive
+       at mark scale, so `water`, `fuel` and `location` all come off one curve."""
+    cx, cy, r, ay = _DROP
+    return lambda u: _pump(u, droplet(cx, cy, r, ay), ink(_HOSE), fill)
+
+# ---- facilities -----------------------------------------------------------
+# restroom-figures. Two figures, equal, apart — NOT people's overlapping pair.
+# The scale is forced rather than chosen: two figures plus gap() inside the live
+# area is 4*half + 6 = 20, so half is 3.5 and s is 0.5 exactly. That puts the
+# head ring's counter at Ø2 — on the §7 floor, not under it, but it is the first
+# thing that will need reworking when the 16px master is drawn.
+RESTROOM_S  = 0.5
+RESTROOM_DX = 5.5
+RESTROOM_HY = 7.0
+RESTROOM_BASE = 20.5
+
+def restroom_figures(fill=False):
     def f(u):
-        x, y, w, h = _PLUG
-        out = (ink(_TANK, bar(*_TANK_BASE), cap='butt')
-               + solid(_BOLT) + ink(_CABLE, cap='butt')
-               + ink(rrect(x, y, w, h, 1.0)))
-        for (px, py), (pw, ph) in _PRONGS:
-            out += solid(_rect_path(px, py, pw, ph))
+        out = ''
+        for cx in (C - RESTROOM_DX, C + RESTROOM_DX):
+            (x, hy, rh), body, _ = _person(s=RESTROOM_S, cx=cx, hy=RESTROOM_HY,
+                                           base=RESTROOM_BASE)
+            out += _head_ring(x, hy, rh, fill) + _body_paint(body, fill)
         return out
     return f
 
@@ -2127,6 +2172,73 @@ def picnic_table():
                    bar((5.0, PICNIC_BENCH), (19.0, PICNIC_BENCH)), *legs)
     return f
 
+# ---- vehicles -------------------------------------------------------------
+# One chassis for the three of them, so they read as a family and differ only
+# where the vehicles actually differ. Wheels are cart's, not new: solid marks of
+# r_mark() sitting gapm() under the body's ink, which is the datum that already
+# puts cart's wheels at 20.5 when W is 2.
+#
+# Every one of them takes the same fill counter — a belt line, drawn as ink in
+# the line variant and cut as a crease() groove in the fill. That is file's
+# dog-ear treatment, and it is the only counter a vehicle silhouette has that is
+# not a window; a window does not fit. The coach interior is 9 units tall, a
+# window needs gap() above and below, and what is left is 5 of ink for a 3-unit
+# opening — under the floor before it is drawn.
+CHASSIS_FLOOR = 16.5
+
+def wheel_y(): return CHASSIS_FLOOR + W / 2 + gapm() + r_mark()   # 20.5 @ 2
+
+def wheels(*xs):
+    return ''.join(dot(x, wheel_y(), r_mark()) for x in xs)
+
+def _vehicle(u, pts, belt, axles, fill):
+    body = ngon_r(pts, 2.0)
+    if fill:
+        return (knockout(u, solidify(body), belt, crease(), cap='butt')
+                + wheels(*axles))
+    return ink(body) + ink(belt, cap='butt') + wheels(*axles)
+
+CAR_PTS = [(3.0, 16.5), (3.0, 12.5), (7.5, 12.5), (10.0, 8.0),
+           (15.0, 8.0), (17.5, 12.5), (21.0, 12.5), (21.0, 16.5)]
+CAR_BELT = ((7.5, 12.5), (17.5, 12.5))
+CAR_AXLES = (7.5, 16.5)
+
+def car(fill=False):
+    """Body and cabin as one silhouette, split by the belt line. Two counters,
+       both at gap() + 0.5: the cabin 8..12.5 and the body 12.5..16.5."""
+    def f(u):
+        return _vehicle(u, CAR_PTS, bar(*CAR_BELT), CAR_AXLES, fill)
+    return f
+
+# The step over the cab is the whole icon: without it this is a bus. The recess
+# it leaves — bunk underside to hood — is held at 4 so the outline clears itself
+# by gap() through the notch; at NPS's proportions it comes out 2.5 and closes.
+RV_PTS = [(3.0, 16.5), (3.0, 5.5), (20.0, 5.5), (20.0, 8.5),
+          (17.0, 8.5), (17.0, 12.5), (21.0, 12.5), (21.0, 16.5)]
+RV_BELT = ((3.0, 12.5), (17.0, 12.5))
+RV_AXLES = (7.0, 18.0)
+
+def rv(fill=False):
+    def f(u):
+        return _vehicle(u, RV_PTS, bar(*RV_BELT), RV_AXLES, fill)
+    return f
+
+# trailer. The proposal wanted the tow vehicle drawn too, on the grounds that a
+# trailer without one is just a box. It is the TONGUE that says trailer, not the
+# tow vehicle — and two vehicles inside 20 units gives each about 8, at which
+# point neither is legible. The tongue leaves the bottom-front corner rather
+# than the wall above it, so there is no closing wedge between the two.
+TRAILER_PTS = [(6.5, 16.5), (6.5, 9.0), (8.5, 7.0), (21.0, 7.0), (21.0, 16.5)]
+TRAILER_BELT = ((6.5, 12.0), (21.0, 12.0))
+TRAILER_TONGUE = ((6.5, 16.5), (3.0, 14.5))
+TRAILER_AXLES = (14.0,)
+
+def trailer(fill=False):
+    def f(u):
+        return (_vehicle(u, TRAILER_PTS, bar(*TRAILER_BELT), TRAILER_AXLES, fill)
+                + ink(bar(*TRAILER_TONGUE)))
+    return f
+
 def registry():
     R = {}
     for k in D8:
@@ -2212,7 +2324,10 @@ def registry():
 
     R['campsite'] = campsite(); R['campsite-fill'] = campsite(True)
     R['campground'] = campground(); R['campground-fill'] = campground(True)
-    R['ev-charger'] = ev_charger()
+    R['ev-charger'] = ev_charger(); R['ev-charger-fill'] = ev_charger(True)
+    R['fuel'] = fuel(); R['fuel-fill'] = fuel(True)
+    R['restroom-figures'] = restroom_figures()
+    R['restroom-figures-fill'] = restroom_figures(True)
 
     R['map'] = map_icon(); R['layers'] = layers()
     R['route'] = route(); R['compass'] = compass()
@@ -2225,6 +2340,9 @@ def registry():
     R['mountain'] = mountain(); R['mountain-fill'] = mountain(True)
     R['park'] = park(); R['park-fill'] = park(True)
     R['picnic-table'] = picnic_table()
+    R['car'] = car(); R['car-fill'] = car(True)
+    R['rv'] = rv(); R['rv-fill'] = rv(True)
+    R['trailer'] = trailer(); R['trailer-fill'] = trailer(True)
     return R
 
 def build(w=2.0):
