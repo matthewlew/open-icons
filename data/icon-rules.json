@@ -1,0 +1,808 @@
+{
+  "name": "open-icons selection rules",
+  "version": "1.0.0",
+  "grid": 24,
+  "generated_by": "tools/build-icon-rules.py — do not hand-edit; has_fill and every cross-reference are validated against icons/names.json at build time",
+  "purpose": "Selection context for a consuming AI. Answers 'when do I reach for this one instead of that one', which prose cannot be queried for. Construction rules — grid, stroke, corners, clearance — are NOT here; they are in data/construction-tokens.json.",
+  "how_to_query": {
+    "by_icon": "icons[<name>] — use_when, not_when, instead_use, confusable_with.",
+    "by_confusion": "Look up any candidate, read confusable_with, then read the cluster's tiebreaker. The tiebreaker names the ONE axis that separates the members.",
+    "choosing_a_variant": "See fill_axis. Fill is a state, never a style.",
+    "choosing_a_container": "See container_shape.",
+    "if_absent": "An icon with no entry has no twin worth disambiguating. Absence means unambiguous, not undocumented."
+  },
+  "coverage": {
+    "policy": "Confusable clusters only. An entry earns its place by naming what it rules out.",
+    "icons_in_set": 216,
+    "icons_with_rules": 39,
+    "clusters": 12
+  },
+  "fill_axis": {
+    "rule": "Fill is a STATE, not a style. Line is resting; fill is selected / active / current.",
+    "endpoints_only": "There is nothing between line and fill. No intermediate values, no weight axis, no grade axis. The transition is a swap, not an animation.",
+    "use_fill_when": [
+      "the item is the selected tab, filter, or nav destination",
+      "the marker represents the user's current place or choice",
+      "a toggle is on"
+    ],
+    "do_not_use_fill_when": [
+      "you want emphasis — fill is not bold",
+      "the icon is decorative",
+      "the icon has no off state in this product"
+    ],
+    "no_fill_variant_means": "The icon never carries a state, OR it is built entirely from open strokes and has no interior to flood. Both are deliberate. A fill identical to its line variant is a bug, not a variant.",
+    "line_only_families": {
+      "map_chrome": [
+        "map",
+        "layers",
+        "route",
+        "compass"
+      ],
+      "list_markers": [
+        "campfire",
+        "pets",
+        "food",
+        "store",
+        "wifi",
+        "shower"
+      ],
+      "no_interior": [
+        "picnic-table",
+        "chart",
+        "signal",
+        "activity",
+        "menu",
+        "list"
+      ]
+    }
+  },
+  "container_shape": {
+    "rule": "A bare mark, a circled mark and a squared mark are three different affordances, not three styles.",
+    "bare": "The mark alone (add, close, check). Inline, or where surrounding chrome already provides the hit target.",
+    "circle": "The mark needs its own hit surface and sits on content — chips, tokens, avatars, floating controls.",
+    "square": "The mark is a form control or sits in a grid of controls — checkboxes, toolbar cells, anything aligned to a rectangular rhythm.",
+    "note": "Do not mix containers within one control group. A circled add beside a squared close reads as two systems."
+  },
+  "scopes": {
+    "generic": "Universal. Any product, any context.",
+    "travel": "Generic within the travel / mapping / booking domain. Opt-in at import.",
+    "product": "One product only. Cannot be repurposed.",
+    "status": "The `travel` scope is recommended and in use here but not ratified, and nothing enforces it at import. See docs/decisions.md."
+  },
+  "clusters": {
+    "menu-affordance": {
+      "question": "Which menu affordance opens this?",
+      "tiebreaker": "Scope decides, not shape. Ask what the menu acts ON: the whole view, one row, or the current object. Hamburger is the view, kebab is the row, meatball is the object in front of you.",
+      "members": [
+        "list",
+        "menu",
+        "more-horizontal",
+        "more-vertical"
+      ]
+    },
+    "dismiss-close-delete": {
+      "question": "Is this closing, dismissing, removing, or destroying?",
+      "tiebreaker": "Reversibility, in order: close (nothing lost) < dismiss (this one, now) < remove (from a collection) < delete (destroys data). Never use a heavier icon than the action earns — a trash can on a dismissible toast reads as data loss.",
+      "members": [
+        "close",
+        "close-circle",
+        "minus-circle",
+        "trash"
+      ]
+    },
+    "place-marker": {
+      "question": "Am I marking a place, an act, or a direction?",
+      "tiebreaker": "location answers WHERE. pin is a verb — someone chose to fasten this. navigation answers WHICH WAY. The silhouettes share nothing on purpose: teardrop, tack, arrowhead.",
+      "members": [
+        "location",
+        "navigation",
+        "pin"
+      ]
+    },
+    "save-signal": {
+      "question": "What does saving this mean?",
+      "tiebreaker": "Who is the signal for? bookmark and star are for the user's own retrieval; heart is a public sentiment; flag is for someone else to action.",
+      "members": [
+        "bookmark",
+        "flag",
+        "heart",
+        "star"
+      ]
+    },
+    "outward": {
+      "question": "Where does this send the user?",
+      "tiebreaker": "share hands content to a person. external leaves the app. link is the address itself, not the act of going.",
+      "members": [
+        "external",
+        "link",
+        "share"
+      ]
+    },
+    "severity": {
+      "question": "How loud should this be?",
+      "tiebreaker": "info is neutral and unrequested. help is neutral and requested. warning means something is wrong or about to be. Do not use warning for emphasis — it spends the one signal that has to still work when it matters.",
+      "members": [
+        "help",
+        "info",
+        "warning"
+      ]
+    },
+    "figure": {
+      "question": "One person, several, or a facility?",
+      "tiebreaker": "person is an individual or an account. people is a group or a social relation. restroom-figures is a FACILITY sign and is never a stand-in for users.",
+      "members": [
+        "people",
+        "person",
+        "restroom-figures"
+      ]
+    },
+    "landform-camping": {
+      "question": "One site, a whole facility, or terrain?",
+      "tiebreaker": "campsite is one reservable pitch; campground is the facility around it; mountain and park are terrain and never bookable. Reservability is the line.",
+      "members": [
+        "campground",
+        "campsite",
+        "mountain",
+        "park"
+      ]
+    },
+    "droplet": {
+      "question": "Which droplet-derived icon?",
+      "tiebreaker": "All three share one construction. water is potable water as an amenity; fuel is a dispensing machine; location is a marker that happens to be teardrop-shaped and is not about liquid at all.",
+      "members": [
+        "fuel",
+        "water"
+      ]
+    },
+    "data-shape": {
+      "question": "Discrete values, signal strength, or a trace over time?",
+      "tiebreaker": "chart and signal are deliberately the same block with the same footprint — only the profile differs. If the bars must ascend to mean anything, it is signal. If a bar can fall, it is chart. If it is continuous, it is activity.",
+      "members": [
+        "activity",
+        "chart",
+        "signal"
+      ]
+    },
+    "zoom-vs-search": {
+      "question": "Searching, or changing magnification?",
+      "tiebreaker": "search-add and search-minus ARE zoom-in and zoom-out. Do not draw new icons for zoom; alias these.",
+      "members": [
+        "search",
+        "search-add",
+        "search-minus"
+      ]
+    },
+    "vehicle": {
+      "question": "Which vehicle class does the site accept?",
+      "tiebreaker": "Towing is the axis. car is self-propelled and small; rv is self-propelled and large (cab-over step); trailer is towed (the tongue is the tell). A site that takes an rv may not take a trailer.",
+      "members": [
+        "car",
+        "rv",
+        "trailer"
+      ]
+    }
+  },
+  "icons": {
+    "activity": {
+      "cluster": "data-shape",
+      "scope": "generic",
+      "use_when": "A continuous trace: live occupancy, a pulse, something happening now.",
+      "not_when": "Not for categorical values.",
+      "instead_use": {
+        "chart": "the values are discrete buckets"
+      },
+      "rationale": "A level run, one spike, a level run. Continuity is the message.",
+      "has_fill": false,
+      "confusable_with": [
+        "chart",
+        "signal"
+      ]
+    },
+    "bookmark": {
+      "cluster": "save-signal",
+      "scope": "generic",
+      "use_when": "Save for the user's own later retrieval. Private, binary, no ranking.",
+      "not_when": "Not for expressing an opinion about the item.",
+      "instead_use": {
+        "star": "the product treats saving as rating or favouriting",
+        "heart": "the signal is public sentiment"
+      },
+      "rationale": "A bookmark is a filing action. It says nothing about whether the thing is good.",
+      "has_fill": true,
+      "confusable_with": [
+        "flag",
+        "heart",
+        "star"
+      ]
+    },
+    "campground": {
+      "cluster": "landform-camping",
+      "scope": "travel",
+      "use_when": "The whole facility or area — a park with sites in it, a search result for a place to camp.",
+      "not_when": "Not for one bookable pitch.",
+      "instead_use": {
+        "campsite": "you mean a single reservable site"
+      },
+      "rationale": "A near tent plus a second behind it, moated. 'More of something', not an echo of campsite.",
+      "has_fill": true,
+      "confusable_with": [
+        "campsite",
+        "mountain",
+        "park"
+      ]
+    },
+    "campsite": {
+      "cluster": "landform-camping",
+      "scope": "travel",
+      "use_when": "ONE specific, reservable pitch. A booking, a pin on a site map, a confirmed stay.",
+      "not_when": "Not for the facility as a whole.",
+      "instead_use": {
+        "campground": "you mean the whole facility or area"
+      },
+      "rationale": "One tent with a door, alone on a ground line. Matches the NPS campsite symbol.",
+      "has_fill": true,
+      "confusable_with": [
+        "campground",
+        "mountain",
+        "park"
+      ]
+    },
+    "car": {
+      "cluster": "vehicle",
+      "scope": "travel",
+      "use_when": "A standard vehicle — parking suitability, a drive-time estimate, 'accessible by car'.",
+      "not_when": "Not for oversized rigs.",
+      "instead_use": {
+        "rv": "the vehicle is a large self-propelled motorhome",
+        "trailer": "the vehicle is towed"
+      },
+      "rationale": "Cabin bulge on a low body. Shares its chassis, wheel datum and belt-line counter with rv and trailer.",
+      "has_fill": true,
+      "confusable_with": [
+        "rv",
+        "trailer"
+      ]
+    },
+    "chart": {
+      "cluster": "data-shape",
+      "scope": "generic",
+      "use_when": "Discrete values across categories or time buckets — busy times, usage by day.",
+      "not_when": "Not for signal strength.",
+      "instead_use": {
+        "signal": "the bars must ascend to carry meaning",
+        "activity": "the data is continuous"
+      },
+      "rationale": "Same block, pitch and footprint as signal. Its profile falls at least once, and that is the only separator — so never draw it monotonic.",
+      "has_fill": false,
+      "confusable_with": [
+        "activity",
+        "signal"
+      ]
+    },
+    "close": {
+      "cluster": "dismiss-close-delete",
+      "scope": "generic",
+      "use_when": "Close a surface that owns the screen: modal, sheet, full-screen takeover, drawer.",
+      "not_when": "Not for removing an item from a collection.",
+      "instead_use": {
+        "close-circle": "the X sits on top of content and needs its own hit surface",
+        "minus-circle": "you are removing a row from a list, not closing a surface"
+      },
+      "rationale": "Bare X is the lightest possible dismissal. Nothing is lost and nothing is undone.",
+      "has_fill": false,
+      "confusable_with": [
+        "close-circle",
+        "minus-circle",
+        "trash"
+      ]
+    },
+    "close-circle": {
+      "cluster": "dismiss-close-delete",
+      "scope": "generic",
+      "use_when": "Dismiss one transient thing in place: a chip, a filter token, a toast, a thumbnail in an upload tray.",
+      "not_when": "Not as the primary close on a modal — the container reads as a button and competes with the modal's own controls.",
+      "instead_use": {
+        "close": "the surface owns the screen",
+        "minus-circle": "the collection is a list of peers rather than a set of tokens"
+      },
+      "rationale": "The circle gives the mark a hit target where there is no chrome to provide one, and it scopes the dismissal to the token it is attached to.",
+      "has_fill": true,
+      "confusable_with": [
+        "close",
+        "minus-circle",
+        "trash"
+      ]
+    },
+    "external": {
+      "cluster": "outward",
+      "scope": "generic",
+      "use_when": "This leaves the app or opens a new tab. Sits INSIDE or after the link text.",
+      "not_when": "Not as a standalone button, and never for in-app navigation.",
+      "instead_use": {
+        "share": "content is going to a person",
+        "arrow-right": "navigation stays in the app"
+      },
+      "rationale": "It is an annotation on a link, warning about a context switch — not an action of its own.",
+      "has_fill": false,
+      "confusable_with": [
+        "link",
+        "share"
+      ]
+    },
+    "flag": {
+      "cluster": "save-signal",
+      "scope": "generic",
+      "use_when": "Escalate to someone else: report, mark for review, raise for moderation.",
+      "not_when": "Never as a save or a favourite.",
+      "instead_use": {
+        "bookmark": "the user is filing this for themselves"
+      },
+      "rationale": "Flag hands the item to a third party. It is the only one of the four whose audience is not the user or their peers.",
+      "has_fill": true,
+      "confusable_with": [
+        "bookmark",
+        "heart",
+        "star"
+      ]
+    },
+    "fuel": {
+      "cluster": "droplet",
+      "scope": "travel",
+      "use_when": "A fuel stop — petrol, diesel. The machine, not the liquid.",
+      "not_when": "Not for EV charging.",
+      "instead_use": {
+        "ev-charger": "the site charges rather than fuels",
+        "water": "you mean drinking water"
+      },
+      "rationale": "Shares its whole pump body with ev-charger; only the face mark and what the arm ends in differ. That the two are the same kind of object is true by construction.",
+      "has_fill": true,
+      "confusable_with": [
+        "water"
+      ]
+    },
+    "heart": {
+      "cluster": "save-signal",
+      "scope": "generic",
+      "use_when": "Public sentiment: like, love, react. Visible to others or aggregated into a count.",
+      "not_when": "Not for private saves.",
+      "instead_use": {
+        "bookmark": "the save is private",
+        "star": "the signal drives ranking rather than sentiment"
+      },
+      "rationale": "Heart is the only one of the four that implies an audience.",
+      "has_fill": true,
+      "confusable_with": [
+        "bookmark",
+        "flag",
+        "star"
+      ]
+    },
+    "help": {
+      "cluster": "severity",
+      "scope": "generic",
+      "use_when": "The user asked. Tooltips, 'what is this?', a link into docs.",
+      "not_when": "Not for volunteering context the user did not request.",
+      "instead_use": {
+        "info": "the system is volunteering it"
+      },
+      "rationale": "Same neutrality as info; the difference is who initiated. A question mark the user did not ask reads as the interface being unsure of itself.",
+      "has_fill": true,
+      "confusable_with": [
+        "info",
+        "warning"
+      ]
+    },
+    "info": {
+      "cluster": "severity",
+      "scope": "generic",
+      "use_when": "Neutral, unrequested context. A note the user did not ask for and does not have to act on.",
+      "not_when": "Not for anything the user must resolve.",
+      "instead_use": {
+        "warning": "something is wrong or about to be",
+        "help": "the user asked"
+      },
+      "rationale": "Info is the floor of the severity scale. Nothing is broken.",
+      "has_fill": true,
+      "confusable_with": [
+        "help",
+        "warning"
+      ]
+    },
+    "link": {
+      "cluster": "outward",
+      "scope": "generic",
+      "use_when": "The address itself: copy link, attach a URL, 'linked accounts'.",
+      "not_when": "Not for navigating anywhere.",
+      "instead_use": {
+        "external": "the user is being sent out of the app",
+        "copy": "the action is copying generally, not copying a URL"
+      },
+      "rationale": "Chain links are the object, not the journey.",
+      "has_fill": false,
+      "confusable_with": [
+        "external",
+        "share"
+      ]
+    },
+    "list": {
+      "cluster": "menu-affordance",
+      "scope": "generic",
+      "use_when": "A view-mode toggle: show these items as a list. Pairs with grid.",
+      "not_when": "Never as a menu affordance — it is a destination, not a disclosure.",
+      "instead_use": {
+        "menu": "you meant the navigation drawer",
+        "grid": "the other half of the same toggle"
+      },
+      "rationale": "Three lines with bullets reads as content layout. Three lines without reads as menu. They are one pixel apart in silhouette and opposite in meaning, which is exactly why this entry exists.",
+      "has_fill": false,
+      "confusable_with": [
+        "menu",
+        "more-horizontal",
+        "more-vertical"
+      ]
+    },
+    "location": {
+      "cluster": "place-marker",
+      "scope": "generic",
+      "use_when": "Mark WHERE something is. A POI on a map, an address on a card, a 'near me' control.",
+      "not_when": "Not for the act of saving or fastening something.",
+      "instead_use": {
+        "pin": "a person chose to fasten this — it is a verb",
+        "navigation": "you mean a heading, not a place"
+      },
+      "rationale": "Balloon head, hole in the middle, tapering to a point. It answers 'where'.",
+      "has_fill": true,
+      "confusable_with": [
+        "navigation",
+        "pin"
+      ]
+    },
+    "menu": {
+      "cluster": "menu-affordance",
+      "scope": "generic",
+      "use_when": "Opens navigation for the whole view or app. The top-level drawer.",
+      "not_when": "Never for actions scoped to a single item.",
+      "instead_use": {
+        "more-vertical": "the actions belong to one row or card, not the view"
+      },
+      "rationale": "Hamburger has meant 'the app's navigation' since it was three lines on a Xerox Star. Using it for a row menu makes every row look like it can navigate away.",
+      "has_fill": false,
+      "confusable_with": [
+        "list",
+        "more-horizontal",
+        "more-vertical"
+      ]
+    },
+    "minus-circle": {
+      "cluster": "dismiss-close-delete",
+      "scope": "generic",
+      "use_when": "Remove one row from a collection the user is assembling — a cart, an invite list, a set of filters.",
+      "not_when": "Not when the underlying record is destroyed.",
+      "instead_use": {
+        "trash": "the record itself is destroyed",
+        "close-circle": "it is a token or chip, not a row"
+      },
+      "rationale": "Minus is arithmetic on a set. It says the thing still exists, it just is not in this collection any more — which is the promise an X does not make.",
+      "has_fill": true,
+      "confusable_with": [
+        "close",
+        "close-circle",
+        "trash"
+      ]
+    },
+    "more-horizontal": {
+      "cluster": "menu-affordance",
+      "scope": "generic",
+      "use_when": "Overflow for the object currently in front of the user — a toolbar tail, a detail header, a composer.",
+      "not_when": "Not inside a repeated list row.",
+      "instead_use": {
+        "more-vertical": "you are in a repeated row and the menu is that row's"
+      },
+      "rationale": "Horizontal because it terminates a horizontal run of controls. In a list it competes with the row's own axis.",
+      "has_fill": false,
+      "confusable_with": [
+        "list",
+        "menu",
+        "more-vertical"
+      ]
+    },
+    "more-vertical": {
+      "cluster": "menu-affordance",
+      "scope": "generic",
+      "use_when": "Row-level or card-level overflow. The kebab: actions that apply to the one thing it sits beside.",
+      "not_when": "Not for view-wide navigation, and not when there is horizontal room to show the actions outright.",
+      "instead_use": {
+        "menu": "the target is the whole view",
+        "more-horizontal": "the menu belongs to the current object rather than a row in a list"
+      },
+      "rationale": "Vertical because it sits in a vertical list and its axis reads as 'this row'. Two or three overflow actions in a row is the canonical case.",
+      "has_fill": false,
+      "confusable_with": [
+        "list",
+        "menu",
+        "more-horizontal"
+      ]
+    },
+    "mountain": {
+      "cluster": "landform-camping",
+      "scope": "travel",
+      "use_when": "Terrain, elevation, scenery, a trail's character. Never bookable.",
+      "not_when": "Not as a generic 'outdoors' catch-all where a specific amenity icon exists.",
+      "instead_use": {
+        "park": "you mean maintained green space rather than elevation",
+        "campground": "the thing can be booked"
+      },
+      "rationale": "Two peaks in ONE silhouette with a saddle, plus a snow line — all three separators exist to keep it out of campground's territory at 16px.",
+      "has_fill": true,
+      "confusable_with": [
+        "campground",
+        "campsite",
+        "park"
+      ]
+    },
+    "navigation": {
+      "cluster": "place-marker",
+      "scope": "generic",
+      "use_when": "A heading or an active route — 'directions', 'navigate here', the live-position arrow.",
+      "not_when": "Not for a static place, and not for trending or growth.",
+      "instead_use": {
+        "location": "the thing is a place, not a direction",
+        "route": "you mean the whole path between two points"
+      },
+      "rationale": "Roadtrip currently uses a trending-up arrow for directions, which is a misuse; the fix is this icon, not a new one.",
+      "has_fill": false,
+      "confusable_with": [
+        "location",
+        "pin"
+      ]
+    },
+    "park": {
+      "cluster": "landform-camping",
+      "scope": "travel",
+      "use_when": "Maintained green space, shade, a picnic area's setting, 'trees here'.",
+      "not_when": "Not for wilderness or elevation.",
+      "instead_use": {
+        "mountain": "you mean terrain and elevation"
+      },
+      "rationale": "A broadleaf canopy and trunk. Deliberately not a conifer: a triangle here would collide with both campsite and mountain at small size.",
+      "has_fill": true,
+      "confusable_with": [
+        "campground",
+        "campsite",
+        "mountain"
+      ]
+    },
+    "people": {
+      "cluster": "figure",
+      "scope": "generic",
+      "use_when": "A group, a team, a shared thing, a social relation.",
+      "not_when": "Not as a restroom sign.",
+      "instead_use": {
+        "person": "a single individual",
+        "restroom-figures": "it is a facility, not users"
+      },
+      "rationale": "Two overlapping figures of different sizes. The overlap is what says 'group' rather than 'two users'.",
+      "has_fill": true,
+      "confusable_with": [
+        "person",
+        "restroom-figures"
+      ]
+    },
+    "person": {
+      "cluster": "figure",
+      "scope": "generic",
+      "use_when": "One individual: an account, a profile, an assignee, 'my stuff'.",
+      "not_when": "Not for a facility.",
+      "instead_use": {
+        "people": "more than one, or a social relation",
+        "restroom-figures": "you mean a restroom"
+      },
+      "rationale": "Head and shoulders. The whole family shares one head-to-shoulder datum of exactly 1.0 — a seam, not a gap.",
+      "has_fill": true,
+      "confusable_with": [
+        "people",
+        "restroom-figures"
+      ]
+    },
+    "pin": {
+      "cluster": "place-marker",
+      "scope": "generic",
+      "use_when": "The ACT of fastening: pin this message, pin this column, keep this to the top.",
+      "not_when": "Never as a map marker.",
+      "instead_use": {
+        "location": "you mean a place on a map"
+      },
+      "rationale": "Flat wide cap, solid needle, leaning. Deliberately shares no silhouette with location — a teardrop against a T — because the two sit next to each other and a reader has to tell them apart at 16px without a label.",
+      "has_fill": true,
+      "confusable_with": [
+        "location",
+        "navigation"
+      ]
+    },
+    "restroom-figures": {
+      "cluster": "figure",
+      "scope": "travel",
+      "use_when": "A restroom exists here. The neutral default when amenity data does not confirm plumbing.",
+      "not_when": "Never as a stand-in for users, accounts or a group.",
+      "instead_use": {
+        "people": "you mean users or a group"
+      },
+      "rationale": "Two equal figures, separated and symmetric — deliberately not people's overlapping unequal pair. Says 'restroom here' without asserting flush or vault, which the data often cannot back up.",
+      "has_fill": true,
+      "confusable_with": [
+        "people",
+        "person"
+      ]
+    },
+    "rv": {
+      "cluster": "vehicle",
+      "scope": "travel",
+      "use_when": "A large self-propelled motorhome. Site length limits, hookups, RV-accessible.",
+      "not_when": "Not for a towed unit.",
+      "instead_use": {
+        "trailer": "it is towed, and a site that takes one may not take the other"
+      },
+      "rationale": "The cab-over step is the whole icon — without it this is a bus.",
+      "has_fill": true,
+      "confusable_with": [
+        "car",
+        "trailer"
+      ]
+    },
+    "search": {
+      "cluster": "zoom-vs-search",
+      "scope": "generic",
+      "use_when": "Find something. A search field, a search action.",
+      "not_when": "Not for magnification controls.",
+      "instead_use": {
+        "search-add": "you mean zoom in"
+      },
+      "rationale": "The lens alone is search. The lens with a mark is magnification.",
+      "has_fill": false,
+      "confusable_with": [
+        "search-add",
+        "search-minus"
+      ]
+    },
+    "search-add": {
+      "cluster": "zoom-vs-search",
+      "scope": "generic",
+      "use_when": "Zoom in. This IS zoom-in — alias it rather than drawing a second icon.",
+      "not_when": "Not as 'add a saved search'.",
+      "instead_use": {
+        "add": "you mean creating something"
+      },
+      "rationale": "The proposal's redundancy call: zoom-in and zoom-out already exist under these names.",
+      "has_fill": false,
+      "confusable_with": [
+        "search",
+        "search-minus"
+      ]
+    },
+    "search-minus": {
+      "cluster": "zoom-vs-search",
+      "scope": "generic",
+      "use_when": "Zoom out. This IS zoom-out — alias it.",
+      "not_when": "Not as 'remove a saved search'.",
+      "instead_use": {
+        "minus": "you mean subtraction"
+      },
+      "rationale": "See search-add.",
+      "has_fill": false,
+      "confusable_with": [
+        "search",
+        "search-add"
+      ]
+    },
+    "share": {
+      "cluster": "outward",
+      "scope": "generic",
+      "use_when": "Hand this content to a person or another app. Opens a share sheet or a recipient picker.",
+      "not_when": "Not for opening a URL.",
+      "instead_use": {
+        "external": "the user is leaving the app",
+        "link": "you mean the address itself"
+      },
+      "rationale": "Share is about a recipient. If nothing is being handed to anybody, it is the wrong icon.",
+      "has_fill": true,
+      "confusable_with": [
+        "external",
+        "link"
+      ]
+    },
+    "signal": {
+      "cluster": "data-shape",
+      "scope": "generic",
+      "use_when": "Strength or level on an ordered scale — cell coverage, wifi strength, capacity.",
+      "not_when": "Not for arbitrary data.",
+      "instead_use": {
+        "chart": "a value is allowed to fall"
+      },
+      "rationale": "Five bars in even steps. Ascending is load-bearing: it is what makes the icon mean 'more is better'.",
+      "has_fill": false,
+      "confusable_with": [
+        "activity",
+        "chart"
+      ]
+    },
+    "star": {
+      "cluster": "save-signal",
+      "scope": "generic",
+      "use_when": "Favourite or rate. Use when the product's own language is 'starred' or when it feeds ranking.",
+      "not_when": "Not when the save is private and unranked.",
+      "instead_use": {
+        "bookmark": "it is filing, not rating"
+      },
+      "rationale": "Star carries a quality judgement that bookmark does not. Picking the wrong one leaks into copy — 'your starred items' and 'your bookmarks' are different promises.",
+      "has_fill": true,
+      "confusable_with": [
+        "bookmark",
+        "flag",
+        "heart"
+      ]
+    },
+    "trailer": {
+      "cluster": "vehicle",
+      "scope": "travel",
+      "use_when": "A towed unit — travel trailer, caravan. Distinct from rv because sites often accept one and not the other.",
+      "not_when": "Not for a motorhome.",
+      "instead_use": {
+        "rv": "the vehicle drives itself"
+      },
+      "rationale": "The tongue is what says trailer, which is why the tow vehicle is not drawn: two vehicles inside 20 units leaves each about 8, and neither is legible.",
+      "has_fill": true,
+      "confusable_with": [
+        "car",
+        "rv"
+      ]
+    },
+    "trash": {
+      "cluster": "dismiss-close-delete",
+      "scope": "generic",
+      "use_when": "Destroy the record. The action needs confirmation or an undo.",
+      "not_when": "Never for closing, dismissing, clearing a field, or removing from a cart.",
+      "instead_use": {
+        "minus-circle": "the record survives — you are only removing it from a collection",
+        "close": "nothing is being destroyed at all"
+      },
+      "rationale": "Trash is the heaviest icon in the set and the only one that should make someone hesitate. Spending it on a dismissible toast is how it stops working.",
+      "has_fill": true,
+      "confusable_with": [
+        "close",
+        "close-circle",
+        "minus-circle"
+      ]
+    },
+    "warning": {
+      "cluster": "severity",
+      "scope": "generic",
+      "use_when": "Something is wrong, at risk, or about to be. The user should act.",
+      "not_when": "Never for emphasis, novelty, or 'heads up, this is new'.",
+      "instead_use": {
+        "info": "it is neutral context",
+        "help": "the user is asking a question"
+      },
+      "rationale": "The triangle is the loudest shape in the set. It only keeps working if it is rationed.",
+      "has_fill": true,
+      "confusable_with": [
+        "help",
+        "info"
+      ]
+    },
+    "water": {
+      "cluster": "droplet",
+      "scope": "travel",
+      "use_when": "Potable water as an amenity — a spigot, a fill station, 'water available'.",
+      "not_when": "Not for fuel, not for weather, not for a map marker.",
+      "instead_use": {
+        "fuel": "it is a dispensing machine",
+        "location": "you mean a place"
+      },
+      "rationale": "location's droplet inverted: apex up, no counter. The two never share a silhouette.",
+      "has_fill": true,
+      "confusable_with": [
+        "fuel"
+      ]
+    }
+  }
+}
