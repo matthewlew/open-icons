@@ -189,7 +189,8 @@ add("info", "severity",
     "Neutral, unrequested context. A note the user did not ask for and does not have to act on.",
     "Not for anything the user must resolve.",
     {"warning": "something is wrong or about to be", "help": "the user asked"},
-    "Info is the floor of the severity scale. Nothing is broken.")
+    "Info is the floor of the severity scale. Nothing is broken. Ships FILLED in a banner or "
+    "alert (info-fill); the line form is for neutral inline hints.")
 
 add("help", "severity",
     "The user asked. Tooltips, 'what is this?', a link into docs.",
@@ -201,7 +202,9 @@ add("warning", "severity",
     "Something is wrong, at risk, or about to be. The user should act.",
     "Never for emphasis, novelty, or 'heads up, this is new'.",
     {"info": "it is neutral context", "help": "the user is asking a question"},
-    "The triangle is the loudest shape in the set. It only keeps working if it is rationed.")
+    "The triangle is the loudest shape in the set, and it ships FILLED (warning-fill) wherever "
+    "it is alerting — the solid mass is what makes it read before the sentence next to it. It "
+    "only keeps working if it is rationed.")
 
 # --- figures ---------------------------------------------------------------
 add("person", "figure",
@@ -360,7 +363,7 @@ doc = {
     "by_icon": "icons[<name>] — use_when, not_when, instead_use, confusable_with.",
     "by_confusion": "Look up any candidate, read confusable_with, then read the cluster's "
                     "tiebreaker. The tiebreaker names the ONE axis that separates the members.",
-    "choosing_a_variant": "See fill_axis. Fill is a state, never a style.",
+    "choosing_a_variant": "See fill_axis. Line is the default; fill is the emphasis style.",
     "choosing_a_container": "See container_shape.",
     "if_absent": "An icon with no entry has no twin worth disambiguating. Absence means "
                  "unambiguous, not undocumented."
@@ -372,21 +375,35 @@ doc = {
     "clusters": len(CLUSTERS)
   },
   "fill_axis": {
-    "rule": "Fill is a STATE, not a style. Line is resting; fill is selected / active / current.",
+    "rule": "LINE IS THE DEFAULT. Fill is a style you choose when an icon has to carry more "
+            "weight than the words around it. Assume line unless there is a reason.",
+    "default": "line",
     "endpoints_only": "There is nothing between line and fill. No intermediate values, no "
-                      "weight axis, no grade axis. The transition is a swap, not an animation.",
+                      "weight axis, no grade axis. Switching is a swap, not a dial.",
     "use_fill_when": [
+      "status and severity — see status_icons, which are filled by default",
       "the item is the selected tab, filter, or nav destination",
       "the marker represents the user's current place or choice",
-      "a toggle is on"
+      "an icon has to survive at a glance in a dense surface and line is losing"
     ],
+    "status_icons": {
+      "rule": "Status and severity icons ship FILLED. They are the one family where the icon "
+              "has to be read before the sentence beside it, and a line glyph does not win "
+              "that race.",
+      "success": "check-circle-fill",
+      "error": "close-circle-fill",
+      "warning": "warning-fill",
+      "info": "info-fill",
+      "note": "The line forms of these still exist and are correct in neutral, non-alerting "
+              "contexts — a help link, an inline hint, a list of statuses at rest."
+    },
     "do_not_use_fill_when": [
-      "you want emphasis — fill is not bold",
-      "the icon is decorative",
-      "the icon has no off state in this product"
+      "the icon is one of many in a toolbar, list or nav at rest — that is line's job",
+      "you are reaching for it out of habit rather than to raise emphasis",
+      "the icon has no fill variant, which is a construction fact and not an oversight"
     ],
-    "no_fill_variant_means": "The icon never carries a state, OR it is built entirely from "
-                             "open strokes and has no interior to flood. Both are deliberate. "
+    "no_fill_variant_means": "The icon is built entirely from open strokes and has no interior "
+                             "to flood, OR nothing in any product ever needs to emphasise it. "
                              "A fill identical to its line variant is a bug, not a variant.",
     "line_only_families": {
       "map_chrome": ["map", "layers", "route", "compass"],

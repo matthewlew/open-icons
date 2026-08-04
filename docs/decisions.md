@@ -104,25 +104,64 @@ reference, not output. This is the largest piece of unbuilt work in the repo.
 
 `2026-07-28` · `variants` · `measured` · `structural` · `e0645a4`
 
-Line and fill are Material's `FILL` axis at its two endpoints, and the semantic
-is the one Material states: a transition between unfilled and filled — selected
+> ⚠️ **Overturned 2026-08-04.** See *Line is the default; fill is emphasis*
+> below. Kept because it was acted on: it is why `warning-fill` sat unused in a
+> banner while `warning` did the alerting, and why the first cut of
+> `icon-rules.json` told a consuming AI that fill meant *selected* and nothing
+> else.
+
+Line and fill were read as Material's `FILL` axis at its two endpoints, taking
+Material's stated semantic: a transition between unfilled and filled — selected
 vs unselected, active vs inactive.
 
-**Ruled out:** fill as emphasis, and any intermediate value. Open Icons has no
-weight axis and no grade axis in the shipped set, so the flip is a swap rather
-than a dial. If a denser emphasis step is ever needed, grade is the axis to add
-— not partial fill.
+**Ruled out:** fill as emphasis, and any intermediate value.
 
-### An icon with no state gets no fill, and that absence is information
+### Line is the default; fill is emphasis
+
+`2026-08-04` · `variants` · `human` · `reversal` · —
+
+**Line is the default icon style.** Almost every icon in almost every surface is
+a line icon. **Fill is a style you choose when an icon has to carry more weight
+than the words around it** — and the canonical case is status and severity, not
+selection. A warning or an error has to be read *before* the sentence beside it,
+and a line glyph does not win that race. `warning-fill`, `close-circle-fill`,
+`check-circle-fill` and `info-fill` are the alerting forms.
+
+Selection is still a legitimate use of fill; it is simply not the *definition*
+of it. Fill is the strongest emphasis step the system has, so the selected item
+gets it — one application of the rule rather than the rule itself.
+
+**Ruled out:** "fill is a state, never a style", which is the call this reverses.
+It was inherited from Material's axis semantics rather than measured from
+anything, and it fails on the most common real use of a filled icon in a
+product. Also ruled out: a separate emphasis axis. The system has one emphasis
+step and it is the line→fill swap; adding grade to carry severity would be a new
+axis for a job fill already does.
+
+**Cost:** fill now means two things — *this is loud* and *this is the one you
+are on*. Context separates them cleanly (a banner glyph is not a nav item), but
+it does mean "why is this filled?" no longer has a single answer, and a surface
+that is both alerting and selectable needs a deliberate call.
+
+**What did not change:** how a fill is *drawn*. The construction rules — never
+exceeding the line variant's outer edge, roughly equal total ink, extra mass
+spent on counters — are measured and stand. This reversal touched
+`data/icon-rules.json`, `docs/north-star.md` and `CLAUDE.md`; it touched neither
+`icon-construction-spec.md` nor `construction-tokens.json`, which is the
+two-audience split doing its job.
+
+### An icon nothing ever needs to emphasise gets no fill, and that absence is information
 
 `2026-08-03` · `variants` · `ai` · `notable` · `446038a`
+*(reworded 2026-08-04 to follow the reversal above — the call itself is unchanged)*
 
 Map chrome (`map`, `layers`, `route`, `compass`) and drawer list markers
 (`campfire`, `pets`, `food`, `store`, `wifi`, `shower`) ship line-only. Map
-chrome is always a button, never a marker; list markers are never a state.
+chrome is always a button, never a marker; a list marker in a drawer is never
+the loudest thing on the surface.
 
 **Ruled out:** shipping a fill for every icon for the sake of symmetry. A fill
-variant that no product can ever select is dead weight that implies a state the
+nothing will ever reach for is dead weight, and it implies an emphasis step the
 icon does not have.
 
 ### An icon built only from open strokes cannot have a fill

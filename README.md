@@ -10,7 +10,8 @@
 
 | If you want | Read |
 |---|---|
-| **The target** — what we are building and how something gets in | **[`docs/north-star.md`](./docs/north-star.md)** |
+| **The ten principles** — start here, no measurements, anyone can read it | **[`docs/principles.md`](./docs/principles.md)** |
+| **The target** — what we are building and how something gets in | [`docs/north-star.md`](./docs/north-star.md) |
 | **Why the system is shaped this way** | [`docs/decisions.md`](./docs/decisions.md) |
 | **How an icon is drawn** | [`docs/icon-construction-spec.md`](./docs/icon-construction-spec.md) · [`data/construction-tokens.json`](./data/construction-tokens.json) |
 | **Which icon to reach for** | [`data/icon-rules.json`](./data/icon-rules.json) |

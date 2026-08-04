@@ -3,6 +3,9 @@
 The target every session on this repo pulls toward. Stable by design: this file
 changes when the *goal* changes, not when an icon does.
 
+For the short, non-technical version, read [`principles.md`](principles.md)
+first — ten rules, no measurements. This file is the next layer down.
+
 It deliberately does **not** restate the geometry. Construction rules live in
 [`icon-construction-spec.md`](icon-construction-spec.md) and its machine-readable
 mirror [`../data/construction-tokens.json`](../data/construction-tokens.json).
@@ -21,11 +24,11 @@ Four claims in that sentence, each load-bearing.
 
 ### Comprehensive, and line + fill
 
-Every icon that can carry a **state** ships both variants. Fill is not a style
-choice — it is Material's `FILL` axis at its two endpoints, and its meaning is
-*selected / active / current*. An icon that never has a state does not get a
-fill, and that absence is information, not an omission. See
-[§ Fill is a state, not a style](#3-fill-is-a-state-not-a-style).
+**Line is the default variant.** Almost every icon, in almost every surface, is
+a line icon. Fill is the emphasis style you reach for when an icon has to carry
+more weight than the words around it — most often status and severity. Not every
+icon has one, and that absence is information rather than an omission. See
+[§ Line is the default; fill is emphasis](#3-line-is-the-default-fill-is-emphasis).
 
 ### 24 is the master; other sizes are built, not scaled
 
@@ -76,37 +79,52 @@ blurred.
 The second row is the one people skip. An AI choosing an icon does not need to
 know the corner radius — it needs to know that **kebab is row-scoped and
 hamburger is view-scoped**, that **circled-X dismisses while plain X closes**,
-and that **fill means selected**. That is selection context, it is per-icon, and
-prose cannot be queried. It goes in `icon-rules.json`.
+and that **a warning ships filled**. That is selection context, it is per-icon,
+and prose cannot be queried. It goes in `icon-rules.json`.
 
 Keep them apart. Construction facts drifting into the rules file, or selection
 guidance drifting into the spec, is how both stop being trusted.
 
 ---
 
-## 3. Fill is a state, not a style
+## 3. Line is the default; fill is emphasis
 
-The single most-misused axis, so it gets stated here rather than buried.
+The most-misused axis, so it gets stated here rather than buried.
 
-- **Line** is the resting state. Unselected nav, inactive toggle, an icon
-  sitting in a list.
-- **Fill** is the active state. Selected nav, current filter, the marker for
-  *this* place.
-- There is **nothing in between**. No intermediate fill values, no weight axis
-  in the shipped set, no grade axis. The transition is a swap.
-- **A fill variant never extends beyond its line variant's outer edge**, and
-  carries roughly the same total ink — it spends its extra mass on counters, not
-  on area.
+**Assume line.** Almost every icon in almost every surface is a line icon — a
+toolbar, a nav at rest, a list of amenities, a form. Line is not the weak option;
+it is the normal one.
 
-**Therefore:** if an icon has no on/off state in any product, it has no fill.
-Map chrome is always a button, never a marker — `map`, `layers`, `route`,
-`compass` ship line-only. List markers in a drawer are never a state —
-`campfire`, `pets`, `food`, `store`, `wifi`, `shower` ship line-only.
+**Reach for fill when the icon has to carry more weight than the words around
+it.** Three cases, in order of how often they come up:
 
-And the inverse failure, which the spec records as a real bug: a fill variant
-that is byte-identical to its line variant is not a fill variant. An icon made
-entirely of open strokes has no interior to flood, and forcing one produces
-exactly that bug. `picnic-table` and `chart` are line-only for this reason.
+1. **Status and severity.** Warning, error, success, info in a banner or an
+   alert. These are the one family where the icon has to be read *before* the
+   sentence beside it, and a line glyph does not win that race. `warning-fill`,
+   `close-circle-fill`, `check-circle-fill`, `info-fill`.
+2. **The selected item.** The current tab, the active filter, the marker for
+   *this* place. Fill is the strongest emphasis step the system has, so it is
+   also what a selected state gets.
+3. **Anything that is losing at a glance.** A dense surface where line is
+   disappearing. This is a judgement call and should be rare — if it is not
+   rare, the surface is too dense.
+
+**Nothing sits in between.** No intermediate fill values, no weight axis, no
+grade axis in the shipped set. Switching is a swap, not a dial.
+
+**Not every icon has a fill, and that is not an oversight.** Two reasons an icon
+is line-only:
+
+- Nothing in any product ever needs to emphasise it. Map chrome is always a
+  button — `map`, `layers`, `route`, `compass`.
+- It has no interior to flood. An icon built entirely from open strokes returns
+  itself when you try to fill it, and a fill identical to its line variant is a
+  bug the spec already names. `picnic-table`, `chart`, `signal`, `activity`.
+
+**Construction is unaffected by any of this.** How a fill is *drawn* — never
+exceeding the line variant's outer edge, carrying roughly the same total ink,
+spending its extra mass on counters rather than area — is measured and settled
+in the spec. This section is only about *when to reach for one*.
 
 ---
 
@@ -171,6 +189,7 @@ README. "We chose a canopy over a conifer for `park`, because two tiers close at
 CLAUDE.md                        always in context — the pointer and the traps
 README.md                        what the project is; facts about the system
 docs/
+  principles.md                  the ten, in plain language — start here
   north-star.md                  ← you are here: the target
   icon-construction-spec.md      how icons are drawn (measured, 734 lines)
   decisions.md                   why the system is shaped this way

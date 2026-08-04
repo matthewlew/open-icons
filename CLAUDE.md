@@ -4,6 +4,10 @@ A weight-aware, parametric icon system. Icons are **generated** from
 `tools/generate.py` as functions of stroke width `W` — they are not drawings
 that happen to be SVGs.
 
+The principles, in plain language — the part that does not change:
+
+@docs/principles.md
+
 The target and the rules for getting something into the set:
 
 @docs/north-star.md
@@ -53,8 +57,11 @@ the symptom, not a false positive.
 - **A fill variant identical to its line variant is a bug, not a variant.** An
   icon made of open strokes has no interior to flood. If `solidify()` gives you
   back what you passed it, the icon is line-only — say so and move on.
-- **Fill means *selected*.** It is not bold, not emphasis, not decoration. An
-  icon with no on/off state gets no fill.
+- **Line is the default; fill is emphasis.** Assume line. Reach for fill when an
+  icon must carry more weight than the words around it — status and severity
+  first (`warning-fill`, `close-circle-fill`, `check-circle-fill`, `info-fill`
+  are the alerting forms), then the selected item. An icon nothing ever needs to
+  emphasise gets no fill. This reversed an earlier call; see `decisions.md`.
 - **16px is not a scaled 24px.** Stroke does not scale, so scaling a master
   gives the wrong weight. No 16px masters exist yet; the files in
   `icons-inspiration/16` are reference corpus, not output.
