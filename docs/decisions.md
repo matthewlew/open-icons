@@ -483,3 +483,7 @@ Not decisions. Recorded so they are not silently answered by a later commit.
 | **RTL mirroring, per icon** | 53 directional icons | Needs a call each: flow icons mirror, fixed-orientation objects usually don't, media transport is argued both ways |
 | **Ratify the Roadtrip manifest** | Roadtrip's icon adoption | 21 bindings seeded from the app's current emoji; not reviewed by anyone on the product |
 | **Do other products need manifests** | the binding model itself | One example does not prove a pattern |
+| **Per-icon metadata** | search, Figma, aliases, deprecation, RTL — all of it | The single highest-leverage gap; see [research](research-icon-systems.md) |
+| **A version number and deprecation policy** | any rename, ever | Nothing can currently be renamed without breaking consumers silently |
+| **Distribution beyond raw SVG** | iOS, Android, Figma, framework consumers | The generator can emit all of it; nothing does yet |
+| **Adopt Apple's leading/trailing naming?** | the 53 directional icons | Solves RTL at the naming layer, but breaks shipped names |

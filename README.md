@@ -16,6 +16,7 @@
 | **How an icon is drawn** | [`docs/icon-construction-spec.md`](./docs/icon-construction-spec.md) · [`data/construction-tokens.json`](./data/construction-tokens.json) |
 | **Which icon to reach for, cultural hazards, product bindings** | [`data/icon-rules.json`](./data/icon-rules.json) |
 | **The traps that fail quietly** | [`CLAUDE.md`](./CLAUDE.md) |
+| **How other systems do this, and what adoption costs** | [`docs/research-icon-systems.md`](./docs/research-icon-systems.md) |
 
 This README is the **facts** about the project. Anything that ruled an
 alternative out is a decision and lives in `decisions.md` instead.
