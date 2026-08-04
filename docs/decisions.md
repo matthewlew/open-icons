@@ -446,6 +446,71 @@ it.
 
 ---
 
+## Metadata
+
+### The per-icon layer is one generated file, with a validator that fails the build
+
+`2026-08-04` · `metadata` · `human` · `structural` · —
+
+`data/icon-metadata.json` carries description, keywords, category, naming class,
+RTL direction, status, `deprecated_by`, `since` and `has_fill` for all 152 line
+icons. Built by `tools/build-icon-metadata.py` from family rules plus per-icon
+overrides, with the derived fields read from `names.json` rather than typed.
+
+The validator is the load-bearing part. It **exits non-zero** if any icon lacks
+a description or a keyword, if an alias or a `deprecated_by` points at something
+that does not exist, or if a direction value is outside the vocabulary. Adding an
+icon without adding its metadata is a build error.
+
+**Ruled out:** Polaris's one-YAML-per-icon model. It suits a set that is drawn;
+ours is generated, and 152 sidecars would be 152 places for the same field to
+drift. Also ruled out: making metadata optional, which is the same as making it
+absent — a file that is allowed to be partly missing is one nobody can build on.
+
+**Cost:** a new icon is now two edits, not one. That is the intended cost.
+
+### Aliases are metadata, not files
+
+`2026-08-04` · `metadata` · `human` · `notable` · —
+
+58 alternate names resolve to real icons: `zoom-in` → `search-add`, `zoom-out` →
+`search-minus`, `drag-handle` → `more-vertical`, plus the words people actually
+type — `hamburger`, `kebab`, `cog`, `bin`, `tick`, `magnifier`.
+
+This closes the alias question the travel-pack proposal raised and answers it the
+way the proposal wanted: `search-add` and `search-minus` **are** zoom-in and
+zoom-out, and no second drawing exists.
+
+**Ruled out:** emitting duplicate SVG files under the alias names. That is two
+drawings of one thing — principle 6 — and it would put the redundancy back into
+the library to save consumers a lookup. Also ruled out: an alias table in
+`export.py`, which would have made aliases a build-output concern rather than a
+fact about an icon.
+
+### RTL direction is measured where it can be, and admitted where it cannot
+
+`2026-08-04` · `metadata` · `measured` · `notable` · —
+
+The `direction` field takes Fluent's vocabulary — `mirror` | `none` | `unique` —
+plus **`unreviewed`**, which is the default and is deliberately *not* a synonym
+for `none`.
+
+Of 152 icons: 23 `mirror` (a human call on the horizontal directional families),
+68 `none`, and 61 still `unreviewed`. **43 of the 68 are measured rather than
+judged**: an icon whose ink is symmetric about x=12 cannot change under a
+horizontal mirror, so `none` is a fact about the drawing. `data/measured-symmetry.json`
+holds the sampling result, and the build fails if anything declares `mirror`
+while measuring symmetric.
+
+**Ruled out:** defaulting unknown icons to `none`. That is the failure this
+field exists to prevent — silence reading as a decision, and 61 unexamined icons
+shipping as though someone had checked them.
+
+**Cost:** 61 icons still have no answer, and the metadata now says so out loud
+rather than looking complete.
+
+---
+
 ## Tooling
 
 ### `icon-lint.py` cannot score generated output
@@ -476,14 +541,14 @@ Not decisions. Recorded so they are not silently answered by a later commit.
 | Ratify the `travel` scope, and enforce it at import | 2b / 2c of the proposal | Recommended, in use, unratified |
 | `restroom-vault`'s silhouette collision with `home` | `restroom`, `restroom-vault` | Proposal flags it as must-resolve-before-shipping |
 | Should `restroom-figures` adopt the skirted pictogram | — | It currently sits close to `people`. A product call about a gendered convention |
-| Alias mechanism for `zoom-in` / `zoom-out` | — | `search-add` / `search-minus` already are these. `export.py` has no alias support at all |
 | Draw the 16px masters | everything at 16 | §3 forbids scaling the 24s |
 | Nothing has been reviewed by eye | all 42 travel icons | Screenshot capture was unavailable throughout; verification is entirely numeric |
 | **Locale semantics audit** | anything shipping outside `en-*` | Hazards recorded in `icon-rules.json`; no review done |
-| **RTL mirroring, per icon** | 53 directional icons | Needs a call each: flow icons mirror, fixed-orientation objects usually don't, media transport is argued both ways |
 | **Ratify the Roadtrip manifest** | Roadtrip's icon adoption | 21 bindings seeded from the app's current emoji; not reviewed by anyone on the product |
 | **Do other products need manifests** | the binding model itself | One example does not prove a pattern |
-| **Per-icon metadata** | search, Figma, aliases, deprecation, RTL — all of it | The single highest-leverage gap; see [research](research-icon-systems.md) |
+| ~~Per-icon metadata~~ | — | **Done** — `data/icon-metadata.json`, 2026-08-04 |
+| ~~Alias mechanism for zoom-in / zoom-out~~ | — | **Done** — 58 aliases in the metadata |
+| **RTL: the 61 icons still `unreviewed`** | anything shipping outside `en-*` | 43 were settled by measurement (symmetric, so a mirror is a no-op); the rest need a call each — flow icons mirror, fixed-orientation objects usually don't, media transport is argued both ways |
 | **A version number and deprecation policy** | any rename, ever | Nothing can currently be renamed without breaking consumers silently |
 | **Distribution beyond raw SVG** | iOS, Android, Figma, framework consumers | The generator can emit all of it; nothing does yet |
 | **Adopt Apple's leading/trailing naming?** | the 53 directional icons | Solves RTL at the naming layer, but breaks shipped names |

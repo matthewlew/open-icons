@@ -15,6 +15,7 @@
 | **Why the system is shaped this way** | [`docs/decisions.md`](./docs/decisions.md) |
 | **How an icon is drawn** | [`docs/icon-construction-spec.md`](./docs/icon-construction-spec.md) · [`data/construction-tokens.json`](./data/construction-tokens.json) |
 | **Which icon to reach for, cultural hazards, product bindings** | [`data/icon-rules.json`](./data/icon-rules.json) |
+| **Per-icon description, keywords, aliases, RTL behaviour, status** | [`data/icon-metadata.json`](./data/icon-metadata.json) |
 | **The traps that fail quietly** | [`CLAUDE.md`](./CLAUDE.md) |
 | **How other systems do this, and what adoption costs** | [`docs/research-icon-systems.md`](./docs/research-icon-systems.md) |
 
@@ -105,6 +106,7 @@ open-icons-playground/
 │   ├── generate.py               # THE SOURCE OF TRUTH — geometry as a function of W
 │   ├── export.py                 # writes the set at a given weight
 │   ├── build-icon-rules.py       # writes + validates data/icon-rules.json
+│   ├── build-icon-metadata.py    # writes + validates data/icon-metadata.json
 │   ├── site.py                   # builds site/index.html (all four weights embedded)
 │   └── icon-lint.py              # scores SVGs against the construction spec
 ├── icons/                        # generated — do not hand-edit
@@ -120,6 +122,7 @@ open-icons-playground/
 │   └── icon-construction-spec.md # the derivation, with counts behind every claim
 ├── data/
 │   ├── construction-tokens.json  # machine-readable form of the spec
+│   ├── icon-metadata.json        # per-icon: description, keywords, aliases, RTL
 │   └── icon-rules.json           # machine-readable selection context
 └── icons-inspiration/            # the 1,185 reference SVGs the spec was measured from
 ```

@@ -1,0 +1,610 @@
+{
+ "activity": {
+  "symmetric": false,
+  "asymmetryPct": 68.4
+ },
+ "add": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "add-circle": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "add-square": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-all": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-double-down": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-double-down-left": {
+  "symmetric": false,
+  "asymmetryPct": 64.2
+ },
+ "arrow-double-down-right": {
+  "symmetric": false,
+  "asymmetryPct": 64.2
+ },
+ "arrow-double-left": {
+  "symmetric": false,
+  "asymmetryPct": 71.4
+ },
+ "arrow-double-right": {
+  "symmetric": false,
+  "asymmetryPct": 71.4
+ },
+ "arrow-double-up": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-double-up-left": {
+  "symmetric": false,
+  "asymmetryPct": 64.2
+ },
+ "arrow-double-up-right": {
+  "symmetric": false,
+  "asymmetryPct": 64.2
+ },
+ "arrow-down": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-down-left": {
+  "symmetric": false,
+  "asymmetryPct": 75.1
+ },
+ "arrow-down-right": {
+  "symmetric": false,
+  "asymmetryPct": 75.1
+ },
+ "arrow-horizontal": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-left": {
+  "symmetric": false,
+  "asymmetryPct": 62.9
+ },
+ "arrow-right": {
+  "symmetric": false,
+  "asymmetryPct": 62.8
+ },
+ "arrow-turn-left": {
+  "symmetric": false,
+  "asymmetryPct": 77
+ },
+ "arrow-turn-right": {
+  "symmetric": false,
+  "asymmetryPct": 77
+ },
+ "arrow-up": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "arrow-up-left": {
+  "symmetric": false,
+  "asymmetryPct": 75.1
+ },
+ "arrow-up-right": {
+  "symmetric": false,
+  "asymmetryPct": 75.1
+ },
+ "arrow-vertical": {
+  "symmetric": false,
+  "asymmetryPct": 0.1
+ },
+ "bell": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "bell-off": {
+  "symmetric": false,
+  "asymmetryPct": 34.7
+ },
+ "bolt": {
+  "symmetric": false,
+  "asymmetryPct": 63.3
+ },
+ "bookmark": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "calendar": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "call": {
+  "symmetric": false,
+  "asymmetryPct": 88.2
+ },
+ "campfire": {
+  "symmetric": false,
+  "asymmetryPct": 0.1
+ },
+ "campground": {
+  "symmetric": false,
+  "asymmetryPct": 41.5
+ },
+ "campsite": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "car": {
+  "symmetric": false,
+  "asymmetryPct": 10.8
+ },
+ "caret-down": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "caret-left": {
+  "symmetric": false,
+  "asymmetryPct": 51.1
+ },
+ "caret-right": {
+  "symmetric": false,
+  "asymmetryPct": 51.1
+ },
+ "caret-up": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "cart": {
+  "symmetric": false,
+  "asymmetryPct": 18.5
+ },
+ "cart-add": {
+  "symmetric": false,
+  "asymmetryPct": 24.8
+ },
+ "cart-alert": {
+  "symmetric": false,
+  "asymmetryPct": 18.1
+ },
+ "cart-check": {
+  "symmetric": false,
+  "asymmetryPct": 21.4
+ },
+ "cart-close": {
+  "symmetric": false,
+  "asymmetryPct": 25.6
+ },
+ "cart-remove": {
+  "symmetric": false,
+  "asymmetryPct": 40.6
+ },
+ "cart-upload": {
+  "symmetric": false,
+  "asymmetryPct": 25.5
+ },
+ "chart": {
+  "symmetric": false,
+  "asymmetryPct": 24.7
+ },
+ "chat": {
+  "symmetric": false,
+  "asymmetryPct": 25
+ },
+ "check": {
+  "symmetric": false,
+  "asymmetryPct": 93.5
+ },
+ "check-circle": {
+  "symmetric": false,
+  "asymmetryPct": 29
+ },
+ "check-square": {
+  "symmetric": false,
+  "asymmetryPct": 27
+ },
+ "checkbox-mixed": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "checkbox-off": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "checkbox-on": {
+  "symmetric": false,
+  "asymmetryPct": 27
+ },
+ "chevron-double-down": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "chevron-double-left": {
+  "symmetric": false,
+  "asymmetryPct": 78.9
+ },
+ "chevron-double-right": {
+  "symmetric": false,
+  "asymmetryPct": 78.9
+ },
+ "chevron-double-up": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "chevron-down": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "chevron-left": {
+  "symmetric": false,
+  "asymmetryPct": 86.2
+ },
+ "chevron-right": {
+  "symmetric": false,
+  "asymmetryPct": 86.2
+ },
+ "chevron-up": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "circle": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "clock": {
+  "symmetric": false,
+  "asymmetryPct": 8.7
+ },
+ "close": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "close-circle": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "close-square": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "compass": {
+  "symmetric": false,
+  "asymmetryPct": 29.8
+ },
+ "copy": {
+  "symmetric": false,
+  "asymmetryPct": 46
+ },
+ "download": {
+  "symmetric": false,
+  "asymmetryPct": 0.1
+ },
+ "edit": {
+  "symmetric": false,
+  "asymmetryPct": 83.2
+ },
+ "ev-charger": {
+  "symmetric": false,
+  "asymmetryPct": 69.6
+ },
+ "external": {
+  "symmetric": false,
+  "asymmetryPct": 52.8
+ },
+ "eye": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "eye-off": {
+  "symmetric": false,
+  "asymmetryPct": 27
+ },
+ "file": {
+  "symmetric": false,
+  "asymmetryPct": 49.4
+ },
+ "filter": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "flag": {
+  "symmetric": false,
+  "asymmetryPct": 32.2
+ },
+ "folder": {
+  "symmetric": false,
+  "asymmetryPct": 41.5
+ },
+ "folder-open": {
+  "symmetric": false,
+  "asymmetryPct": 34.4
+ },
+ "food": {
+  "symmetric": false,
+  "asymmetryPct": 61.9
+ },
+ "fuel": {
+  "symmetric": false,
+  "asymmetryPct": 67.5
+ },
+ "grid": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "grid-dense": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "grid-masonry": {
+  "symmetric": false,
+  "asymmetryPct": 30.1
+ },
+ "heart": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "help": {
+  "symmetric": false,
+  "asymmetryPct": 10.7
+ },
+ "history": {
+  "symmetric": false,
+  "asymmetryPct": 32.5
+ },
+ "home": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "info": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "layers": {
+  "symmetric": false,
+  "asymmetryPct": 0.1
+ },
+ "link": {
+  "symmetric": false,
+  "asymmetryPct": 87.1
+ },
+ "list": {
+  "symmetric": false,
+  "asymmetryPct": 38.5
+ },
+ "location": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "lock": {
+  "symmetric": false,
+  "asymmetryPct": 0.2
+ },
+ "lock-open": {
+  "symmetric": false,
+  "asymmetryPct": 6.7
+ },
+ "log-out": {
+  "symmetric": false,
+  "asymmetryPct": 78.6
+ },
+ "mail": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "map": {
+  "symmetric": false,
+  "asymmetryPct": 41.6
+ },
+ "menu": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "minus": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "minus-circle": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "minus-square": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "money": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "more-horizontal": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "more-vertical": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "mountain": {
+  "symmetric": false,
+  "asymmetryPct": 43.6
+ },
+ "navigation": {
+  "symmetric": false,
+  "asymmetryPct": 80
+ },
+ "park": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "parking": {
+  "symmetric": false,
+  "asymmetryPct": 14.9
+ },
+ "pause": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "people": {
+  "symmetric": false,
+  "asymmetryPct": 46.5
+ },
+ "person": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "person-add": {
+  "symmetric": false,
+  "asymmetryPct": 76.3
+ },
+ "person-check": {
+  "symmetric": false,
+  "asymmetryPct": 81.3
+ },
+ "pets": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "photo": {
+  "symmetric": false,
+  "asymmetryPct": 27.3
+ },
+ "photo-stack": {
+  "symmetric": false,
+  "asymmetryPct": 46.2
+ },
+ "picnic-table": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "pin": {
+  "symmetric": false,
+  "asymmetryPct": 83.5
+ },
+ "play": {
+  "symmetric": false,
+  "asymmetryPct": 84.1
+ },
+ "price": {
+  "symmetric": false,
+  "asymmetryPct": 57.1
+ },
+ "radio-off": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "radio-on": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "refresh": {
+  "symmetric": false,
+  "asymmetryPct": 48.7
+ },
+ "restroom-figures": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "route": {
+  "symmetric": false,
+  "asymmetryPct": 59.5
+ },
+ "rv": {
+  "symmetric": false,
+  "asymmetryPct": 30
+ },
+ "search": {
+  "symmetric": false,
+  "asymmetryPct": 84.3
+ },
+ "search-add": {
+  "symmetric": false,
+  "asymmetryPct": 76.6
+ },
+ "search-minus": {
+  "symmetric": false,
+  "asymmetryPct": 74.8
+ },
+ "settings": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "share": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "shower": {
+  "symmetric": false,
+  "asymmetryPct": 0.1
+ },
+ "signal": {
+  "symmetric": false,
+  "asymmetryPct": 51
+ },
+ "skip-back": {
+  "symmetric": false,
+  "asymmetryPct": 64.8
+ },
+ "skip-forward": {
+  "symmetric": false,
+  "asymmetryPct": 64.8
+ },
+ "sort": {
+  "symmetric": false,
+  "asymmetryPct": 58.3
+ },
+ "sort-order": {
+  "symmetric": false,
+  "asymmetryPct": 0.5
+ },
+ "star": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "store": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "swap": {
+  "symmetric": false,
+  "asymmetryPct": 58
+ },
+ "timer": {
+  "symmetric": false,
+  "asymmetryPct": 9.8
+ },
+ "trailer": {
+  "symmetric": false,
+  "asymmetryPct": 51.7
+ },
+ "trash": {
+  "symmetric": false,
+  "asymmetryPct": 3.3
+ },
+ "upload": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "volume": {
+  "symmetric": false,
+  "asymmetryPct": 67.6
+ },
+ "volume-low": {
+  "symmetric": false,
+  "asymmetryPct": 77
+ },
+ "volume-off": {
+  "symmetric": false,
+  "asymmetryPct": 57.7
+ },
+ "warning": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "water": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ },
+ "wifi": {
+  "symmetric": true,
+  "asymmetryPct": 0
+ }
+}

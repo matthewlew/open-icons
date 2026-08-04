@@ -198,6 +198,8 @@ docs/
 data/
   construction-tokens.json       the spec, queryable
   icon-rules.json                selection context, queryable
+  icon-metadata.json             per-icon: description, keywords, aliases, RTL
+  measured-symmetry.json         derived input — which icons a mirror cannot change
 tools/
   generate.py                    the geometry — the actual source of truth
   export.py                      writes icons/ from it

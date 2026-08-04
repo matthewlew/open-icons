@@ -1,0 +1,2639 @@
+{
+  "name": "open-icons metadata",
+  "version": "0.12.0",
+  "grid": 24,
+  "generated_by": "tools/build-icon-metadata.py — do not hand-edit. The build exits non-zero if any icon lacks a description or keyword, or if an alias or deprecation points at something that does not exist, so this file cannot rot silently as icons are added.",
+  "schema": {
+    "description": "One sentence. What the drawing is, and what it is for.",
+    "keywords": "Search terms, including words that are NOT in the name.",
+    "category": "Grouping for browse UIs. Not a scope — see icon-rules.json.",
+    "naming": "literal = the name describes the drawing and the icon is multi-purpose. semantic = the name describes one job. Atlassian’s split; ours had it by accident and now it is written down.",
+    "direction": "RTL behaviour. mirror | none | unique | unreviewed. `unreviewed` is NOT a synonym for `none` — it is the honest default and keeps the open question visible.",
+    "status": "stable | deprecated.",
+    "deprecated_by": "The replacement icon, when status is deprecated.",
+    "since": "Version the icon first shipped in.",
+    "has_fill": "Whether a -fill variant exists. Derived, never typed."
+  },
+  "conventions": {
+    "variants": "A fill is a variant of its line icon, not a separate entry. Look up `warning`, read has_fill, then use `warning-fill`.",
+    "aliases": "Alternate names resolve to a real icon. They are search terms and redirects, not icons — nothing is drawn twice.",
+    "rtl_status": "`none` is assigned two ways: measured (the icon is symmetric about x=12, so a mirror is a no-op — a fact) or ruled (a purely vertical arrow/chevron/caret). `mirror` is a human call on the horizontal directional families. Everything left as `unreviewed` still needs the locale audit in docs/decisions.md — silence is not a decision.",
+    "rtl_method": "tools/build-icon-metadata.py reads data/measured-symmetry.json, produced by sampling every icon and comparing each point against its reflection. Regenerate it if geometry changes."
+  },
+  "counts": {
+    "icons_in_set": 216,
+    "entries": 152,
+    "fill_variants": 64,
+    "aliases": 58,
+    "deprecated": 0,
+    "by_direction": {
+      "mirror": 23,
+      "none": 68,
+      "unreviewed": 61
+    }
+  },
+  "aliases": {
+    "alert": "warning",
+    "avatar": "person",
+    "bathroom": "restroom-figures",
+    "bin": "trash",
+    "cancel": "close",
+    "caravan": "trailer",
+    "caution": "warning",
+    "cog": "settings",
+    "compose": "edit",
+    "cross": "close",
+    "delete": "trash",
+    "diesel": "fuel",
+    "dog": "pets",
+    "dots": "more-horizontal",
+    "drag-handle": "more-vertical",
+    "ellipsis": "more-horizontal",
+    "email": "mail",
+    "envelope": "mail",
+    "favorite": "star",
+    "favourite": "star",
+    "find": "search",
+    "flash": "bolt",
+    "garbage": "trash",
+    "gas": "fuel",
+    "gear": "settings",
+    "group": "people",
+    "hamburger": "menu",
+    "image": "photo",
+    "kebab": "more-vertical",
+    "lightning": "bolt",
+    "like": "heart",
+    "magnifier": "search",
+    "magnifying-glass": "search",
+    "meatball": "more-horizontal",
+    "motorhome": "rv",
+    "notification": "bell",
+    "paw": "pets",
+    "pencil": "edit",
+    "petrol": "fuel",
+    "phone": "call",
+    "picture": "photo",
+    "plus": "add",
+    "power": "bolt",
+    "preferences": "settings",
+    "profile": "person",
+    "subtract": "minus",
+    "team": "people",
+    "telephone": "call",
+    "tent": "campsite",
+    "tick": "check",
+    "toilet": "restroom-figures",
+    "user": "person",
+    "users": "people",
+    "wc": "restroom-figures",
+    "write": "edit",
+    "x": "close",
+    "zoom-in": "search-add",
+    "zoom-out": "search-minus"
+  },
+  "icons": {
+    "activity": {
+      "description": "A continuous trace with a spike. Something happening now.",
+      "keywords": [
+        "heartbeat",
+        "live",
+        "monitor",
+        "pulse",
+        "realtime"
+      ],
+      "category": "data",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "add": {
+      "description": "A plus. Create, insert, or add to a collection.",
+      "keywords": [
+        "create",
+        "new",
+        "plus"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "add-circle": {
+      "description": "Plus, in a circle. Add or create.",
+      "keywords": [
+        "add",
+        "circle",
+        "contained",
+        "plus"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "add-square": {
+      "description": "Plus, in a square. Add or create.",
+      "keywords": [
+        "add",
+        "contained",
+        "plus",
+        "square"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "arrow-all": {
+      "description": "Arrows to four corners. Move freely, or pan.",
+      "keywords": [
+        "drag",
+        "fullscreen",
+        "move",
+        "pan",
+        "reposition"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-down": {
+      "description": "A double arrow pointing down. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "down",
+        "fast",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-down-left": {
+      "description": "A double arrow pointing down and left. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "down",
+        "fast",
+        "left",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-down-right": {
+      "description": "A double arrow pointing down and right. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "down",
+        "fast",
+        "right",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-left": {
+      "description": "A double arrow pointing left. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "fast",
+        "left",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-right": {
+      "description": "A double arrow pointing right. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "fast",
+        "right",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-up": {
+      "description": "A double arrow pointing up. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "fast",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-up-left": {
+      "description": "A double arrow pointing up and left. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "fast",
+        "left",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-double-up-right": {
+      "description": "A double arrow pointing up and right. Moves further or faster than a single arrow.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "double",
+        "fast",
+        "right",
+        "skip"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-down": {
+      "description": "An arrow pointing down.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "down",
+        "move",
+        "next",
+        "previous"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-down-left": {
+      "description": "An arrow pointing down and left.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "down",
+        "left",
+        "move",
+        "next",
+        "previous"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-down-right": {
+      "description": "An arrow pointing down and right.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "down",
+        "move",
+        "next",
+        "previous",
+        "right"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-horizontal": {
+      "description": "A double-headed horizontal arrow. Width, or a two-way exchange.",
+      "keywords": [
+        "both ways",
+        "exchange",
+        "horizontal",
+        "resize",
+        "width"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-left": {
+      "description": "An arrow pointing left.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "left",
+        "move",
+        "next",
+        "previous"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-right": {
+      "description": "An arrow pointing right.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "move",
+        "next",
+        "previous",
+        "right"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-turn-left": {
+      "description": "An arrow turning back to the left. Undo or go back a level.",
+      "keywords": [
+        "back",
+        "reply",
+        "return",
+        "undo"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-turn-right": {
+      "description": "An arrow turning forward to the right. Redo or forward.",
+      "keywords": [
+        "forward",
+        "next",
+        "redo",
+        "share"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-up": {
+      "description": "An arrow pointing up.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "move",
+        "next",
+        "previous"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-up-left": {
+      "description": "An arrow pointing up and left.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "left",
+        "move",
+        "next",
+        "previous"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-up-right": {
+      "description": "An arrow pointing up and right.",
+      "keywords": [
+        "arrow",
+        "direction",
+        "move",
+        "next",
+        "previous",
+        "right"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "arrow-vertical": {
+      "description": "A double-headed vertical arrow. Height, or a two-way exchange.",
+      "keywords": [
+        "both ways",
+        "exchange",
+        "height",
+        "resize",
+        "vertical"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "bell": {
+      "description": "Notifications.",
+      "keywords": [
+        "alert",
+        "notification",
+        "remind",
+        "ring"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "bell-off": {
+      "description": "Notifications silenced.",
+      "keywords": [
+        "do not disturb",
+        "mute",
+        "off",
+        "silence"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "bolt": {
+      "description": "A lightning bolt. Power, speed, or charge.",
+      "keywords": [
+        "charge",
+        "energy",
+        "fast",
+        "flash",
+        "lightning",
+        "power"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "bookmark": {
+      "description": "Save for the user’s own later retrieval.",
+      "keywords": [
+        "flag",
+        "later",
+        "pin",
+        "read",
+        "save"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "calendar": {
+      "description": "Dates and scheduling.",
+      "keywords": [
+        "booking",
+        "date",
+        "event",
+        "month",
+        "schedule"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "call": {
+      "description": "A handset. Voice call.",
+      "keywords": [
+        "dial",
+        "phone",
+        "telephone",
+        "voice"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "campfire": {
+      "description": "A flame over crossed logs.",
+      "keywords": [
+        "bonfire",
+        "burn",
+        "fire",
+        "flame",
+        "wood"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "campground": {
+      "description": "Two tents. The whole facility or area.",
+      "keywords": [
+        "camp",
+        "campsite",
+        "facility",
+        "park",
+        "sites"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "campsite": {
+      "description": "One tent. A specific, reservable pitch.",
+      "keywords": [
+        "booking",
+        "camp",
+        "pitch",
+        "site",
+        "tent"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "car": {
+      "description": "A car. A standard vehicle.",
+      "keywords": [
+        "auto",
+        "drive",
+        "parking",
+        "sedan",
+        "vehicle"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "caret-down": {
+      "description": "A solid caret pointing down. Sorting and dropdowns — tighter than a chevron.",
+      "keywords": [
+        "caret",
+        "down",
+        "dropdown",
+        "select",
+        "sort",
+        "triangle"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "caret-left": {
+      "description": "A solid caret pointing left. Sorting and dropdowns — tighter than a chevron.",
+      "keywords": [
+        "caret",
+        "dropdown",
+        "left",
+        "select",
+        "sort",
+        "triangle"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "caret-right": {
+      "description": "A solid caret pointing right. Sorting and dropdowns — tighter than a chevron.",
+      "keywords": [
+        "caret",
+        "dropdown",
+        "right",
+        "select",
+        "sort",
+        "triangle"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "caret-up": {
+      "description": "A solid caret pointing up. Sorting and dropdowns — tighter than a chevron.",
+      "keywords": [
+        "caret",
+        "dropdown",
+        "select",
+        "sort",
+        "triangle"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "cart": {
+      "description": "A shopping cart. The basket itself.",
+      "keywords": [
+        "bag",
+        "basket",
+        "buy",
+        "checkout",
+        "order",
+        "shop"
+      ],
+      "category": "commerce",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "cart-add": {
+      "description": "A shopping cart with a add mark.",
+      "keywords": [
+        "add",
+        "basket",
+        "buy",
+        "cart",
+        "checkout",
+        "shop"
+      ],
+      "category": "commerce",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "cart-alert": {
+      "description": "A shopping cart with a alert mark.",
+      "keywords": [
+        "alert",
+        "basket",
+        "buy",
+        "cart",
+        "checkout",
+        "shop"
+      ],
+      "category": "commerce",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "cart-check": {
+      "description": "A shopping cart with a check mark.",
+      "keywords": [
+        "basket",
+        "buy",
+        "cart",
+        "check",
+        "checkout",
+        "shop"
+      ],
+      "category": "commerce",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "cart-close": {
+      "description": "A shopping cart with a close mark.",
+      "keywords": [
+        "basket",
+        "buy",
+        "cart",
+        "checkout",
+        "close",
+        "shop"
+      ],
+      "category": "commerce",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "cart-remove": {
+      "description": "A shopping cart with a remove mark.",
+      "keywords": [
+        "basket",
+        "buy",
+        "cart",
+        "checkout",
+        "remove",
+        "shop"
+      ],
+      "category": "commerce",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "cart-upload": {
+      "description": "A shopping cart with a upload mark.",
+      "keywords": [
+        "basket",
+        "buy",
+        "cart",
+        "checkout",
+        "shop",
+        "upload"
+      ],
+      "category": "commerce",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "chart": {
+      "description": "Columns of varying height. Values across categories.",
+      "keywords": [
+        "analytics",
+        "bar chart",
+        "data",
+        "report",
+        "stats"
+      ],
+      "category": "data",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "chat": {
+      "description": "A speech bubble. Conversation.",
+      "keywords": [
+        "bubble",
+        "comment",
+        "message",
+        "support",
+        "talk"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "check": {
+      "description": "A tick. Confirm, complete, or mark as done.",
+      "keywords": [
+        "confirm",
+        "correct",
+        "done",
+        "tick",
+        "yes"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "check-circle": {
+      "description": "Tick, in a circle. Confirm or complete.",
+      "keywords": [
+        "check",
+        "circle",
+        "contained",
+        "tick"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "check-square": {
+      "description": "Tick, in a square. Confirm or complete.",
+      "keywords": [
+        "check",
+        "contained",
+        "square",
+        "tick"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "checkbox-mixed": {
+      "description": "A box in an indeterminate state.",
+      "keywords": [
+        "form",
+        "indeterminate",
+        "mixed",
+        "partial"
+      ],
+      "category": "form",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "checkbox-off": {
+      "description": "An unchecked box.",
+      "keywords": [
+        "empty",
+        "form",
+        "select",
+        "unchecked"
+      ],
+      "category": "form",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "checkbox-on": {
+      "description": "A checked box.",
+      "keywords": [
+        "checked",
+        "form",
+        "selected",
+        "ticked"
+      ],
+      "category": "form",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "chevron-double-down": {
+      "description": "A double chevron pointing down. Jumps to the end rather than one step.",
+      "keywords": [
+        "chevron",
+        "double",
+        "down",
+        "first",
+        "jump",
+        "last"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-double-left": {
+      "description": "A double chevron pointing left. Jumps to the end rather than one step.",
+      "keywords": [
+        "chevron",
+        "double",
+        "first",
+        "jump",
+        "last",
+        "left"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-double-right": {
+      "description": "A double chevron pointing right. Jumps to the end rather than one step.",
+      "keywords": [
+        "chevron",
+        "double",
+        "first",
+        "jump",
+        "last",
+        "right"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-double-up": {
+      "description": "A double chevron pointing up. Jumps to the end rather than one step.",
+      "keywords": [
+        "chevron",
+        "double",
+        "first",
+        "jump",
+        "last"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-down": {
+      "description": "A chevron pointing down. Disclosure and navigation — lighter than an arrow.",
+      "keywords": [
+        "chevron",
+        "collapse",
+        "disclosure",
+        "down",
+        "expand",
+        "more",
+        "navigate"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-left": {
+      "description": "A chevron pointing left. Disclosure and navigation — lighter than an arrow.",
+      "keywords": [
+        "chevron",
+        "collapse",
+        "disclosure",
+        "expand",
+        "left",
+        "more",
+        "navigate"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-right": {
+      "description": "A chevron pointing right. Disclosure and navigation — lighter than an arrow.",
+      "keywords": [
+        "chevron",
+        "collapse",
+        "disclosure",
+        "expand",
+        "more",
+        "navigate",
+        "right"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "chevron-up": {
+      "description": "A chevron pointing up. Disclosure and navigation — lighter than an arrow.",
+      "keywords": [
+        "chevron",
+        "collapse",
+        "disclosure",
+        "expand",
+        "more",
+        "navigate"
+      ],
+      "category": "direction",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "circle": {
+      "description": "A bare circle. The unfilled status dot.",
+      "keywords": [
+        "dot",
+        "empty",
+        "radio",
+        "ring",
+        "status"
+      ],
+      "category": "status",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "clock": {
+      "description": "A time of day.",
+      "keywords": [
+        "hour",
+        "schedule",
+        "time",
+        "when"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "close": {
+      "description": "A cross. Close a surface that owns the screen.",
+      "keywords": [
+        "cancel",
+        "cross",
+        "dismiss",
+        "exit",
+        "x"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "close-circle": {
+      "description": "Cross, in a circle. Dismiss or clear.",
+      "keywords": [
+        "circle",
+        "close",
+        "contained",
+        "cross"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "close-square": {
+      "description": "Cross, in a square. Dismiss or clear.",
+      "keywords": [
+        "close",
+        "contained",
+        "cross",
+        "square"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "compass": {
+      "description": "A ring and a needle. Orientation.",
+      "keywords": [
+        "bearing",
+        "direction",
+        "explore",
+        "north"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "copy": {
+      "description": "Duplicate to the clipboard.",
+      "keywords": [
+        "clipboard",
+        "clone",
+        "duplicate"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "download": {
+      "description": "Bring a file down to the device.",
+      "keywords": [
+        "cloud",
+        "export",
+        "get",
+        "save"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "edit": {
+      "description": "A pencil. Change something in place.",
+      "keywords": [
+        "compose",
+        "modify",
+        "pencil",
+        "rename",
+        "write"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "ev-charger": {
+      "description": "A charging pedestal with a plug. Electric charging.",
+      "keywords": [
+        "charge",
+        "electric",
+        "ev",
+        "plug",
+        "supercharger"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "external": {
+      "description": "This leaves the app or opens a new tab.",
+      "keywords": [
+        "away",
+        "new tab",
+        "open",
+        "outbound"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "eye": {
+      "description": "Visible — preview or reveal.",
+      "keywords": [
+        "preview",
+        "show",
+        "view",
+        "visible",
+        "watch"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "eye-off": {
+      "description": "Hidden — concealed or muted.",
+      "keywords": [
+        "conceal",
+        "hide",
+        "invisible",
+        "private"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "file": {
+      "description": "A page with a folded corner.",
+      "keywords": [
+        "attachment",
+        "doc",
+        "document",
+        "page"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "filter": {
+      "description": "Narrow a set down.",
+      "keywords": [
+        "facet",
+        "funnel",
+        "narrow",
+        "refine"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "flag": {
+      "description": "Escalate to someone else — report or mark for review.",
+      "keywords": [
+        "escalate",
+        "issue",
+        "moderate",
+        "report"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "folder": {
+      "description": "A closed folder.",
+      "keywords": [
+        "collection",
+        "directory",
+        "group"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "folder-open": {
+      "description": "An open folder.",
+      "keywords": [
+        "browse",
+        "directory",
+        "expanded"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "food": {
+      "description": "A fork and spoon. Food available.",
+      "keywords": [
+        "cafe",
+        "dining",
+        "eat",
+        "meal",
+        "restaurant"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "fuel": {
+      "description": "A pump dispensing liquid. A fuel stop.",
+      "keywords": [
+        "diesel",
+        "gas",
+        "petrol",
+        "pump",
+        "station"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "grid": {
+      "description": "Four cells. A grid view.",
+      "keywords": [
+        "gallery",
+        "layout",
+        "tiles",
+        "view"
+      ],
+      "category": "ui",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "grid-dense": {
+      "description": "Nine cells. A denser grid view.",
+      "keywords": [
+        "apps",
+        "compact",
+        "layout",
+        "tiles"
+      ],
+      "category": "ui",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "grid-masonry": {
+      "description": "A grid with one column merged.",
+      "keywords": [
+        "layout",
+        "masonry",
+        "pinterest",
+        "staggered"
+      ],
+      "category": "ui",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "heart": {
+      "description": "Public sentiment — like, love, react.",
+      "keywords": [
+        "favourite",
+        "like",
+        "love",
+        "react"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "help": {
+      "description": "A question mark. The user asked — tooltips and docs.",
+      "keywords": [
+        "faq",
+        "question",
+        "support",
+        "what"
+      ],
+      "category": "status",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "history": {
+      "description": "What happened before.",
+      "keywords": [
+        "activity",
+        "log",
+        "past",
+        "recent",
+        "undo"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "home": {
+      "description": "A house. The starting place.",
+      "keywords": [
+        "dashboard",
+        "house",
+        "index",
+        "main",
+        "start"
+      ],
+      "category": "navigation",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "info": {
+      "description": "Neutral context the user did not ask for.",
+      "keywords": [
+        "about",
+        "detail",
+        "information",
+        "note"
+      ],
+      "category": "status",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "layers": {
+      "description": "Stacked plates. Map layers or z-order.",
+      "keywords": [
+        "levels",
+        "overlay",
+        "stack",
+        "z-index"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "link": {
+      "description": "Chain links. The address itself.",
+      "keywords": [
+        "chain",
+        "copy link",
+        "hyperlink",
+        "url"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "list": {
+      "description": "Lines with markers. A view-mode toggle: show these as a list.",
+      "keywords": [
+        "bullets",
+        "layout",
+        "rows",
+        "view"
+      ],
+      "category": "navigation",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "location": {
+      "description": "A map marker. Where something is.",
+      "keywords": [
+        "address",
+        "gps",
+        "map",
+        "marker",
+        "place",
+        "where"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "lock": {
+      "description": "Closed padlock. Restricted or secured.",
+      "keywords": [
+        "closed",
+        "password",
+        "private",
+        "secure"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "lock-open": {
+      "description": "Open padlock. Unrestricted or unlocked.",
+      "keywords": [
+        "access",
+        "open",
+        "public",
+        "unlock"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "log-out": {
+      "description": "Leave the session.",
+      "keywords": [
+        "exit",
+        "leave",
+        "logout",
+        "sign out"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "mail": {
+      "description": "An envelope. Email.",
+      "keywords": [
+        "email",
+        "envelope",
+        "inbox",
+        "message"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "map": {
+      "description": "A folded map. The map view itself.",
+      "keywords": [
+        "atlas",
+        "fold",
+        "geography",
+        "plan"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "menu": {
+      "description": "Three stacked lines. Opens navigation for the whole view.",
+      "keywords": [
+        "drawer",
+        "hamburger",
+        "nav",
+        "sidebar"
+      ],
+      "category": "navigation",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "minus": {
+      "description": "A minus. Remove from a collection, or collapse.",
+      "keywords": [
+        "less",
+        "remove",
+        "subtract"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "minus-circle": {
+      "description": "Minus, in a circle. Remove or collapse.",
+      "keywords": [
+        "circle",
+        "contained",
+        "minus"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "minus-square": {
+      "description": "Minus, in a square. Remove or collapse.",
+      "keywords": [
+        "contained",
+        "minus",
+        "square"
+      ],
+      "category": "action",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "money": {
+      "description": "A note. Currency and payment.",
+      "keywords": [
+        "billing",
+        "cash",
+        "currency",
+        "payment",
+        "price"
+      ],
+      "category": "commerce",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "more-horizontal": {
+      "description": "Three dots in a row. Overflow for the object in front of you.",
+      "keywords": [
+        "ellipsis",
+        "meatball",
+        "options",
+        "overflow"
+      ],
+      "category": "navigation",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "more-vertical": {
+      "description": "Three stacked dots. Row-level overflow.",
+      "keywords": [
+        "ellipsis",
+        "kebab",
+        "options",
+        "overflow",
+        "row"
+      ],
+      "category": "navigation",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "mountain": {
+      "description": "A range with a snow line. Terrain and elevation.",
+      "keywords": [
+        "elevation",
+        "hike",
+        "hill",
+        "peak",
+        "scenery",
+        "terrain"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "navigation": {
+      "description": "A heading or an active route.",
+      "keywords": [
+        "compass",
+        "direction",
+        "go",
+        "heading",
+        "route"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "park": {
+      "description": "A tree. Maintained green space.",
+      "keywords": [
+        "garden",
+        "green",
+        "nature",
+        "shade",
+        "tree"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "parking": {
+      "description": "A P in a box. Parking.",
+      "keywords": [
+        "car park",
+        "lot",
+        "park",
+        "space"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "pause": {
+      "description": "Suspend playback.",
+      "keywords": [
+        "hold",
+        "media",
+        "stop"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "people": {
+      "description": "A group, a team, or a social relation.",
+      "keywords": [
+        "group",
+        "members",
+        "shared",
+        "team",
+        "users"
+      ],
+      "category": "people",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "person": {
+      "description": "One individual — an account, a profile, an assignee.",
+      "keywords": [
+        "account",
+        "avatar",
+        "member",
+        "profile",
+        "user"
+      ],
+      "category": "people",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "person-add": {
+      "description": "Invite or add a person.",
+      "keywords": [
+        "add user",
+        "invite",
+        "new member"
+      ],
+      "category": "people",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "person-check": {
+      "description": "A person confirmed or approved.",
+      "keywords": [
+        "accepted",
+        "approved",
+        "verified"
+      ],
+      "category": "people",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "pets": {
+      "description": "A paw print. Animals welcome.",
+      "keywords": [
+        "animal",
+        "cat",
+        "dog",
+        "paw",
+        "pet friendly"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "photo": {
+      "description": "An image.",
+      "keywords": [
+        "gallery",
+        "image",
+        "media",
+        "picture"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "photo-stack": {
+      "description": "Several images.",
+      "keywords": [
+        "album",
+        "gallery",
+        "images",
+        "media"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "picnic-table": {
+      "description": "A picnic table. Somewhere to sit and eat.",
+      "keywords": [
+        "bench",
+        "day use",
+        "eat",
+        "rest",
+        "table"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "pin": {
+      "description": "A tack. The act of fastening something in place.",
+      "keywords": [
+        "fix",
+        "keep",
+        "stick",
+        "tack",
+        "top"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "play": {
+      "description": "Start playback.",
+      "keywords": [
+        "media",
+        "resume",
+        "start",
+        "video"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "price": {
+      "description": "A tag. What something costs.",
+      "keywords": [
+        "cost",
+        "discount",
+        "label",
+        "offer",
+        "tag"
+      ],
+      "category": "commerce",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "radio-off": {
+      "description": "An unselected radio button.",
+      "keywords": [
+        "choice",
+        "form",
+        "option",
+        "unselected"
+      ],
+      "category": "form",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "radio-on": {
+      "description": "A selected radio button.",
+      "keywords": [
+        "chosen",
+        "form",
+        "option",
+        "selected"
+      ],
+      "category": "form",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "refresh": {
+      "description": "Reload or try again.",
+      "keywords": [
+        "reload",
+        "retry",
+        "sync",
+        "update"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "restroom-figures": {
+      "description": "Two figures. A restroom, without claiming plumbing.",
+      "keywords": [
+        "bathroom",
+        "facilities",
+        "toilet",
+        "washroom",
+        "wc"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "route": {
+      "description": "A path between two points.",
+      "keywords": [
+        "directions",
+        "itinerary",
+        "journey",
+        "path",
+        "trip"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "mirror",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "rv": {
+      "description": "A motorhome with a cab-over. A large self-propelled vehicle.",
+      "keywords": [
+        "camper",
+        "coach",
+        "motorhome",
+        "vehicle",
+        "winnebago"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "search": {
+      "description": "A magnifying glass. Find something.",
+      "keywords": [
+        "filter",
+        "find",
+        "lookup",
+        "magnify",
+        "query"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "search-add": {
+      "description": "A magnifying glass with a plus. Zoom in.",
+      "keywords": [
+        "closer",
+        "enlarge",
+        "magnify",
+        "zoom in"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "search-minus": {
+      "description": "A magnifying glass with a minus. Zoom out.",
+      "keywords": [
+        "further",
+        "shrink",
+        "wider",
+        "zoom out"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "settings": {
+      "description": "A cog. Configuration and preferences.",
+      "keywords": [
+        "cog",
+        "config",
+        "gear",
+        "options",
+        "preferences"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "share": {
+      "description": "Hand this content to a person or another app.",
+      "keywords": [
+        "export",
+        "recipient",
+        "send"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "shower": {
+      "description": "A head and falling water.",
+      "keywords": [
+        "bathe",
+        "bathroom",
+        "facilities",
+        "wash"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "signal": {
+      "description": "Bars in even steps. Strength on an ordered scale.",
+      "keywords": [
+        "bars",
+        "cell",
+        "coverage",
+        "reception",
+        "strength"
+      ],
+      "category": "data",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "skip-back": {
+      "description": "Jump to the previous item.",
+      "keywords": [
+        "back",
+        "media",
+        "previous",
+        "rewind"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "skip-forward": {
+      "description": "Jump to the next item.",
+      "keywords": [
+        "advance",
+        "forward",
+        "media",
+        "next"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "sort": {
+      "description": "Sort a list.",
+      "keywords": [
+        "arrange",
+        "order",
+        "rank"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "sort-order": {
+      "description": "Sort direction — ascending or descending.",
+      "keywords": [
+        "ascending",
+        "descending",
+        "order"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "star": {
+      "description": "Favourite or rate.",
+      "keywords": [
+        "favorite",
+        "favourite",
+        "rate",
+        "rating"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "store": {
+      "description": "A shopfront under an awning. A place to buy things.",
+      "keywords": [
+        "general store",
+        "market",
+        "retail",
+        "shop",
+        "supplies"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    },
+    "swap": {
+      "description": "Exchange two things, or reverse a direction.",
+      "keywords": [
+        "exchange",
+        "reverse",
+        "switch",
+        "transfer"
+      ],
+      "category": "ui",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "timer": {
+      "description": "A countdown or elapsed duration.",
+      "keywords": [
+        "countdown",
+        "duration",
+        "stopwatch",
+        "timing"
+      ],
+      "category": "object",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "trailer": {
+      "description": "A towed unit with a tongue.",
+      "keywords": [
+        "camper",
+        "caravan",
+        "hitch",
+        "towed",
+        "towing"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "trash": {
+      "description": "A bin. Destroy the record — needs confirmation or undo.",
+      "keywords": [
+        "bin",
+        "delete",
+        "discard",
+        "garbage",
+        "remove"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "unreviewed",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "upload": {
+      "description": "Send a file up from the device.",
+      "keywords": [
+        "attach",
+        "cloud",
+        "import",
+        "send"
+      ],
+      "category": "action",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "volume": {
+      "description": "Audio at normal level.",
+      "keywords": [
+        "audio",
+        "loud",
+        "sound",
+        "speaker"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "volume-low": {
+      "description": "Audio at a low level.",
+      "keywords": [
+        "audio",
+        "quiet",
+        "sound",
+        "speaker"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "volume-off": {
+      "description": "Audio muted.",
+      "keywords": [
+        "mute",
+        "quiet",
+        "silent",
+        "sound off"
+      ],
+      "category": "media",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": false
+    },
+    "warning": {
+      "description": "A triangle. Something is wrong, at risk, or about to be.",
+      "keywords": [
+        "alert",
+        "attention",
+        "caution",
+        "danger",
+        "error"
+      ],
+      "category": "status",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "pre-0.12.0",
+      "has_fill": true
+    },
+    "water": {
+      "description": "A droplet. Potable water as an amenity.",
+      "keywords": [
+        "drinking",
+        "fill",
+        "potable",
+        "spigot",
+        "tap"
+      ],
+      "category": "travel",
+      "naming": "semantic",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": true
+    },
+    "wifi": {
+      "description": "Waves from a point. Wireless network.",
+      "keywords": [
+        "connection",
+        "hotspot",
+        "internet",
+        "network",
+        "wireless"
+      ],
+      "category": "travel",
+      "naming": "literal",
+      "direction": "none",
+      "status": "stable",
+      "deprecated_by": null,
+      "since": "0.12.0",
+      "has_fill": false
+    }
+  }
+}

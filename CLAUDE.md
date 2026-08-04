@@ -65,6 +65,14 @@ the symptom, not a false positive.
 - **16px is not a scaled 24px.** Stroke does not scale, so scaling a master
   gives the wrong weight. No 16px masters exist yet; the files in
   `icons-inspiration/16` are reference corpus, not output.
+- **`data/icon-metadata.json` is generated too**, by
+  `tools/build-icon-metadata.py`, and its validator **fails the build** if any
+  icon lacks a description or a keyword, or an alias points at nothing. Adding an
+  icon without adding its metadata is a build error, on purpose.
+- **`direction: "unreviewed"` is not `"none"`.** It means nobody has decided
+  whether that icon mirrors in RTL. 61 of 152 are still unreviewed; 68 are
+  `none`, and 43 of those are *measured* (symmetric about x=12, so mirroring is
+  provably a no-op) rather than judged.
 - **`data/icon-rules.json` is generated** by `tools/build-icon-rules.py`, which
   validates every icon name and cross-reference against `icons/names.json`.
   Hand-edits are overwritten and unchecked.
@@ -94,6 +102,7 @@ Keep these apart; blurring them is how both stop being trusted.
 |---|---|
 | How an icon is **built** | [`docs/icon-construction-spec.md`](docs/icon-construction-spec.md) · [`data/construction-tokens.json`](data/construction-tokens.json) |
 | Which icon to **reach for** | [`data/icon-rules.json`](data/icon-rules.json) |
+| What an icon **is** — description, keywords, aliases, RTL, status | [`data/icon-metadata.json`](data/icon-metadata.json) |
 
 Selection context is structured because an AI queries it at use time. It answers
 *kebab or hamburger*, *X or circled-X*, *line or fill* — never corner radii.
@@ -104,6 +113,7 @@ Selection context is structured because an AI queries it at use time. It answers
 python3 tools/generate.py                 # sanity check: count + malformed paths
 python3 tools/export.py icons 2.0         # regenerate icons/ at stroke 2.0
 python3 tools/build-icon-rules.py         # regenerate + validate data/icon-rules.json
+python3 tools/build-icon-metadata.py      # regenerate + validate data/icon-metadata.json
 ```
 
 The second argument to `export.py` is the stroke on the weight axis, which the
