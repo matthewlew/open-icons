@@ -71,6 +71,17 @@ the symptom, not a false positive.
 - **The `${u}` placeholder in `icons.json` must be unique per rendered
   instance.** Two copies of a masked icon on one page with the same id fight
   over it. The standalone files in `icons/24/` already have it stripped.
+- **Ask whether it should be an icon at all.** A label is often clearer, and
+  icons added for their own sake are noise. Principle 1.
+- **An icon may carry several meanings, and that is fine.** The library holds one
+  drawing per thing; which icon a given product uses for a given action is bound
+  in a product manifest (`product_binding` in `data/icon-rules.json`), and that
+  binding outranks any general recommendation.
+- **Never let a feature adopt an icon as its badge.** Icons name actions.
+  A sparkle drafted to mean "AI" stops being usable for the literal thing.
+- **Cultural semantics are UNVERIFIED.** `cultural_semantics` in the rules file
+  is a hazard list, not an audit. A circle means *correct* in Japan; 53 icons in
+  this set point somewhere and RTL reverses them. No locale review has been done.
 - **Clearances are solved, not chosen.** They are `gap ≥ 1 × stroke` solved
   exactly at `W = 2`. A number that looks arbitrary usually is not — check
   `generate.py` before changing it.

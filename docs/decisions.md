@@ -354,6 +354,98 @@ behaviour-preserving.
 
 ---
 
+## Usage
+
+Calls about *when and whether* to use an icon, rather than how one is drawn.
+All five were made 2026-08-04 and are recorded in plain language in
+[`principles.md`](principles.md).
+
+### An icon is not always the answer
+
+`2026-08-04` · `usage` · `human` · `structural` · —
+
+Text is frequently clearer than a symbol, and icons added for their own sake are
+noise: a screen where everything carries a glyph has no emphasis left to spend.
+The test is whether someone would understand it faster with just the word.
+
+**Ruled out:** icon-by-default — the habit of giving every action a mark because
+the row looks unfinished without one. Also ruled out: drawing for abstract
+concepts (compliance, eligibility, entitlement). Those have no shape, and the
+attempt produces a symbol nobody can read.
+
+### Icons work by convention, not invention
+
+`2026-08-04` · `usage` · `human` · `notable` · —
+
+An icon is recognised from memory, not deduced. The set that works reliably
+without a label is small and already learned: overflow, disclosure, navigation,
+and a handful of concrete objects. Use icons where the convention is doing the
+work.
+
+**Ruled out:** teaching a new symbol inside one product. People arrive with the
+vocabulary they have, not a willingness to learn ours. An invented mark needs a
+label — at which point principle 1 asks whether it is earning its space.
+
+### Meaning is bound by the product, not by the library
+
+`2026-08-04` · `usage` · `human` · `structural` · —
+
+The library's job is that there is **one good drawing of each thing**. It is not
+that each drawing has exactly one meaning. One icon often carries several — a
+plus is add, create, invite and expand — and several icons can be defensible for
+one action, where remove might be an X, a minus or a trash can depending on what
+happens next.
+
+That ambiguity is resolved in a **product manifest**: in this product, this
+action uses this icon. `data/icon-rules.json` carries the shape and a seeded
+Roadtrip example built from the fourteen emoji and eleven text glyphs the app
+ships as controls today.
+
+**Ruled out:** a one-to-one icon↔meaning map, and deleting a drawing because two
+of them could serve one action. Both push the ambiguity back into the library,
+which is the one place it cannot be answered — the answer depends on a product's
+own flows.
+
+**Cost:** an unbound product has no answer at all. This trades "the library
+decides" for "the product must decide", and a product that skips the manifest is
+worse off than before.
+
+### Never brand an icon for a feature
+
+`2026-08-04` · `usage` · `human` · `notable` · —
+
+Icons name actions, not features. The failure pattern: a feature launches, needs
+a mark, and adopts an abstract icon as its badge — a sparkle becoming "AI", or
+"new", or "premium".
+
+**Ruled out:** feature-badging an icon that already has literal uses. Sparkle
+already meant clean-this-up and highlight-this; once it is a feature's mark those
+uses read as promotion, and every screen that used it innocently starts to look
+like an ad. Features get renamed, repositioned and retired; the icon outlives all
+of it.
+
+### Cultural semantics is an open hazard list, not a cleared one
+
+`2026-08-04` · `usage` · `human` · `notable` · —
+
+A mark does not mean the same thing everywhere. `data/icon-rules.json` now
+carries the hazards known in *this* set: maru/batsu (in Japan a circle means
+correct and a cross means wrong, against the Western check-for-correct and
+circle-as-neutral), RTL mirroring across the 53 directional icons, region-bound
+objects like mailboxes and currency, and a standing note to keep hands and
+gestures out of the set.
+
+**Ruled out:** shipping the set as though it were culturally neutral, and
+equally, blocking on a full locale review before anything ships. The middle
+position is that the hazards are written down and any icon encoding correctness,
+direction, a hand or a physical object is marked **unverified** outside a
+Western context.
+
+**Cost:** "unverified" is not "safe". This records the risk; it does not retire
+it.
+
+---
+
 ## Tooling
 
 ### `icon-lint.py` cannot score generated output
@@ -387,3 +479,7 @@ Not decisions. Recorded so they are not silently answered by a later commit.
 | Alias mechanism for `zoom-in` / `zoom-out` | — | `search-add` / `search-minus` already are these. `export.py` has no alias support at all |
 | Draw the 16px masters | everything at 16 | §3 forbids scaling the 24s |
 | Nothing has been reviewed by eye | all 42 travel icons | Screenshot capture was unavailable throughout; verification is entirely numeric |
+| **Locale semantics audit** | anything shipping outside `en-*` | Hazards recorded in `icon-rules.json`; no review done |
+| **RTL mirroring, per icon** | 53 directional icons | Needs a call each: flow icons mirror, fixed-orientation objects usually don't, media transport is argued both ways |
+| **Ratify the Roadtrip manifest** | Roadtrip's icon adoption | 21 bindings seeded from the app's current emoji; not reviewed by anyone on the product |
+| **Do other products need manifests** | the binding model itself | One example does not prove a pattern |

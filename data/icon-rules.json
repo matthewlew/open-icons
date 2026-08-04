@@ -9,7 +9,10 @@
     "by_confusion": "Look up any candidate, read confusable_with, then read the cluster's tiebreaker. The tiebreaker names the ONE axis that separates the members.",
     "choosing_a_variant": "See fill_axis. Line is the default; fill is the emphasis style.",
     "choosing_a_container": "See container_shape.",
-    "if_absent": "An icon with no entry has no twin worth disambiguating. Absence means unambiguous, not undocumented."
+    "if_absent": "An icon with no entry has no twin worth disambiguating. Absence means unambiguous, not undocumented.",
+    "before_any_of_that": "Ask whether it should be an icon at all. See docs/principles.md principle 1 — a label is often clearer, and icons added for their own sake are noise.",
+    "localising": "See cultural_semantics. It is a hazard list, NOT a cleared list.",
+    "in_a_product": "See product_binding. A product manifest outranks a general recommendation here."
   },
   "coverage": {
     "policy": "Confusable clusters only. An entry earns its place by naming what it rules out.",
@@ -78,6 +81,216 @@
     "travel": "Generic within the travel / mapping / booking domain. Opt-in at import.",
     "product": "One product only. Cannot be repurposed.",
     "status": "The `travel` scope is recommended and in use here but not ratified, and nothing enforces it at import. See docs/decisions.md."
+  },
+  "cultural_semantics": {
+    "status": "OPEN — this is a hazard list, not an audit. No locale review has been done. Treat any icon encoding correctness, direction, a hand, or a physical object as UNVERIFIED outside a Western context.",
+    "rule": "A mark does not mean the same thing everywhere. Check before assuming universal.",
+    "known_hazards": [
+      {
+        "id": "maru-batsu",
+        "icons": [
+          "circle",
+          "circle-fill",
+          "check",
+          "check-circle",
+          "close",
+          "close-circle"
+        ],
+        "locales": [
+          "ja",
+          "ko",
+          "zh-TW"
+        ],
+        "issue": "In Japan, and broadly across Korea and Taiwan, MARU (a circle) means correct or yes and BATSU (a cross) means wrong or no. Western products use a check for correct and treat a circle as neutral — a radio, a status dot, an empty state.",
+        "consequence": "A circle used as a neutral or empty marker can read as an assertion of correctness; a bare cross used to dismiss can read as marking something wrong rather than closing it.",
+        "action": "Unresolved. Do not assume the Western reading holds."
+      },
+      {
+        "id": "rtl-mirroring",
+        "icons": [
+          "arrow-*",
+          "chevron-*",
+          "caret-*",
+          "arrow-turn-*",
+          "navigation",
+          "log-out",
+          "share",
+          "external",
+          "skip-forward",
+          "skip-back",
+          "sort-order",
+          "swap",
+          "route",
+          "car",
+          "rv",
+          "trailer"
+        ],
+        "locales": [
+          "ar",
+          "he",
+          "fa",
+          "ur"
+        ],
+        "issue": "53 icons in this set point somewhere. In right-to-left locales the reading axis reverses, so an unmirrored 'next' arrow means backwards.",
+        "consequence": "Directional affordances invert silently. Nothing errors; users just go the wrong way.",
+        "action": "Unresolved, and the largest single i18n item. Needs a per-icon call: directional and flow icons mirror; icons of physical objects with a fixed orientation usually do not, and media transport controls are a documented argument in both directions."
+      },
+      {
+        "id": "local-objects",
+        "icons": [
+          "mail",
+          "money",
+          "price",
+          "parking",
+          "ev-charger",
+          "fuel"
+        ],
+        "issue": "A flag-on-a-post mailbox is North American. A dollar sign is not currency. Parking, plugs and pumps look different by region.",
+        "action": "Unresolved. Prefer the most abstract form that still reads."
+      },
+      {
+        "id": "hands-and-gestures",
+        "icons": [],
+        "issue": "A thumb, an OK sign, a pointing finger — each is rude somewhere.",
+        "action": "None in the set today. Keep it that way unless there is a strong reason, and treat any proposal for one as needing a locale review first."
+      }
+    ]
+  },
+  "product_binding": {
+    "rule": "The library says what an icon IS. A product manifest says what it DOES HERE. One icon may carry several meanings and several icons may be defensible for one action — that is resolved per product, not by deleting drawings from the library.",
+    "precedence": "A product binding outranks any general recommendation in `icons`. If they disagree, the product wins and the disagreement is worth recording.",
+    "shape": {
+      "product": "roadtrip",
+      "bindings": [
+        {
+          "action": "<what the user does>",
+          "icon": "<icon name>",
+          "replaces": "<what the product ships today, if anything>",
+          "note": "<why this one and not the other candidate>"
+        }
+      ]
+    },
+    "why_a_manifest": "Written down once, it stops being a debate that gets re-had in every review — and it is the only place the ambiguity CAN be resolved, because the answer depends on the product's own flows.",
+    "example": {
+      "product": "roadtrip",
+      "status": "SEED — drawn from the fourteen emoji and eleven text glyphs the app ships as controls today (docs/proposal-travel-outdoors-pack.md). Not ratified, and not complete: it covers what the audit actually found, not the whole product.",
+      "bindings": [
+        {
+          "action": "delete a saved trip",
+          "icon": "trash",
+          "replaces": "🗑",
+          "note": "destroys the record — not `close-circle`, which only dismisses"
+        },
+        {
+          "action": "edit trip details",
+          "icon": "edit",
+          "replaces": "✏️"
+        },
+        {
+          "action": "open settings",
+          "icon": "settings",
+          "replaces": "⚙"
+        },
+        {
+          "action": "start playback / begin",
+          "icon": "play",
+          "replaces": "▶"
+        },
+        {
+          "action": "alerts",
+          "icon": "bell",
+          "replaces": "🔔"
+        },
+        {
+          "action": "warn about a problem",
+          "icon": "warning-fill",
+          "replaces": "⚠",
+          "note": "FILLED — it has to be read before the sentence beside it"
+        },
+        {
+          "action": "confirm success",
+          "icon": "check-circle-fill",
+          "replaces": "✅",
+          "note": "filled, same reason"
+        },
+        {
+          "action": "add to cart",
+          "icon": "cart-add",
+          "replaces": "🛒"
+        },
+        {
+          "action": "a campsite",
+          "icon": "campsite",
+          "replaces": "🏕️",
+          "note": "one reservable pitch; use `campground` for the whole facility"
+        },
+        {
+          "action": "terrain / scenery",
+          "icon": "mountain",
+          "replaces": "⛰️"
+        },
+        {
+          "action": "a reservation",
+          "icon": "price",
+          "replaces": "🎟️",
+          "note": "no `ticket` icon exists and none is proposed — `price` covers it"
+        },
+        {
+          "action": "view / preview",
+          "icon": "eye",
+          "replaces": "👀"
+        },
+        {
+          "action": "retry or repeat",
+          "icon": "refresh",
+          "replaces": "🔁"
+        },
+        {
+          "action": "live status dot",
+          "icon": "circle-fill",
+          "replaces": "🟢",
+          "note": "SEE cultural_semantics.maru-batsu before shipping this outside en-*"
+        },
+        {
+          "action": "open the nav drawer",
+          "icon": "menu",
+          "replaces": "☰"
+        },
+        {
+          "action": "close a modal",
+          "icon": "close",
+          "replaces": "✕ / ×"
+        },
+        {
+          "action": "favourite",
+          "icon": "star",
+          "replaces": "★ / ☆",
+          "note": "star, not `heart` — roadtrip ranks these, it does not react to them"
+        },
+        {
+          "action": "sort ascending / descending",
+          "icon": "caret-up",
+          "replaces": "▲ / ▼"
+        },
+        {
+          "action": "expand a row",
+          "icon": "chevron-down",
+          "replaces": "▾"
+        },
+        {
+          "action": "drill into a row",
+          "icon": "chevron-right",
+          "replaces": "▸",
+          "note": "MIRRORS in RTL — see cultural_semantics.rtl-mirroring"
+        },
+        {
+          "action": "directions to a place",
+          "icon": "navigation",
+          "replaces": "a trending-up arrow",
+          "note": "the app misuses a trend arrow for this today"
+        }
+      ]
+    }
   },
   "clusters": {
     "menu-affordance": {
