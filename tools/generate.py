@@ -438,23 +438,35 @@ def filter_icon():
 
 # ---- pencil ---------------------------------------------------------------
 def _pencil():
+    # P0 is the sharpened writing tip (lower-left); P1 is the blunt/eraser
+    # end (upper-right). The wood-to-lead accent line sits close to the tip.
     u_ = unit((1, -1)); p = unit((1, 1)); h = 2.4
     P0, P1 = (5.5, 18.5), (17.0, 7.0)
-    A = (P0[0] + h * p[0], P0[1] + h * p[1])
-    B = (P1[0] + h * p[0], P1[1] + h * p[1])
-    Cc = (P1[0] - h * p[0], P1[1] - h * p[1])
-    Dd = (P0[0] - h * p[0], P0[1] - h * p[1])
-    body = 'M%sL%sL%sL%sZ' % (f2(A), f2(B), f2(Cc), f2(Dd))
-    Mi = (P1[0] - 4 * u_[0], P1[1] - 4 * u_[1])
-    ferrule = bar((Mi[0] - h * p[0], Mi[1] - h * p[1]),
-                  (Mi[0] + h * p[0], Mi[1] + h * p[1]))
-    return body, ferrule
+    E = (P1[0] + h * p[0], P1[1] + h * p[1])
+    F = (P1[0] - h * p[0], P1[1] - h * p[1])
+    Mi = (P0[0] + 4 * u_[0], P0[1] + 4 * u_[1])
+    G = (Mi[0] + h * p[0], Mi[1] + h * p[1])
+    H = (Mi[0] - h * p[0], Mi[1] - h * p[1])
+    body = 'M%sL%sL%sL%sL%sZ' % (f2(E), f2(G), f2(P0), f2(H), f2(F))
+    ferrule = bar((H[0], H[1]), (G[0], G[1]))
+
+    # Fill variant: shaft and tip are two independent solids split by a real
+    # gap at Mi (not a knockout mask) - so the crossbar cuts cleanly through
+    # the full pencil width and the triangle can never bleed into the body.
+    gh = W / 2
+    Mis = (Mi[0] + gh * u_[0], Mi[1] + gh * u_[1])
+    Mit = (Mi[0] - gh * u_[0], Mi[1] - gh * u_[1])
+    Gs, Hs = (Mis[0] + h * p[0], Mis[1] + h * p[1]), (Mis[0] - h * p[0], Mis[1] - h * p[1])
+    Gt, Ht = (Mit[0] + h * p[0], Mit[1] + h * p[1]), (Mit[0] - h * p[0], Mit[1] - h * p[1])
+    shaft = 'M%sL%sL%sL%sZ' % (f2(E), f2(Gs), f2(Hs), f2(F))
+    tip = 'M%sL%sL%sZ' % (f2(Gt), f2(P0), f2(Ht))
+    return body, ferrule, shaft, tip
 
 def edit(fill=False):
     def f(u):
-        body, ferrule = _pencil()
+        body, ferrule, shaft, tip = _pencil()
         if fill:
-            return knockout(u, solidify(body), ferrule, crease(), cap='butt')
+            return solid(shaft) + solid(tip)
         return ink(body) + ink(ferrule)
     return f
 
@@ -1210,7 +1222,10 @@ def location(fill=False):
         d = 'M%sA%g %g 0 1 1 %sL%sZ' % (f2((C - ty, cy + tx)), r, r,
                                         f2((C + ty, cy + tx)), f2((C, ay)))
         if fill:
-            return solidify(d)
+            hole = dot(C, cy, r - W - gapm(), c='#000')
+            return ('<mask id="k%s" maskUnits="userSpaceOnUse">%s%s</mask>'
+                    '<g mask="url(#k%s)">%s</g>'
+                    % (u, solidify(d, c='#fff'), hole, u, solidify(d)))
         return ink(d) + dot(C, cy, r - W - gapm())
     return f
 
