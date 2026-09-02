@@ -31,11 +31,26 @@ When building the icon editing environment and preview toolchain, the system mus
 **Goal:** Verify that the candidate icon looks harmonious and shares identical optical weight with existing system icons.
 
 * **Test Matrices (5×5 Grids)**:
-  1. **Large Line Icons (24px)**: Candidate placed in a 5×5 grid of standard 24px line icons on default (light) background.
-  2. **Small Line Icons (16px)**: Candidate placed in a 5×5 grid of standard 16px line icons on default (light) background.
-  3. **Large Fill Icons (24px)**: Candidate placed in a 5×5 grid of standard 24px fill icons on inverted (dark) background.
-  4. **Small Fill Icons (16px)**: Candidate placed in a 5×5 grid of standard 16px fill icons on inverted (dark) background.
+  1. **Large Line Icons (24px)**: Candidate placed in a 5×5 grid alongside 24 peer icons on default (light) background.
+  2. **Small Line Icons (16px)**: Candidate placed in a 5×5 grid alongside 24 peer icons on default (light) background.
+  3. **Large Fill Icons (24px)**: Candidate placed in a 5×5 grid alongside 24 peer icons on inverted (dark) background.
+  4. **Small Fill Icons (16px)**: Candidate placed in a 5×5 grid alongside 24 peer icons on inverted (dark) background.
+
+* **Standard Benchmark Archetype Set (24 Keyline Peers)**:
+  To provide consistent and reproducible baseline QA, the 5×5 matrix uses a curated benchmark set representing all primary keylines and visual densities:
+  - **Circle / Round**: `info`, `check-circle`, `settings/gear`, `user`, `clock`
+  - **Square / Bounding Box**: `image`, `apps/grid`, `store/shop`, `briefcase`, `camera`
+  - **Horizontal Rectangle**: `credit-card`, `mail/envelope`, `desktop/screen`
+  - **Vertical Rectangle**: `bookmark`, `mobile/phone`, `document`
+  - **45° Diagonal / Cross / Dynamic**: `arrow-left`, `send/paper-plane`, `share/export`, `plus`, `close`, `tag`, `sparkle/ai`, `slash/eye-off`, `utensils`, `home`
+
+* **Sampling Modes in Testing Environment**:
+  1. **Canonical Benchmark (Default)**: Fixed 24 archetype icons for standardized QA comparisons.
+  2. **Random System Sample**: Shuffled 24 random icons drawn live from the `icons/` repository to test against arbitrary neighbours.
+  3. **Category-Specific**: Filtered peer set (e.g. Navigation, Commerce, Actions, Communication) for domain-focused checks.
+
 * **Pass Criteria**: Candidate does not pop out as excessively bold, faint, overly dense, or sparse compared to neighboring glyphs.
+
 
 ---
 
