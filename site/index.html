@@ -1866,7 +1866,7 @@ function markup(name, w){
   var key = w + '|' + name, hit = cache[key];
   if (hit !== undefined) return hit;
   var s = SETS[w][name];
-  s = s.replace(/(.)/g, function(m, c){ return TOK[c.charCodeAt(0) - 48]; });
+  s = s.replace(new RegExp("\u0001(.)", "g"), function(m, c){ return TOK[c.charCodeAt(0) - 48]; });
   cache[key] = s;
   return s;
 }
