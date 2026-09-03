@@ -814,17 +814,19 @@ var JOURNAL = [
       "check-circle and check-square had the same bug from two different causes: the tick was sized to its bounding box, but a circular wall isn't equidistant the way a square one is — the box-sized tick oversized by 23% against the circle and landed right on it. Sized to the circle's own radius instead.",
       "arrow-all and history were carrying a second, closed-triangle arrowhead family inside a set that otherwise opens every head — duck-taped in because an open head didn't fit the available ring at that radius. Both now compute the largest ring an open head actually fits, and use the same head everything else uses.",
       "The arrow inside download / upload / log-out / share was losing its own clearance at light weights, because the crossing moat scaled down with the stroke along with everything else. Figure-ground separation doesn't shrink just because the wall got thinner, so that clearance now holds a floor independent of weight.",
-    ]},
+    ],
+    spec:['settings', 'calendar', 'check-circle', 'check-square', 'arrow-all', 'history', 'download', 'upload', 'log-out', 'share']},
   { d:'30 Jul 2026', v:'v0.2.4', pill:'brk', title:'The pin, round two',
     body:[
       "The push pin from the last pass turned out to have two problems, both from the same instinct: draw it upright, square to the grid. Square-to-the-grid is what a diagram of a pin looks like, not a pin — something you press in always sits at an angle. And the geometry chosen to build it (a rotated capsule) had an orientation bug that occasionally crossed its own outline into a bowtie.",
       "It leans now, 34 degrees, with a round cap and a solid needle that tapers only over its last third — blunt enough to read as a tack, sharp enough to read as sharp. The redraw also reuses primitives already proven correct elsewhere in the set instead of new arc math, which is what the bowtie needed in the first place.",
-    ], spec:['location','location-fill','pin','pin-fill']},
+    ],
+    spec:['pin', 'pin-fill']},
 ];
 function paintJournal(){
   document.getElementById('jlist').innerHTML = JOURNAL.map(function(p){
-    var spec = p.spec ? '<div class="jspec">' + p.spec.map(function(n,i){
-      return '<div class="s' + (i>=p.spec.length/2 ? ' now' : '') + '">' + svg(n,'2',30) + '<span class="nm">' + n + '</span></div>';
+    var spec = p.spec ? '<div class="jspec">' + p.spec.map(function(n){
+      return '<div class="s">' + svg(n,'2',30) + '<span class="nm">' + n + '</span></div>';
     }).join('') + '</div>' : '';
     return '<div class="jpost"><div class="jdate"><b>' + p.d + '</b>' + p.v + '</div>' +
            '<div class="jbody">' + (p.pill ? '<span class="pill ' + p.pill + '">breaking rename</span>' : '') +
